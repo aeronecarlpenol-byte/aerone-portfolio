@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aerone Carl P. Peñol — Electronics Engineering Student</title>
+  <meta name="description" content="Personal portfolio of Aerone Carl P. Peñol, an Electronics Engineering student at the Technological University of the Philippines–Visayas. Showcasing projects, research, technical skills, and academic achievements." />
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Aerone Carl P. Peñol — Electronics Engineering Student" />
+  <meta property="og:description" content="Electronics Engineering student at TUP–Visayas. Technical problem-solver, researcher, and builder." />
+  <meta property="og:locale" content="en_PH" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="assets/logo.jpg" />
+
+  <!-- Google Fonts — Space Grotesk + Plus Jakarta Sans + JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="css/variables.css" />
+  <link rel="stylesheet" href="css/reset.css" />
+  <link rel="stylesheet" href="css/main.css" />
+  <link rel="stylesheet" href="css/components.css" />
+  <link rel="stylesheet" href="css/sections.css" />
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVIGATION
+════════════════════════════════════════════════════ -->
+<header id="main-nav" class="nav" role="banner">
+  <div class="container nav__inner">
+
+    <!-- Brand -->
+    <a href="#hero" class="nav__brand" aria-label="Aerone Carl P. Peñol — Home">
+      <img src="assets/logo.jpg" alt="Aerone Carl P. Peñol Logo" class="nav__logo" />
+      <span>Aerone Carl P. Peñol</span>
+    </a>
+
+    <!-- Desktop links -->
+    <nav class="nav__links" aria-label="Primary navigation">
+      <a href="#hero"        class="nav__link active" aria-current="page">Home</a>
+      <a href="#about"       class="nav__link">About</a>
+      <a href="#projects"    class="nav__link">Projects</a>
+      <a href="#electronics" class="nav__link">Electronics</a>
+      <a href="#research"    class="nav__link">Research</a>
+      <a href="#experience"  class="nav__link">Experience</a>
+      <a href="#skills"      class="nav__link">Skills</a>
+      <a href="#contact"     class="nav__link">Contact</a>
+    </nav>
+
+    <!-- Desktop CTA -->
+    <div class="nav__cta">
+      <a href="mailto:aeronecarlpenol@gmail.com" class="btn btn--primary btn--sm">
+        <!-- Email icon -->
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+        </svg>
+        Get in Touch
+      </a>
+    </div>
+
+    <!-- Mobile toggle -->
+    <button id="nav-toggle" class="nav__toggle" aria-label="Open navigation menu" aria-expanded="false" aria-controls="nav-drawer">
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+      <span class="nav__toggle-bar"></span>
+    </button>
+  </div>
+
+  <!-- Mobile drawer -->
+  <nav id="nav-drawer" class="nav__drawer" aria-label="Mobile navigation">
+    <a href="#hero"        class="nav__drawer-link active" aria-current="page">Home</a>
+    <a href="#about"       class="nav__drawer-link">About</a>
+    <a href="#projects"    class="nav__drawer-link">Projects</a>
+    <a href="#electronics" class="nav__drawer-link">Electronics</a>
+    <a href="#research"    class="nav__drawer-link">Research</a>
+    <a href="#experience"  class="nav__drawer-link">Experience</a>
+    <a href="#skills"      class="nav__drawer-link">Skills</a>
+    <a href="#contact"     class="nav__drawer-link">Contact</a>
+    <div style="margin-top:.5rem">
+      <a href="mailto:aeronecarlpenol@gmail.com" class="btn btn--primary" style="width:100%;justify-content:center;">Get in Touch</a>
+    </div>
+  </nav>
+</header>
+
+<main id="main-content">
+
+<!-- ═══════════════════════════════════════════════════
+     HERO
+════════════════════════════════════════════════════ -->
+<section id="hero" class="hero" aria-labelledby="hero-name">
+  <div class="container">
+    <div class="hero__inner">
+
+      <!-- Discipline badge -->
+      <div class="hero__discipline">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        Electronics Engineering · TUP–Visayas
+      </div>
+
+      <h1 id="hero-name" class="hero__name">
+        Aerone Carl<br><span>P. Peñol</span>
+      </h1>
+
+      <p class="hero__headline">
+        <span aria-hidden="true">// </span>Electronics Engineering Student
+      </p>
+
+      <p class="hero__intro">
+        I'm an Electronics Engineering student interested in technical problem-solving,
+        programming, research, and turning theoretical concepts into practical solutions.
+      </p>
+
+      <!-- CTA buttons -->
+      <div class="hero__actions">
+        <a href="#projects" class="btn btn--primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect width="8" height="4" x="8" y="2" rx="1" ry="1"/><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"/>
+          </svg>
+          View Projects
+        </a>
+        <a href="#contact" class="btn btn--secondary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.44 2 2 0 0 1 3.54 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.9-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.5z"/>
+          </svg>
+          Contact Me
+        </a>
+      </div>
+
+      <!-- Tech tags -->
+      <div class="hero__tags" role="list" aria-label="Technical interests">
+        <span class="tag" role="listitem">Electronics Engineering</span>
+        <span class="tag" role="listitem">Python</span>
+        <span class="tag" role="listitem">AutoCAD</span>
+        <span class="tag" role="listitem">UI/UX Design</span>
+        <span class="tag" role="listitem">Research</span>
+        <span class="tag" role="listitem">Problem-Solving</span>
+        <span class="tag tag--neutral" role="listitem">Batch 2029</span>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     ABOUT
+════════════════════════════════════════════════════ -->
+<section id="about" class="section section--alt" aria-labelledby="about-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">About Me</span>
+      <h2 id="about-title" class="section__title">Background &amp; Interests</h2>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="about__grid">
+
+      <!-- Text -->
+      <div class="about__text">
+        <h3>Who I Am</h3>
+        <p>
+          I'm Aerone Carl P. Peñol, a first-year Electronics Engineering student at the
+          Technological University of the Philippines–Visayas. My academic foundation
+          is grounded in analysis, logic, and the engineering mindset of breaking complex
+          problems into solvable parts.
+        </p>
+        <p>
+          I'm drawn to the intersection of hardware concepts and software tools — from
+          engineering design software like AutoCAD and SketchUp to programming fundamentals
+          in Python and Java. I've begun applying these skills in personal projects,
+          including a web-based academic productivity platform where I worked on interface
+          design and iterative problem-solving.
+        </p>
+        <p>
+          Outside of technical coursework, I engage actively in research, publication work,
+          and student governance — roles that have strengthened my organizational, leadership,
+          and communication skills. I approach learning as a continuous process and take
+          pride in independent study and practical application.
+        </p>
+        <p>
+          I'm currently building toward a career in electronics engineering, with an interest
+          in applying technical knowledge to real problems through research, design, and
+          development.
+        </p>
+      </div>
+
+      <!-- Sidebar info -->
+      <div class="about__sidebar">
+
+        <div class="about__info-card">
+          <h4>Quick Info</h4>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+            <span>Philippines</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            <span>BS Electronics Engineering</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="4" rx="2" ry="2"/><line x1="16" x2="16" y1="2" y2="6"/><line x1="8" x2="8" y1="2" y2="6"/><line x1="3" x2="21" y1="10" y2="10"/></svg>
+            <span>Expected Graduation: 2029</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Available for Internships</span>
+          </div>
+        </div>
+
+        <div class="about__info-card">
+          <h4>Key Interests</h4>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>Programming &amp; Software Tools</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            <span>UI/UX &amp; Layout Design</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+            <span>Research &amp; Analysis</span>
+          </div>
+          <div class="about__info-item">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+            <span>Independent Learning</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PROJECTS
+════════════════════════════════════════════════════ -->
+<section id="projects" class="section" aria-labelledby="projects-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Projects</span>
+      <h2 id="projects-title" class="section__title">Built &amp; Explored</h2>
+      <p class="section__subtitle">Personal and academic projects demonstrating technical problem-solving and design thinking.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="projects__grid">
+
+      <!-- Project 1: Axiom Studia -->
+      <article class="project-card" aria-labelledby="proj1-title">
+        <div class="project-card__thumb" aria-hidden="true">
+          <!-- Stylized code / document icon -->
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="project-card__thumb-icon">
+            <rect width="18" height="18" x="3" y="3" rx="2"/><path d="M7 7h4"/><path d="M7 11h10"/><path d="M7 15h8"/>
+          </svg>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="tag tag--status-wip">In Development</span>
+            <span class="tag tag--neutral">Personal</span>
+          </div>
+          <h3 id="proj1-title" class="project-card__title">Axiom Studia</h3>
+          <p class="project-card__desc">
+            A personal web-based academic productivity platform designed to organize
+            subjects, learning resources, and study activities. Focused on interface
+            layout design, iterative usability improvements, and AI-assisted development.
+          </p>
+          <div class="tags" style="margin-bottom:1rem;">
+            <span class="tag">Web Platform</span>
+            <span class="tag">UI/UX Design</span>
+            <span class="tag">AI-Assisted Coding</span>
+          </div>
+          <div class="project-card__footer">
+            <a href="pages/project-axiom.html" class="card__icon-link">
+              View Details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <!-- Project 2: Solar Pest Device -->
+      <article class="project-card" aria-labelledby="proj2-title">
+        <div class="project-card__thumb" aria-hidden="true">
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" class="project-card__thumb-icon">
+            <circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/>
+          </svg>
+        </div>
+        <div class="project-card__body">
+          <div class="project-card__meta">
+            <span class="tag tag--status-research">Research</span>
+            <span class="tag tag--neutral">Engineering</span>
+          </div>
+          <h3 id="proj2-title" class="project-card__title">Smart Solar-Powered Sensory Anti-Pest Device</h3>
+          <p class="project-card__desc">
+            A research project exploring a solar-powered, sensor-based approach to
+            pest management in residential and office environments. Addresses practical
+            engineering challenges in sustainable, autonomous pest control.
+          </p>
+          <div class="tags" style="margin-bottom:1rem;">
+            <span class="tag">Solar Energy</span>
+            <span class="tag">Sensors</span>
+            <span class="tag">Sustainability</span>
+            <span class="tag">Research</span>
+          </div>
+          <div class="project-card__footer">
+            <a href="pages/project-solar.html" class="card__icon-link">
+              View Details
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </a>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     ELECTRONICS & HARDWARE DESIGN
+════════════════════════════════════════════════════ -->
+<section id="electronics" class="section section--alt" aria-labelledby="electronics-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Hardware &amp; Circuits</span>
+      <h2 id="electronics-title" class="section__title">Electronics &amp; Circuit Design</h2>
+      <p class="section__subtitle">PCB layouts, schematic capture, and circuit prototyping developed through electronics engineering coursework, lab experiments, and research.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="pcb__grid">
+
+      <!-- PCB 1: Solar Anti-Pest Controller Board -->
+      <article class="pcb-card" aria-labelledby="pcb1-title">
+        <div class="pcb-card__thumb" aria-hidden="true">
+          <!-- Stylized PCB Trace & MCU SVG -->
+          <svg width="180" height="100" viewBox="0 0 180 100" fill="none" stroke="currentColor">
+            <!-- Board Boundary -->
+            <rect x="15" y="10" width="150" height="80" rx="4" stroke="#30363D" stroke-width="1.5" fill="#0D1117"/>
+            <!-- Mounting Holes -->
+            <circle cx="25" cy="20" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="155" cy="20" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="25" cy="80" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="155" cy="80" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <!-- MCU IC -->
+            <rect x="70" y="32" width="40" height="36" rx="2" stroke="#1F6FEB" stroke-width="1.5" fill="#161B22"/>
+            <circle cx="76" cy="38" r="1.5" fill="#58A6FF"/>
+            <!-- IC Pins -->
+            <path d="M64 38h6M64 44h6M64 50h6M64 56h6 M110 38h6M110 44h6M110 50h6M110 56h6 M76 26v6M84 26v6M92 26v6M100 26v6 M76 68v6M84 68v6M92 68v6M100 68v6" stroke="#58A6FF" stroke-width="1.2"/>
+            <!-- Copper Traces -->
+            <path d="M40 38h24 M40 50h24 M116 38h20v15h12 M116 56h16v-8h16 M84 26V18h30 M96 68v12H60" stroke="#1F6FEB" stroke-width="1.4" stroke-linecap="round"/>
+            <!-- Via Points -->
+            <circle cx="40" cy="38" r="2" fill="#58A6FF"/>
+            <circle cx="40" cy="50" r="2" fill="#58A6FF"/>
+            <circle cx="148" cy="48" r="2" fill="#58A6FF"/>
+            <circle cx="144" cy="53" r="2" fill="#58A6FF"/>
+            <circle cx="60" cy="80" r="2" fill="#58A6FF"/>
+            <circle cx="114" cy="18" r="2" fill="#58A6FF"/>
+          </svg>
+        </div>
+        <div class="pcb-card__body">
+          <div class="pcb-card__meta">
+            <span class="tag tag--status-research">Research Project</span>
+            <span class="tag tag--neutral">2-Layer FR-4</span>
+          </div>
+          <h3 id="pcb1-title" class="pcb-card__title">Solar Sensory Anti-Pest Controller Board</h3>
+          <p class="pcb-card__desc">
+            Hardware controller board concept for the solar-powered pest deterrence research project. 
+            Designed to interface photovoltaic energy management, sensor signal conditioning, and microcontroller output drivers.
+          </p>
+          <div class="pcb-specs">
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Layer Stack</span>
+              <span class="pcb-spec-val">2-Layer FR4</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Subsystem</span>
+              <span class="pcb-spec-val">Sensor &amp; MCU</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Power In</span>
+              <span class="pcb-spec-val">Solar PV / Battery</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Status</span>
+              <span class="pcb-spec-val">Concept Design</span>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Photovoltaics</span>
+            <span class="tag">Sensors</span>
+            <span class="tag">Schematic Design</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PCB 2: Regulated DC Power Supply Module -->
+      <article class="pcb-card" aria-labelledby="pcb2-title">
+        <div class="pcb-card__thumb" aria-hidden="true">
+          <!-- Power Supply Circuit Board SVG -->
+          <svg width="180" height="100" viewBox="0 0 180 100" fill="none" stroke="currentColor">
+            <!-- Board Boundary -->
+            <rect x="15" y="10" width="150" height="80" rx="4" stroke="#30363D" stroke-width="1.5" fill="#0D1117"/>
+            <!-- Mounting Holes -->
+            <circle cx="25" cy="20" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="155" cy="20" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="25" cy="80" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="155" cy="80" r="3" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <!-- Terminal Blocks -->
+            <rect x="22" y="36" width="14" height="28" rx="2" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="29" cy="43" r="2.5" fill="#1F6FEB"/>
+            <circle cx="29" cy="57" r="2.5" fill="#1F6FEB"/>
+            <rect x="144" y="36" width="14" height="28" rx="2" stroke="#58A6FF" stroke-width="1.2" fill="#161B22"/>
+            <circle cx="151" cy="43" r="2.5" fill="#1F6FEB"/>
+            <circle cx="151" cy="57" r="2.5" fill="#1F6FEB"/>
+            <!-- Voltage Regulator TO-220 Package -->
+            <rect x="80" y="30" width="24" height="34" rx="2" stroke="#1F6FEB" stroke-width="1.5" fill="#161B22"/>
+            <rect x="83" y="24" width="18" height="6" rx="1" fill="#30363D"/>
+            <!-- Large Filter Caps -->
+            <circle cx="55" cy="46" r="10" stroke="#58A6FF" stroke-width="1.3" fill="#161B22"/>
+            <line x1="55" y1="40" x2="55" y2="52" stroke="#58A6FF" stroke-width="1.2"/>
+            <circle cx="122" cy="46" r="7" stroke="#58A6FF" stroke-width="1.3" fill="#161B22"/>
+            <!-- Power Traces (Thick) -->
+            <path d="M36 43h9 M65 43h15 M104 43h11 M129 43h15" stroke="#58A6FF" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M36 57h108" stroke="#1F6FEB" stroke-width="2.5" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div class="pcb-card__body">
+          <div class="pcb-card__meta">
+            <span class="tag tag--status">Academic Lab</span>
+            <span class="tag tag--neutral">Power Electronics</span>
+          </div>
+          <h3 id="pcb2-title" class="pcb-card__title">Regulated DC Power Conditioning Board</h3>
+          <p class="pcb-card__desc">
+            Linear and regulated DC voltage distribution module. Features dual-rail decoupling, reverse polarity protection, 
+            thermal relief ground pours, and clean low-ripple output stages for laboratory test setups.
+          </p>
+          <div class="pcb-specs">
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Layer Stack</span>
+              <span class="pcb-spec-val">2-Layer FR4</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Regulation</span>
+              <span class="pcb-spec-val">Fixed &amp; Adjustable</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Design Rule</span>
+              <span class="pcb-spec-val">High Current Pours</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Protection</span>
+              <span class="pcb-spec-val">Reverse-Polarity</span>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag">Power Management</span>
+            <span class="tag">Thermal Design</span>
+            <span class="tag">Prototyping</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- PCB 3: Upcoming / Custom Project Slot -->
+      <article class="pcb-card pcb-card--placeholder" aria-labelledby="pcb3-title">
+        <div class="pcb-card__thumb" aria-hidden="true" style="background:rgba(22,27,34,0.3);">
+          <!-- Dashed outline & Plus icon -->
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#58A6FF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6">
+            <rect width="18" height="18" x="3" y="3" rx="2" stroke-dasharray="3 3"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+        </div>
+        <div class="pcb-card__body">
+          <div class="pcb-card__meta">
+            <span class="tag tag--neutral">Custom Slot</span>
+            <span class="tag tag--status-wip">In Progress</span>
+          </div>
+          <h3 id="pcb3-title" class="pcb-card__title">Custom PCB Design Placeholder</h3>
+          <p class="pcb-card__desc">
+            Reserved space for upcoming electronics engineering hardware designs, sensor shields, or academic laboratory boards. 
+            Can be updated with Gerber exports, 3D PCB renders, and fabrication specifications.
+          </p>
+          <div class="pcb-specs">
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">EDA Tools</span>
+              <span class="pcb-spec-val">AutoCAD / EDA</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Documentation</span>
+              <span class="pcb-spec-val">Schematic &amp; BOM</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Fabrication</span>
+              <span class="pcb-spec-val">Gerber Format</span>
+            </div>
+            <div class="pcb-spec-item">
+              <span class="pcb-spec-label">Design Status</span>
+              <span class="pcb-spec-val">Ready for Content</span>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag tag--neutral">Hardware Layout</span>
+            <span class="tag tag--neutral">Electronics Lab</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+
+    <!-- Hardware & PCB Core Competencies -->
+    <div class="pcb-competencies">
+      <h3 class="pcb-competencies__title">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect width="16" height="16" x="4" y="4" rx="2"/><rect width="6" height="6" x="9" y="9" rx="1"/><path d="M15 2v2"/><path d="M15 20v2"/><path d="M2 15h2"/><path d="M2 9h2"/><path d="M20 15h2"/><path d="M20 9h2"/><path d="M9 2v2"/><path d="M9 20v2"/>
+        </svg>
+        PCB Design &amp; Hardware Capabilities
+      </h3>
+      <div class="pcb-competencies__grid">
+        <div class="pcb-competency-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><strong>Schematic Capture</strong> &amp; Netlist Generation</span>
+        </div>
+        <div class="pcb-competency-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><strong>Component Footprints</strong> &amp; BOM Management</span>
+        </div>
+        <div class="pcb-competency-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><strong>Layer Routing</strong> &amp; Ground Plane Strategy</span>
+        </div>
+        <div class="pcb-competency-item">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          <span><strong>Design Rule Checking (DRC)</strong> &amp; Gerber Export</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     RESEARCH
+════════════════════════════════════════════════════ -->
+<section id="research" class="section" aria-labelledby="research-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Research</span>
+      <h2 id="research-title" class="section__title">Academic Research</h2>
+      <p class="section__subtitle">Research projects exploring practical applications of science and engineering principles.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="research__list">
+
+      <!-- Research 1 -->
+      <article class="research-card" aria-labelledby="res1-title">
+        <div class="research-card__num" aria-hidden="true">01</div>
+        <div class="research-card__body">
+          <h3 id="res1-title" class="research-card__title">
+            Foliar Application of Fermented Liquid Fertilizer Formulated from Eggshell Powder
+            and Banana Peels (<em>Musa sapientum</em>) on Eggplants (<em>Solanum melongena</em>)
+          </h3>
+          <p class="research-card__type">Applied Science / Agriculture</p>
+          <div class="research-card__tags">
+            <span class="tag">Organic Chemistry</span>
+            <span class="tag">Agriculture</span>
+            <span class="tag">Experimental Research</span>
+            <span class="tag">Sustainability</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Research 2 -->
+      <article class="research-card" aria-labelledby="res2-title">
+        <div class="research-card__num" aria-hidden="true">02</div>
+        <div class="research-card__body">
+          <h3 id="res2-title" class="research-card__title">
+            The Potency of Cassava (<em>Manihot esculenta</em>) Starch and Taro Root
+            (<em>Colocasia esculenta</em>) Starch as Materials for Biodegradable,
+            Non-Toxic Plastic Bags
+          </h3>
+          <p class="research-card__type">Materials Science / Environmental Science</p>
+          <div class="research-card__tags">
+            <span class="tag">Materials Science</span>
+            <span class="tag">Biodegradable Plastics</span>
+            <span class="tag">Environmental Research</span>
+            <span class="tag">Experimental Research</span>
+          </div>
+        </div>
+      </article>
+
+      <!-- Research 3 -->
+      <article class="research-card" aria-labelledby="res3-title">
+        <div class="research-card__num" aria-hidden="true">03</div>
+        <div class="research-card__body">
+          <h3 id="res3-title" class="research-card__title">
+            Effects of Social Factors on the Academic Achievement of Senior High School Students
+          </h3>
+          <p class="research-card__type">Social Science / Education Research</p>
+          <div class="research-card__tags">
+            <span class="tag">Social Science</span>
+            <span class="tag">Education Research</span>
+            <span class="tag">Descriptive Research</span>
+            <span class="tag">Data Analysis</span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     EXPERIENCE (Education + Honors + Leadership + Publication)
+════════════════════════════════════════════════════ -->
+<section id="experience" class="section" aria-labelledby="experience-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Experience</span>
+      <h2 id="experience-title" class="section__title">Education &amp; Background</h2>
+      <p class="section__subtitle">Academic history, honors, leadership roles, and publication experience.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <!-- Education + Honors row -->
+    <div class="edu-honors__grid" style="margin-bottom:var(--space-16);">
+
+      <!-- Education -->
+      <div>
+        <h3 class="subsection__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+          Education
+        </h3>
+
+        <div class="edu-card">
+          <div class="edu-card__header">
+            <div class="edu-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+            </div>
+            <div>
+              <div class="edu-card__school">Technological University of the Philippines–Visayas</div>
+              <div class="edu-card__degree">Bachelor of Science in Electronics Engineering</div>
+              <div class="edu-card__period">2024 – Expected 2029</div>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag tag--status">Current</span>
+            <span class="tag tag--neutral">Undergraduate</span>
+            <span class="tag tag--neutral">TUP–Visayas</span>
+          </div>
+        </div>
+
+        <div class="edu-card">
+          <div class="edu-card__header">
+            <div class="edu-card__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <div>
+              <div class="edu-card__school">Isabela National High School</div>
+              <div class="edu-card__degree">Senior High School Graduate</div>
+              <div class="edu-card__period">2024</div>
+            </div>
+          </div>
+          <div class="tags">
+            <span class="tag tag--neutral">Senior High School</span>
+            <span class="tag tag--neutral">Graduate</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Honors -->
+      <div>
+        <h3 class="subsection__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+          Academic Honors &amp; Awards
+        </h3>
+
+        <div class="honors-list">
+
+          <div class="honor-item">
+            <div class="honor-item__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </div>
+            <div>
+              <div class="honor-item__title">With High Honors</div>
+              <div class="honor-item__date">2024</div>
+            </div>
+          </div>
+
+          <div class="honor-item">
+            <div class="honor-item__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"/><path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"/><path d="M4 22h16"/><path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"/><path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"/><path d="M18 2H6v7a6 6 0 0 0 12 0V2Z"/></svg>
+            </div>
+            <div>
+              <div class="honor-item__title">Class Salutatorian</div>
+              <div class="honor-item__date">Batch 2018–2019</div>
+            </div>
+          </div>
+
+          <div class="honor-item">
+            <div class="honor-item__icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.21 13.89 7 23l5-3 5 3-1.21-9.12"/><path d="M12 2 9.45 7.88 3 8.73l4.5 4.37L6.45 20 12 17l5.55 3-.95-6.9L21 8.73l-6.45-.85Z"/></svg>
+            </div>
+            <div>
+              <div class="honor-item__title">Class Rank No. 2</div>
+              <div class="honor-item__date">2012–2018</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Leadership + Publication row -->
+    <div class="lp__grid">
+
+      <!-- Leadership -->
+      <div>
+        <h3 class="subsection__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          Leadership Experience
+        </h3>
+
+        <div class="timeline">
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2024</div>
+            <div class="timeline__title">Auditor</div>
+            <div class="timeline__org">Supreme Student Government</div>
+            <p class="timeline__desc">Responsible for financial oversight and accountability within the student government organization.</p>
+          </div>
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2017–2019</div>
+            <div class="timeline__title">Vice President</div>
+            <div class="timeline__org">Supreme Pupil Government</div>
+            <p class="timeline__desc">Assisted in leading student governance operations and representing student interests.</p>
+          </div>
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2016–2017</div>
+            <div class="timeline__title">Public Information Officer</div>
+            <div class="timeline__org">Supreme Pupil Government</div>
+            <p class="timeline__desc">Managed internal and external communications for the student government body.</p>
+          </div>
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2015–2016</div>
+            <div class="timeline__title">Peace Officer</div>
+            <div class="timeline__org">Supreme Pupil Government</div>
+            <p class="timeline__desc">Maintained order and supported a positive school environment in coordination with school leadership.</p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Publication -->
+      <div>
+        <h3 class="subsection__title">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-2 2Zm0 0a2 2 0 0 1-2-2v-9c0-1.1.9-2 2-2h2"/><path d="M18 14h-8"/><path d="M15 18h-5"/><path d="M10 6h8v4h-8V6Z"/></svg>
+          Publication Experience
+        </h3>
+
+        <div class="timeline">
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2025</div>
+            <div class="timeline__title">Junior Layout Artist</div>
+            <div class="timeline__org">The Philippines Artisan – Visayas, TUP Visayas</div>
+            <p class="timeline__desc">
+              Contributes to visual layout and design of the university publication. Applies design
+              principles, visual hierarchy, and typographic composition in print and digital contexts.
+            </p>
+          </div>
+
+          <div class="timeline__item">
+            <div class="timeline__dot" aria-hidden="true"></div>
+            <div class="timeline__date">2024</div>
+            <div class="timeline__title">Layout Artist</div>
+            <div class="timeline__org">The Glazier – Isabela National High School</div>
+            <p class="timeline__desc">
+              Designed page layouts and visual compositions for the school publication. Responsible
+              for consistent visual style, element placement, and readability across print layouts.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SKILLS
+════════════════════════════════════════════════════ -->
+<section id="skills" class="section section--alt" aria-labelledby="skills-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Skills</span>
+      <h2 id="skills-title" class="section__title">Technical &amp; Professional Skills</h2>
+      <p class="section__subtitle">A categorized overview of technical, analytical, design, and professional competencies.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="skills__grid">
+
+      <!-- Programming -->
+      <div class="skill-group">
+        <h3 class="skill-group__title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+          Programming
+        </h3>
+        <div class="tags">
+          <span class="tag">Basic Python</span>
+          <span class="tag">Basic Java</span>
+        </div>
+      </div>
+
+      <!-- Technical Software -->
+      <div class="skill-group">
+        <h3 class="skill-group__title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+          Technical Software
+        </h3>
+        <div class="tags">
+          <span class="tag">AutoCAD</span>
+          <span class="tag">SketchUp</span>
+        </div>
+      </div>
+
+      <!-- Software & Design -->
+      <div class="skill-group">
+        <h3 class="skill-group__title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          Software &amp; Design
+        </h3>
+        <div class="tags">
+          <span class="tag">AI-Assisted Coding</span>
+          <span class="tag">Website Customization</span>
+          <span class="tag">UI/UX Design</span>
+          <span class="tag">Layout Design</span>
+          <span class="tag">Visual Communication</span>
+        </div>
+      </div>
+
+      <!-- Technical & Analytical -->
+      <div class="skill-group">
+        <h3 class="skill-group__title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+          Technical &amp; Analytical
+        </h3>
+        <div class="tags">
+          <span class="tag">Critical Thinking</span>
+          <span class="tag">Logical Reasoning</span>
+          <span class="tag">Problem-Solving</span>
+          <span class="tag">Research</span>
+          <span class="tag">Information Gathering</span>
+          <span class="tag">Analysis</span>
+        </div>
+      </div>
+
+      <!-- Professional -->
+      <div class="skill-group">
+        <h3 class="skill-group__title">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="14" x="2" y="7" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+          Professional
+        </h3>
+        <div class="tags">
+          <span class="tag">Organization</span>
+          <span class="tag">Time Management</span>
+          <span class="tag">Adaptability</span>
+          <span class="tag">Teamwork</span>
+          <span class="tag">Independent Learning</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     CONTACT
+════════════════════════════════════════════════════ -->
+<section id="contact" class="section" aria-labelledby="contact-title">
+  <div class="container">
+    <div class="section__header">
+      <span class="section__eyebrow">Contact</span>
+      <h2 id="contact-title" class="section__title">Get in Touch</h2>
+      <p class="section__subtitle">Feel free to reach out via email or phone. I'm open to academic collaboration, internship opportunities, and professional connections.</p>
+      <span class="section-line" aria-hidden="true"></span>
+    </div>
+
+    <div class="contact__grid">
+
+      <!-- Location -->
+      <div class="contact-item">
+        <div class="contact-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div>
+          <div class="contact-item__label">Location</div>
+          <div class="contact-item__value">Philippines</div>
+        </div>
+      </div>
+
+      <!-- Email -->
+      <div class="contact-item">
+        <div class="contact-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        </div>
+        <div>
+          <div class="contact-item__label">Email</div>
+          <div class="contact-item__value">
+            <a href="mailto:aeronecarlpenol@gmail.com">aeronecarlpenol@gmail.com</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="contact-item">
+        <div class="contact-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.59 3.44 2 2 0 0 1 3.54 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6 6l.9-.9a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16.5z"/></svg>
+        </div>
+        <div>
+          <div class="contact-item__label">Phone</div>
+          <div class="contact-item__value">
+            <a href="tel:+639076858027">09076858027</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Institution -->
+      <div class="contact-item">
+        <div class="contact-item__icon" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>
+        </div>
+        <div>
+          <div class="contact-item__label">Institution</div>
+          <div class="contact-item__value">TUP–Visayas, BS Electronics Engineering</div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Direct email CTA -->
+    <div style="text-align:center; margin-top:var(--space-10);">
+      <a href="mailto:aeronecarlpenol@gmail.com" class="btn btn--primary" style="gap:var(--space-3);">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+        Send an Email
+      </a>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+════════════════════════════════════════════════════ -->
+<footer class="footer" role="contentinfo">
+  <div class="container footer__inner">
+    <div class="footer__brand">
+      <img src="assets/logo.jpg" alt="Aerone Carl P. Peñol Logo" class="footer__logo" />
+      <span>Aerone Carl P. Peñol</span>
+    </div>
+    <p class="footer__copy">
+      &copy; <span id="footer-year">2025</span> Aerone Carl P. Peñol.
+      Built with <span aria-label="care">&#9825;</span> — No frameworks, no fuss.
+    </p>
+  </div>
+</footer>
+
+<!-- Back to top -->
+<button id="back-to-top" class="back-to-top" aria-label="Back to top of page" title="Back to top">
+  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    <path d="m18 15-6-6-6 6"/>
+  </svg>
+</button>
+
+<!-- Scripts -->
+<script src="js/nav.js" defer></script>
+<script src="js/scroll.js" defer></script>
+<script src="js/interactions.js" defer></script>
+
+</body>
+</html>
