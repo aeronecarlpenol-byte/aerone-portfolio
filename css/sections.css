@@ -1,5 +1,5 @@
 ﻿/* ============================================================
-   Sections â€” Per-section specific styles
+   Sections — Per-section specific styles
    ============================================================ */
 
 /* ============================
@@ -1375,7 +1375,7 @@
 }
 
 .project-section li::before {
-  content: 'â€º';
+  content: '›';
   position: absolute;
   left: calc(-1 * var(--space-4));
   color: var(--blue-highlight);
