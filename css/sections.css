@@ -537,6 +537,18 @@
 
 .project-card:hover .project-card__thumb--image img { transform: scale(1.03); }
 
+.project-card__thumb--logo {
+  background: #080808;
+}
+
+.project-card__thumb--logo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: var(--space-4);
+  object-fit: contain;
+}
+
 .project-card__body {
   padding: var(--space-6);
   flex: 1;
@@ -899,6 +911,17 @@
   line-height: 1.45;
   letter-spacing: -0.01em;
   margin-bottom: var(--space-3);
+}
+
+.research-card__title a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.research-card__title a:hover {
+  color: var(--blue-highlight);
+  text-decoration: underline;
+  text-underline-offset: 4px;
 }
 
 .research-card__type {
@@ -1437,6 +1460,19 @@
   height: 100%;
   object-fit: cover;
   object-position: top center;
+}
+
+.project-title-with-logo {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.project-title-with-logo img {
+  width: 2.6rem;
+  height: 2.6rem;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
 }
 
 .project-detail__meta {
