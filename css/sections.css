@@ -527,6 +527,16 @@
   color: rgba(88, 166, 255, 0.3);
 }
 
+.project-card__thumb--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
+  transition: transform var(--transition-normal);
+}
+
+.project-card:hover .project-card__thumb--image img { transform: scale(1.03); }
+
 .project-card__body {
   padding: var(--space-6);
   flex: 1;
@@ -599,9 +609,34 @@
   transition: background var(--transition-fast);
 }
 
+.elec-item--with-image {
+  grid-template-columns: 3rem 9.5rem minmax(0, 1fr) auto;
+}
+
 .elec-item--placeholder {
   opacity: 0.45;
 }
+
+.elec-item__image {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  margin: 0;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  background: var(--bg-main);
+}
+
+.elec-item__image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  transition: transform var(--transition-normal);
+}
+
+.elec-item:hover .elec-item__image img { transform: scale(1.04); }
 
 .elec-item__num {
   font-family: var(--font-mono);
@@ -640,6 +675,7 @@
   .elec-item {
     grid-template-columns: 2.5rem 1fr;
   }
+  .elec-item--with-image .elec-item__image { grid-column: 2; max-width: 18rem; }
   .elec-item__tags { grid-column: 2; justify-content: flex-start; }
 }
 
@@ -1016,7 +1052,7 @@
   letter-spacing: .01em;
 }
 
-
+.coursework-grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: var(--space-4);
@@ -1110,14 +1146,7 @@
   .education-grid {
     grid-template-columns: 1fr;
   }
-  .coursework-inline {
-  font-size: 0.9375rem;
-  color: var(--text-muted);
-  line-height: 1.8;
-  letter-spacing: .01em;
-}
-
-
+  .coursework-grid {
     grid-template-columns: 1fr;
   }
 }
@@ -1250,6 +1279,83 @@
 }
 
 /* ============================
+   GITHUB CONTRIBUTIONS
+   ============================ */
+.github-card {
+  max-width: 860px;
+  margin-inline: auto;
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  background: var(--bg-card);
+}
+
+.github-card__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: var(--space-6);
+  margin-bottom: var(--space-6);
+}
+
+.github-card__eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  letter-spacing: .12em;
+  color: var(--blue-highlight);
+}
+
+.github-card__copy { color: var(--text-muted); font-size: var(--text-sm); }
+
+.github-card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  color: var(--blue-highlight);
+  white-space: nowrap;
+}
+
+.github-card__link:hover { color: var(--text-primary); }
+
+.github-card__chart-link {
+  display: block;
+  padding: var(--space-5);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  background: var(--bg-main);
+}
+
+.github-card__chart {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+}
+
+.github-card__fallback {
+  margin: 0;
+  padding: var(--space-5);
+  border: 1px dashed var(--border);
+  border-radius: var(--radius-md);
+  color: var(--text-muted);
+  font-size: var(--text-sm);
+  text-align: center;
+}
+
+.github-card__fallback a { color: var(--blue-highlight); font-weight: var(--weight-semibold); }
+.github-card__fallback[hidden] { display: none; }
+
+@media (max-width: 640px) {
+  .github-card { padding: var(--space-5); }
+  .github-card__heading { flex-direction: column; gap: var(--space-3); }
+  .github-card__chart-link { padding: var(--space-4); }
+}
+
+/* ============================
    CONTACT
    ============================ */
 .contact__grid {
@@ -1318,6 +1424,19 @@
   margin-bottom: var(--space-10);
   aspect-ratio: 21/6;
   color: rgba(88, 166, 255, 0.25);
+}
+
+.project-detail__hero--image {
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+}
+
+.project-detail__hero--image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top center;
 }
 
 .project-detail__meta {

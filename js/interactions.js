@@ -41,4 +41,15 @@
       img.src = img.dataset.src;
     });
   }
+
+  /* ── GitHub contribution graph fallback ─────────── */
+  const contributionChart = document.querySelector('.github-card__chart');
+  if (contributionChart) {
+    contributionChart.addEventListener('error', function () {
+      const chartLink = contributionChart.closest('.github-card__chart-link');
+      const fallback = document.querySelector('.github-card__fallback');
+      if (chartLink) chartLink.hidden = true;
+      if (fallback) fallback.hidden = false;
+    });
+  }
 }());

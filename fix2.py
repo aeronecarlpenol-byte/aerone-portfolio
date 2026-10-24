@@ -1,24 +1,14 @@
-with open('index.html', 'r', encoding='utf-8') as f:
-    text = f.read()
+with open('index.html', 'rb') as f:
+    raw = f.read()
 
-fixes = {
-    '\u00e2\u0080\u0093': '\u2013',  # en dash –
-    '\u00e2\u0080\u0094': '\u2014',  # em dash —
-    '\u00e2\u0080\u0099': '\u2019',  # right single quote '
-    '\u00e2\u0080\u009c': '\u201c',  # left double quote "
-    '\u00e2\u0080\u009d': '\u201d',  # right double quote "
-    '\u00c2\u00b7': '\u00b7',        # middle dot ·
-    '\u00c3\u00b1': '\u00f1',        # ñ
-    '\u00c3\u0091': '\u00d1',        # Ñ
-}
+# The triple-encoded en dash sequence (bytes):
+# c3 83 c2 a2  c3 a2 c2 82 c2 ac  c3 a2 c2 80 c2 9c
+triple_en_dash = bytes([0xc3, 0x83, 0xc2, 0xa2, 0xc3, 0xa2, 0xc2, 0x82, 0xc2, 0xac, 0xc3, 0xa2, 0xc2, 0x80, 0xc2, 0x9c])
+en_dash_utf8 = '\u2013'.encode('utf-8')  # e2 80 93
 
-for bad, good in fixes.items():
-    text = text.replace(bad, good)
+print("Occurrences to fix:", raw.count(triple_en_dash))
+raw2 = raw.replace(triple_en_dash, en_dash_utf8)
 
-with open('index.html', 'w', encoding='utf-8') as f:
-    f.write(text)
-
-remaining = [l for l in text.split('\n') if '\u00e2' in l or ('\u00c2' in l and '\u00b7' not in l)]
-print('Lines still with issues:', len(remaining))
-for l in remaining[:5]:
-    print(repr(l[:120]))
+with open('index.html', 'wb') as f:
+    f.write(raw2)
+print("Done")
