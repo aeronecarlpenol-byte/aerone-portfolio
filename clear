@@ -1,5 +1,0 @@
-cd /path/to/aerone-portfolio
-git rm -r --cached .
-git clean -fd
-git commit -m "Remove current project files"
-git push origin HEAD
