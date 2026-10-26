@@ -91,6 +91,25 @@
     });
   }
 
+  /* ── Electronics card details ───────────────────── */
+  document.querySelectorAll('.electronics-card__details-toggle').forEach(function (toggle) {
+    toggle.addEventListener('click', function () {
+      const card = toggle.closest('.electronics-card');
+      if (!card) return;
+      const isFlipped = card.classList.toggle('is-flipped');
+      const front = card.querySelector('.electronics-card__face--front');
+      const back = card.querySelector('.electronics-card__face--back');
+      front.inert = isFlipped;
+      back.inert = !isFlipped;
+      front.setAttribute('aria-hidden', String(isFlipped));
+      back.setAttribute('aria-hidden', String(!isFlipped));
+      card.querySelectorAll('.electronics-card__details-toggle').forEach(function (button) {
+        button.setAttribute('aria-expanded', String(isFlipped));
+      });
+      (isFlipped ? back : front).querySelector('.electronics-card__details-toggle').focus();
+    });
+  });
+
   /* ── Currently exploring selection ──────────────── */
   const exploringDescription = document.getElementById('exploring-description');
   const exploringItems = document.querySelectorAll('.exploring__item');

@@ -1,0 +1,114 @@
+/* ============================================================
+   Motion system — restrained electronic signal language
+   ============================================================ */
+
+@view-transition { navigation: auto; }
+
+::view-transition-old(root) { animation: 180ms ease both circuit-fade-out; }
+::view-transition-new(root) { animation: 260ms 50ms ease both circuit-fade-in; }
+
+@keyframes circuit-fade-in { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: none; } }
+@keyframes circuit-fade-out { to { opacity: 0; transform: translateY(-3px); } }
+
+/* Thin trace grid only appears in intentionally technical areas. */
+.hero,
+.section--alt {
+  position: relative;
+  isolation: isolate;
+}
+
+.hero::before,
+.section--alt::before {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  opacity: .28;
+  background-image:
+    linear-gradient(90deg, transparent 0 48%, rgba(88, 166, 255, .09) 48% 48.12%, transparent 48.12% 100%),
+    linear-gradient(0deg, transparent 0 48%, rgba(88, 166, 255, .075) 48% 48.12%, transparent 48.12% 100%);
+  background-size: 96px 96px;
+  mask-image: linear-gradient(90deg, transparent, #000 16%, #000 84%, transparent);
+}
+
+/* A quiet first-load activation across the hero, echoing a board powering on. */
+.hero::after {
+  content: '';
+  position: absolute;
+  z-index: -1;
+  top: 28%;
+  left: 6%;
+  width: min(52vw, 680px);
+  height: 1px;
+  pointer-events: none;
+  opacity: 0;
+  background: linear-gradient(90deg, transparent, var(--blue-highlight), transparent);
+  box-shadow: 70px 38px 0 -0.35px rgba(88,166,255,.55), 190px 76px 0 -0.35px rgba(88,166,255,.35);
+  animation: hero-activation 1.4s .15s ease-out both;
+}
+@keyframes hero-activation { 0% { opacity: 0; transform: scaleX(.05); transform-origin: left; } 32% { opacity: .8; } 100% { opacity: 0; transform: scaleX(1); } }
+
+/* A short signal runs on section entry and click navigation; it never blocks input. */
+.signal-transition {
+  position: fixed;
+  z-index: 1100;
+  top: var(--nav-height);
+  left: 0;
+  width: 0;
+  height: 1px;
+  pointer-events: none;
+  background: var(--blue-highlight);
+  box-shadow: 0 0 12px rgba(88, 166, 255, .8), 80px 0 0 rgba(88, 166, 255, .18);
+  opacity: 0;
+}
+
+.signal-transition.is-active { animation: signal-sweep 560ms cubic-bezier(.2,.7,.2,1) both; }
+@keyframes signal-sweep { 0% { width: 0; opacity: 0; transform: translateX(-5%); } 18% { opacity: 1; } 70% { width: 48vw; opacity: .9; } 100% { width: 100vw; opacity: 0; transform: translateX(8%); } }
+
+/* One-time viewport entrances. Content remains visible without JavaScript. */
+.js .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 560ms ease, transform 560ms cubic-bezier(.2,.75,.3,1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.js .reveal.is-visible { opacity: 1; transform: none; }
+.js .section-line.reveal { transform-origin: left; transform: scaleX(.15); }
+.js .section-line.reveal.is-visible { transform: scaleX(1); }
+
+/* Signal-bearing active navigation underline. */
+.nav__link::after {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-highlight) 22%, #c8e1ff 50%, var(--blue-highlight) 78%, transparent);
+  box-shadow: 0 0 8px rgba(88, 166, 255, .6);
+}
+.nav__link.active::after { animation: nav-signal 1.7s ease-in-out infinite; }
+@keyframes nav-signal { 0%, 100% { filter: brightness(.85); } 50% { filter: brightness(1.45); } }
+
+/* The mobile drawer carries the same active-section signal. */
+.nav__drawer-link { position: relative; }
+.nav__drawer-link::after {
+  content: '';
+  position: absolute;
+  right: var(--space-4);
+  bottom: 5px;
+  left: var(--space-4);
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--blue-highlight) 22%, #c8e1ff 50%, var(--blue-highlight) 78%, transparent);
+  box-shadow: 0 0 8px rgba(88, 166, 255, .6);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--transition-fast);
+}
+.nav__drawer-link.active::after,
+.nav__drawer-link:active::after { transform: scaleX(1); }
+.nav__drawer-link.active::after { animation: nav-signal 1.7s ease-in-out infinite; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
+  .js .reveal { opacity: 1; transform: none; }
+  .signal-transition { display: none; }
+}
+
+@media (max-width: 640px) { .hero::before, .section--alt::before { background-size: 64px 64px; } }
