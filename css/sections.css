@@ -1832,6 +1832,50 @@ body.lightbox-open { overflow: hidden; }
 }
 .github-card__insights-error a { color: var(--blue-highlight); }
 
+/* Live GitHub panels share the existing card, typography and blue palette. */
+.github-data { padding-block: var(--space-5); border-top: 1px solid var(--border-subtle); min-width: 0; }
+.github-data h3 { margin-bottom: var(--space-2); font-size: var(--text-base); }
+.github-data__status, .github-list__meta, .github-card__footer {
+  color: var(--text-muted); font-size: var(--text-xs); overflow-wrap: anywhere;
+}
+.github-data__status { margin-bottom: var(--space-4); }
+.github-data__content[hidden] { display: none; }
+.github-profile { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: baseline; }
+.github-profile > a { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+.github-profile > span { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); overflow-wrap: anywhere; }
+.github-data a { color: var(--blue-highlight); overflow-wrap: anywhere; }
+.github-data a:hover { text-decoration: underline; }
+.github-data .github-card__metrics { margin-block: var(--space-4); }
+.github-list { list-style: none; margin: 0; padding: 0; }
+.github-list > li { padding-block: var(--space-3); border-bottom: 1px solid var(--border-subtle); overflow-wrap: anywhere; }
+.github-list > li:first-child { padding-top: 0; }
+.github-list > li:last-child { border-bottom: 0; }
+.github-list time { display: block; margin-top: var(--space-1); }
+.github-data .github-card__languages-panel { margin-top: var(--space-4); }
+.github-data .github-card__languages { margin-top: var(--space-4); }
+.github-calendar__summary { margin-bottom: var(--space-4); font-size: var(--text-sm); }
+.github-calendar__scroll { max-width: 100%; overflow-x: auto; padding: 4px 3px 10px; scrollbar-color: var(--border) transparent; }
+.github-calendar { display: grid; grid-template-rows: 20px repeat(7, 11px); gap: 4px; min-width: 740px; }
+.github-calendar__label { color: var(--text-muted); font-size: 10px; line-height: 11px; }
+.github-calendar__day {
+  display: block; min-width: 0; width: 100%; height: 11px; padding: 0;
+  border: 1px solid rgba(139, 165, 194, .12); border-radius: 2px; background: #161f2c;
+}
+button.github-calendar__day { cursor: pointer; }
+.github-calendar__day[data-level="1"] { background: #143b64; }
+.github-calendar__day[data-level="2"] { background: #1e609e; }
+.github-calendar__day[data-level="3"] { background: #3189d3; }
+.github-calendar__day[data-level="4"] { background: #58a6ff; }
+button.github-calendar__day:hover, button.github-calendar__day:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+.github-calendar__detail { margin-top: var(--space-2); min-height: 2.5em; font-size: var(--text-xs); color: var(--text-muted); }
+.github-calendar__legend { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-bottom: var(--space-3); color: var(--text-muted); font-size: var(--text-xs); }
+.github-calendar__legend .github-calendar__day { width: 11px; }
+.github-card__footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3); border-top: 1px solid var(--border-subtle); padding-top: var(--space-4); }
+.github-card__footer p { flex: 1 1 280px; }
+.github-refresh { padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-main); color: var(--blue-highlight); font: inherit; cursor: pointer; }
+.github-refresh:hover { border-color: var(--blue-highlight); }
+.github-refresh:disabled { opacity: .5; cursor: wait; }
+
 @media (max-width: 640px) {
   .github-card { padding: var(--space-5); }
   .github-card__heading { flex-direction: column; gap: var(--space-3); }
