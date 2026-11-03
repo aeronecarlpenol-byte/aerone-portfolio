@@ -140,3 +140,22 @@ test('keyboard users can skip the intro, and unavailable canvas does not delay c
   assert.equal(fallback.canvas(), undefined);
   assert.ok(Number.parseInt(fallback.items[0].style.getPropertyValue('--reveal-delay'), 10) < 500);
 });
+
+test('unobserved text stays readable and heading clipping only begins after detection', () => {
+  const css = fs.readFileSync('css/motion.css', 'utf8');
+  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
+  const pendingRules = rules.filter(([, selector]) => selector.includes('.reveal') &&
+    !selector.includes('.is-visible'));
+  assert.ok(pendingRules.length > 0);
+  for (const [, selector, declarations] of pendingRules) {
+    assert.doesNotMatch(declarations, /opacity\s*:\s*0(?:\s|;|$)/, selector);
+    assert.doesNotMatch(declarations, /clip-path\s*:\s*inset\([^)]*100%/, selector);
+    assert.doesNotMatch(declarations, /visibility\s*:\s*hidden/, selector);
+  }
+  const app = setup();
+  assert.ok(app.items.every(e => !e.classList.contains('is-visible')));
+  app.reveal();
+  assert.ok(app.items.every(e => e.classList.contains('is-visible')));
+  app.tick(5000);
+  assert.equal(app.intro().removed, true);
+});
