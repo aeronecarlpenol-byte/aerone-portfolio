@@ -4,6 +4,44 @@
 
 @view-transition { navigation: auto; }
 
+/* Pastel cursor flock, inspired by the orbit-to-scatter reference. */
+.cursor-swarm {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1201;
+}
+.cursor-swarm[hidden] { display: none; }
+.swarm-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: grid;
+  place-items: center;
+  background: var(--bg-main, #0d1117);
+  pointer-events: none;
+  animation: swarm-unveil 2.2s cubic-bezier(.22,.68,.2,1) both;
+}
+.swarm-intro span {
+  color: var(--text-primary);
+  font: 600 clamp(1.5rem, 4vw, 2.25rem) var(--font-display);
+  animation: swarm-initial 1.45s ease both;
+}
+@keyframes swarm-unveil {
+  0%, 48% { opacity: 1; }
+  100% { opacity: 0; visibility: hidden; }
+}
+@keyframes swarm-initial {
+  0% { opacity: 0; transform: scale(.8); }
+  35%, 70% { opacity: .8; transform: scale(1); }
+  100% { opacity: 0; transform: scale(1.12); }
+}
+@media print {
+  .cursor-swarm, .swarm-intro { display: none; }
+}
+
 ::view-transition-old(root) { animation: 180ms ease both circuit-fade-out; }
 ::view-transition-new(root) { animation: 260ms 50ms ease both circuit-fade-in; }
 
@@ -108,7 +146,7 @@
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
   .js .reveal { opacity: 1; transform: none; }
-  .signal-transition { display: none; }
+  .signal-transition, .cursor-swarm, .swarm-intro { display: none; }
 }
 
 @media (max-width: 640px) { .hero::before, .section--alt::before { background-size: 64px 64px; } }
