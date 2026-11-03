@@ -1,4 +1,4 @@
-/* Motion system: progressive enhancement, one-time entrances, and signal feedback. */
+/* Motion system: progressive enhancement, repeatable entrances, and signal feedback. */
 (function () {
   'use strict';
   document.documentElement.classList.add('js');
@@ -118,6 +118,7 @@
     function assemble(element, delay) {
       if (reduced.matches || print.matches || !element.getBoundingClientRect) return;
       // Keep the animation attached to the real element while the page scrolls.
+      assemblies = assemblies.filter(function (item) { return item.element !== element; });
       assemblies.push({ element: element, start: performance.now() + delay });
       if (assemblies.length > 18) assemblies.shift();
     }
@@ -217,27 +218,54 @@
     '.contact-bottom', '.contact-statement', '.project-section', '.project-sidebar__card', '.section-line'
   ].join(',');
   const items = Array.from(document.querySelectorAll(revealSelectors));
+  const replayDelays = new WeakMap();
   items.forEach(function (item, index) {
     item.classList.add('reveal');
-    const delay = intro && scene && item.closest('.hero') ? 1750 + index * 100 : 220 + (index % 3) * 90;
+    const replayDelay = 220 + (index % 3) * 90;
+    replayDelays.set(item, replayDelay);
+    const delay = intro && scene && item.closest('.hero') ? 1750 + index * 100 : replayDelay;
     item.style.setProperty('--reveal-delay', String(delay) + 'ms');
   });
 
   if (reduced.matches || !('IntersectionObserver' in window)) {
     items.forEach(function (item) { item.classList.add('is-visible'); });
   } else {
+    const active = new Set();
+    function resetOutside(item, rect) {
+      if (rect.bottom > 0 && rect.top < window.innerHeight + 48) return;
+      item.classList.remove('is-visible');
+      item.style.setProperty('--reveal-delay', replayDelays.get(item) + 'ms');
+      active.delete(item);
+    }
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
+        if (!entry.isIntersecting) {
+          resetOutside(entry.target, entry.boundingClientRect || entry.target.getBoundingClientRect());
+          return;
+        }
+        if (active.has(entry.target)) return;
+        active.add(entry.target);
         if (scene) {
           const delay = parseInt(entry.target.style.getPropertyValue('--reveal-delay'), 10) || 0;
           scene.assemble(entry.target, Math.max(0, delay - 420));
         }
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
       });
     }, { threshold: 0, rootMargin: '0px 0px 48px 0px' });
     items.forEach(function (item) { observer.observe(item); });
+
+    // Heading wipes temporarily affect intersection geometry. Only reset once
+    // the actual element has left the viewport, even during an unfinished wipe.
+    let exitFrame = 0;
+    function checkExits() {
+      if (exitFrame) return;
+      exitFrame = requestAnimationFrame(function () {
+        exitFrame = 0;
+        active.forEach(function (item) { resetOutside(item, item.getBoundingClientRect()); });
+      });
+    }
+    window.addEventListener('scroll', checkExits, { passive: true });
+    window.addEventListener('resize', checkExits, { passive: true });
   }
 
   /* Touchscreens reveal image color on entry; there is no hover gesture. */
