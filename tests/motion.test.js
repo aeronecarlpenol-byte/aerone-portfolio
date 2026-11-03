@@ -28,7 +28,8 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
       setAttribute() {}, remove() { this.removed = true; },
       closest: () => inHero ? hero : null,
       getContext: () => canvasAvailable ? ctx : null,
-      getBoundingClientRect: () => ({ left: 60, top: 100, width: 320, height: 200, bottom: 300 }),
+      rect: { left: 60, top: 100, width: 320, height: 200, bottom: 300 },
+      getBoundingClientRect() { return this.rect; },
       matches: () => tag === 'portrait'
     });
   }
@@ -68,6 +69,8 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
   function preference(query, value) { const m = matchMedia(query); m.matches = value; m.emit('change'); }
   return { body, items, frames, timers, calls, document, window, tick, preference,
     reveal: (targets = items) => observers.forEach(o => o.callback(targets.map(target => ({ target, isIntersecting: true })))),
+    leave: (targets = items) => observers.forEach(o => o.callback(targets.map(target => ({ target,
+      isIntersecting: false, boundingClientRect: target.getBoundingClientRect() })))),
     canvas: () => body.children.find(e => e.className === 'cursor-swarm'),
     intro: () => body.children.find(e => e.className === 'swarm-intro')
   };
@@ -158,4 +161,41 @@ test('unobserved text stays readable and heading clipping only begins after dete
   assert.ok(app.items.every(e => e.classList.contains('is-visible')));
   app.tick(5000);
   assert.equal(app.intro().removed, true);
+});
+
+test('sections replay after leaving above or below the viewport, with fresh assembly', () => {
+  const app = setup({ hash: '#research' });
+  const target = app.items[0];
+  app.reveal([target]); app.tick(100);
+  assert.equal(target.classList.contains('is-visible'), true);
+  for (const [top, bottom] of [[-400, -200], [950, 1150]]) {
+    target.rect = { ...target.rect, top, bottom };
+    app.leave([target]);
+    assert.equal(target.classList.contains('is-visible'), false);
+    target.rect = { ...target.rect, top: 100, bottom: 300 };
+    app.reveal([target]);
+    assert.equal(target.classList.contains('is-visible'), true);
+    app.calls.length = 0;
+    app.tick(200);
+    assert.equal(app.calls.filter(c => c.name === 'strokeRect').length, 1,
+      'one fresh assembly, without overlapping stale copies');
+  }
+  assert.equal(app.intro(), undefined, 'scrolling does not replay the full-screen intro');
+});
+
+test('temporary clipping cannot reset visible text; rapid scrolling rearms unfinished entrances', () => {
+  const app = setup();
+  const target = app.items[0];
+  app.reveal([target]); app.leave([target]);
+  assert.equal(target.classList.contains('is-visible'), true);
+  target.rect = { ...target.rect, top: -400, bottom: -200 };
+  app.window.emit('scroll'); app.window.emit('scroll');
+  assert.equal(app.frames.size, 2, 'one scroll check and one drawing loop');
+  app.tick(100);
+  assert.equal(target.classList.contains('is-visible'), false);
+  assert.ok(Number.parseInt(target.style.getPropertyValue('--reveal-delay'), 10) < 500,
+    'returning to the hero uses the short replay delay');
+  target.rect = { ...target.rect, top: 100, bottom: 300 };
+  app.reveal([target]);
+  assert.equal(target.classList.contains('is-visible'), true);
 });
