@@ -27,10 +27,12 @@
 
     const colors = ['#9ae8df', '#b7d8ff', '#d7c2ff', '#f3c5dc', '#f0f5ff'];
     const coarse = window.matchMedia('(pointer: coarse)');
-    const flock = Array.from({ length: coarse.matches ? 12 : 18 }, function (_, i) {
-      return { phase: (i % 9) * .075 + Math.floor(i / 9) * Math.PI,
+    const cursorCount = coarse.matches ? 3 : 6;
+    const clusterSize = Math.ceil(cursorCount / 2);
+    const flock = Array.from({ length: cursorCount }, function (_, i) {
+      return { phase: (i % clusterSize) * .12 + Math.floor(i / clusterSize) * Math.PI,
         radius: 72 + (i % 3) * 15,
-        x: 0, y: 0, angle: 0, size: 7 + (i % 3) * 1.7,
+        x: 0, y: 0, angle: 0, size: 3.5 + (i % 3) * .6,
         color: colors[i % colors.length] };
     });
     const pointer = { x: 0, y: 0, active: false };
@@ -95,10 +97,10 @@
         ctx.save();
         ctx.translate(bird.x, bird.y);
         ctx.rotate(bird.angle);
-        ctx.globalAlpha = 1 - eased * .2;
+        ctx.globalAlpha = .8 - eased * .52;
         ctx.fillStyle = bird.color;
         ctx.strokeStyle = '#edf5ff';
-        ctx.lineWidth = .7;
+        ctx.lineWidth = .45;
         ctx.beginPath();
         ctx.moveTo(bird.size, 0);
         ctx.lineTo(-bird.size * .7, -bird.size * .58);
