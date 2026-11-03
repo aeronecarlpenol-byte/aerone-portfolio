@@ -234,7 +234,7 @@
         entry.target.classList.add('is-visible');
         observer.unobserve(entry.target);
       });
-    }, { threshold: .12, rootMargin: '0px 0px -5% 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px 48px 0px' });
     items.forEach(function (item) { observer.observe(item); });
   }
 
