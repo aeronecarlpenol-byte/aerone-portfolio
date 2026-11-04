@@ -11,6 +11,12 @@ body {
   font-weight: var(--weight-normal);
 }
 
+/* The fixed navigation sits outside document flow. Reserve its height before
+   the homepage hero so the eyebrow and location remain fully visible. */
+#main-content {
+  padding-top: var(--nav-height, 64px);
+}
+
 /* ---------- Container ---------- */
 .container {
   width: 100%;
