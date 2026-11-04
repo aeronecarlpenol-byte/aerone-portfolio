@@ -328,10 +328,10 @@
   outline-offset: 3px;
 }
 
-/* Give the PCB its own large, uncropped preview while keeping card flipping. */
+/* Keep the uncropped PCB preview inside the Electronics half of the tabs. */
 #exploring-electronics .electronics-cards {
   grid-template-columns: minmax(0, 1fr);
-  max-width: 46rem;
+  max-width: 50%;
 }
 
 #exploring-electronics .electronics-card__inner {
@@ -350,7 +350,7 @@
 }
 
 #exploring-electronics .electronics-card__image img {
-  height: clamp(18rem, 48vw, 34rem);
+  height: clamp(16rem, 30vw, 25rem);
   padding: var(--space-4);
   object-fit: contain;
 }
@@ -360,6 +360,7 @@
 }
 
 @media (max-width: 700px) {
+  #exploring-electronics .electronics-cards { max-width: 100%; }
   .exploring__header { align-items: start; flex-direction: column; gap: var(--space-3); }
   .exploring__list { grid-template-columns: 1fr; }
   .exploring__item { min-height: auto; border-right: 0; border-bottom: 1px solid var(--border); }
