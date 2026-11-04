@@ -328,6 +328,33 @@
   outline-offset: 3px;
 }
 
+/* Give the PCB its own large, uncropped preview while keeping card flipping. */
+#exploring-electronics .electronics-cards {
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 46rem;
+}
+
+#exploring-electronics .electronics-card__inner {
+  display: grid;
+  min-height: 0;
+}
+
+#exploring-electronics .electronics-card__face {
+  position: relative;
+  grid-area: 1 / 1;
+}
+
+#exploring-electronics .electronics-card__image {
+  flex-shrink: 0;
+  background: var(--bg-main);
+}
+
+#exploring-electronics .electronics-card__image img {
+  height: clamp(18rem, 48vw, 34rem);
+  padding: var(--space-4);
+  object-fit: contain;
+}
+
 @media (max-width: 1000px) {
   .electronics-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
