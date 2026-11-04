@@ -453,7 +453,16 @@
   gap: 1.5rem;
 }
 
+.hero-top {
+  min-width: 0;
+  max-width: 100%;
+  flex-wrap: wrap;
+  gap: .5rem 1.5rem;
+}
+
 .hero-eyebrow {
+  min-width: 0;
+  max-width: 100%;
   font-family: var(--font-mono);
   font-size: .75rem;
   letter-spacing: .1em;
@@ -463,6 +472,8 @@
 }
 
 .hero-location {
+  flex-shrink: 0;
+  white-space: nowrap;
   font-size: .875rem;
   color: var(--text-muted);
   margin: 0;
