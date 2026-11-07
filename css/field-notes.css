@@ -31,6 +31,9 @@
 .field-section .section__title { font-size: clamp(3rem, 6.5vw, 5.8rem); line-height: 1.02; letter-spacing: -.055em; }
 .field-section .section__subtitle { margin: 1.5rem 0 0; max-width: 50ch; font-size: 1rem; }
 .field-section .section-line { display: none; }
+.field-section .education-grid { grid-template-columns: minmax(0, 1.35fr) minmax(0, 1fr); }
+.field-section .education-main, .field-section .education-side { min-width: 0; overflow-wrap: anywhere; }
+.field-section .university-brand > div { min-width: 0; }
 .field-annotation { display: inline-block; font-family: 'Segoe Print', 'Bradley Hand', cursive; font-size: 1.05rem; color: #aac6b5; letter-spacing: .025em; transform: rotate(-4deg); }
 .field-heading-note { margin: .75rem 0; }
 .field-experience { grid-template-columns: minmax(0, .8fr) minmax(0, 1.35fr); gap: clamp(3rem, 6vw, 6rem); }
@@ -102,6 +105,7 @@
 @keyframes field-enter { from { opacity: .55; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @media (max-width: 1000px) { .field-section .learning-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) {
+  .field-section .education-grid { grid-template-columns: minmax(0, 1fr); }
   .field-section > .container { padding-inline: 2rem 1.25rem; }
   .field-experience, .field-contact-grid { grid-template-columns: 1fr; gap: 2rem; }
   .field-sticky { position: relative; top: auto; display: none; }
@@ -121,4 +125,3 @@
   .field-section .reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }
 }
 @media print { .field-path, .field-sticky, .field-spark { display: none; } .field-experience, .field-contact-grid { display: block; } }
-
