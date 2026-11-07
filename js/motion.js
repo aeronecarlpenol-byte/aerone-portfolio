@@ -215,7 +215,7 @@
     '.section__header', '.exploring__header', '.exploring__list', '.exploring__panel', '.electronics-card',
     '.research-card', '.research-gallery__item', '.research-documentation',
     '.timeline__item', '.edu-item-numbered', '.skill-group', '.github-card__heading', '.github-data', '.github-card__footer',
-    '.contact-bottom', '.contact-statement', '.project-section', '.project-sidebar__card', '.section-line'
+    '.contact-bottom', '.contact-statement', '.learning-timeline__entry', '.learning-panel', '.contact-learning__intro', '.project-section', '.project-sidebar__card', '.section-line'
   ].join(',');
   const items = Array.from(document.querySelectorAll(revealSelectors));
   const replayDelays = new WeakMap();
