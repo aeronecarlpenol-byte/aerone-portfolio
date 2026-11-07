@@ -1,0 +1,43 @@
+/* Research shares the portfolio's type, field notes, and motion system. */
+.research-preview { padding-block: 4.5rem; }
+.research-preview .section__title { font-size: clamp(2rem, 3.5vw, 3.25rem); }
+.research-preview .research-preview__grid { margin-bottom: 0; }
+.research-preview__grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: 4rem; text-align: left; margin-bottom: 0; align-items: center; }
+.research-preview__copy p { max-width: 56ch; margin-bottom: 1.5rem; }
+.research-link { display: inline-block; color: var(--blue-highlight); font-family: var(--font-mono); font-size: var(--text-sm); padding-block: .65rem; text-underline-offset: .35em; }
+.research-link:hover { color: var(--text-primary); text-decoration: underline; }
+.research-link:focus-visible, .research-index a:focus-visible { outline: 2px solid var(--blue-highlight); outline-offset: 5px; border-radius: 2px; }
+.research-trace { width: min(260px, 100%); height: 60px; stroke: var(--blue-highlight); stroke-width: 1; opacity: .5; display: block; margin-top: 1rem; }
+.research-intro { padding-top: 2rem; }
+.research-back { margin-bottom: 4rem; }
+.research-intro .section__header { text-align: left; margin-bottom: 3rem; }
+.research-intro h1 { font-size: clamp(2.6rem, 6vw, 5rem); letter-spacing: -.045em; line-height: 1.08; margin-block: .5rem 1.5rem; }
+.research-intro .section__subtitle { margin-inline: 0; max-width: 52ch; font-size: var(--text-base); }
+.research-index { display: flex; flex-wrap: wrap; gap: 1rem 2rem; padding-block: 1.5rem; border-block: 1px solid var(--border); }
+.research-index a { color: var(--text-secondary); font: .8rem/1.8 var(--font-mono); }
+.research-index a:hover { color: var(--blue-highlight); }
+.research-archive { padding-top: 4rem; }
+.research-archive .section__header { text-align: left; max-width: 46rem; }
+.research-archive .section__subtitle { margin-inline: 0; font-size: var(--text-base); }
+.research-archive .research__list { gap: 4rem; }
+.research-archive .research-card { border-top: 1px solid var(--border); padding-top: 2rem; gap: 2rem; }
+.research-card__body { min-width: 0; }
+.research-archive .research-card__title { font-size: clamp(1.35rem, 2.4vw, 2rem); max-width: 38ch; scroll-margin-top: 6rem; }
+.research-details { max-width: 65ch; margin-top: 1.75rem; }
+.research-details > div + div { margin-top: 1rem; }
+.research-details dt { font: .75rem/1.7 var(--font-mono); text-transform: uppercase; letter-spacing: .08em; color: var(--blue-highlight); margin-bottom: .4rem; }
+.research-details dd { margin: 0; color: var(--text-secondary); line-height: 1.85; }
+.research-archive .research-card__gallery { max-width: 850px; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.research-archive .research-card__gallery--single { grid-template-columns: minmax(0, 1fr); max-width: 540px; }
+.research-archive .research-gallery__trigger img { object-fit: contain; background: var(--bg-card); }
+.research-archive .research-documentation { max-width: none; margin-top: 5rem; padding-top: 2rem; border-top: 1px solid var(--border); }
+.research-archive .research-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.research-return { padding-bottom: 4rem; }
+@media (max-width: 640px) {
+  .research-preview__grid { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; }
+  .research-preview { padding-block: 3rem; }
+  .research-back { margin-bottom: 2rem; }
+  .research-archive .research-card { gap: 1rem; }
+  .research-archive .research-card__gallery, .research-archive .research-gallery { grid-template-columns: minmax(0, 1fr); }
+  .research-archive { padding-top: 3rem; }
+}

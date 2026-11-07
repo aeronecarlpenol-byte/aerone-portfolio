@@ -139,11 +139,13 @@
     const lightboxCaption = lightbox.querySelector('figcaption');
     const closeButton = lightbox.querySelector('.research-lightbox__close');
     let lastTrigger = null;
+    let background = [];
 
     function closeLightbox() {
       lightbox.hidden = true;
       lightboxImage.src = '';
       document.body.classList.remove('lightbox-open');
+      background.forEach(function (element) { element.inert = false; });
       if (lastTrigger) lastTrigger.focus();
     }
 
@@ -156,6 +158,10 @@
         lightboxImage.alt = trigger.dataset.lightboxAlt;
         lightboxCaption.textContent = trigger.dataset.lightboxCaption;
         lightbox.hidden = false;
+        background = Array.from(document.body.children).filter(function (element) {
+          return element !== lightbox && !element.inert && element.tagName !== 'SCRIPT';
+        });
+        background.forEach(function (element) { element.inert = true; });
         document.body.classList.add('lightbox-open');
         closeButton.focus();
       });
@@ -167,6 +173,10 @@
     });
     document.addEventListener('keydown', function (event) {
       if (event.key === 'Escape' && !lightbox.hidden) closeLightbox();
+      if (event.key === 'Tab' && !lightbox.hidden) {
+        event.preventDefault();
+        closeButton.focus();
+      }
     });
   }
 
@@ -208,3 +218,4 @@
     });
   }
 }());
+
