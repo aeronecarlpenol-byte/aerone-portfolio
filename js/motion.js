@@ -213,7 +213,7 @@
   const revealSelectors = [
     '.hero-top', '.hero-showcase h1', '.hero-portrait', '.hero-bottom', '.hero-foot',
     '.section__header', '.exploring__header', '.exploring__list', '.exploring__panel', '.electronics-card',
-    '.research-card', '.research-gallery__item', '.research-documentation',
+    '.research-card', '.research-gallery__item', '.research-documentation', '.research-collage__photo', '.research-preview__copy',
     '.timeline__item', '.edu-item-numbered', '.skill-group', '.github-card__heading', '.github-data', '.github-card__footer',
     '.contact-bottom', '.contact-statement', '.learning-timeline__entry', '.learning-panel', '.contact-learning__intro', '.project-section', '.project-sidebar__card', '.section-line'
   ].join(',');
@@ -291,3 +291,4 @@
   });
   window.addEventListener('pageshow', function () { document.body.classList.remove('is-page-leaving'); });
 }());
+
