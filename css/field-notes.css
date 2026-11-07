@@ -125,3 +125,9 @@
   .field-section .reveal { opacity: 1 !important; transform: none !important; clip-path: none !important; }
 }
 @media print { .field-path, .field-sticky, .field-spark { display: none; } .field-experience, .field-contact-grid { display: block; } }
+
+/* Contact controls remain above all non-interactive decoration. */
+#contact .field-letter, #contact .field-schematic { position: relative; z-index: 3; }
+.field-letter::before, .field-schematic > svg { pointer-events: none; }
+.contact-action-status { color: var(--text-muted); font-size: .8rem; line-height: 1.7; margin-top: .75rem; }
+.contact-action-status:empty { display: none; }

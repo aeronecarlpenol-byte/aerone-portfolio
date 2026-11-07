@@ -14,26 +14,6 @@
   applyMotionPreference();
   mq.addEventListener('change', applyMotionPreference);
 
-  /* Copy the verified address; leave the email link available on failure. */
-  const copyEmail = document.querySelector('.copy-email');
-  const emailLink = document.getElementById('contact-email');
-  const copyStatus = document.getElementById('copy-email-status');
-  if (copyEmail && emailLink && copyStatus && navigator.clipboard && window.isSecureContext) {
-    copyEmail.hidden = false;
-    copyEmail.addEventListener('click', async function () {
-      copyEmail.disabled = true;
-      copyStatus.textContent = '';
-      try {
-        await navigator.clipboard.writeText(emailLink.getAttribute('href').slice(7));
-        copyStatus.textContent = 'Email copied.';
-      } catch (_) {
-        copyStatus.textContent = 'Couldn’t copy. Select the email address to copy it manually.';
-      } finally {
-        copyEmail.disabled = false;
-      }
-    });
-  }
-
   /* ── Year in footer ──────────────────────────────── */
   const yearEl = document.getElementById('footer-year');
   if (yearEl) {
