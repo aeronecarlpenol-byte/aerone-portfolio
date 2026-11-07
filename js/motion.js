@@ -245,7 +245,7 @@
         }
         if (active.has(entry.target)) return;
         active.add(entry.target);
-        if (scene) {
+        if (scene && !entry.target.closest('.field-section')) {
           const delay = parseInt(entry.target.style.getPropertyValue('--reveal-delay'), 10) || 0;
           scene.assemble(entry.target, Math.max(0, delay - 420));
         }

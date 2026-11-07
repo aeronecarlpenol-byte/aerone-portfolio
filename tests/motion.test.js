@@ -26,7 +26,7 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
       style: { setProperty: (k, v) => { values[k] = v; }, getPropertyValue: k => values[k] || '' },
       appendChild(child) { this.children.push(child); },
       setAttribute() {}, remove() { this.removed = true; },
-      closest: () => inHero ? hero : null,
+      closest: selector => inHero && selector === '.hero' ? hero : null,
       getContext: () => canvasAvailable ? ctx : null,
       rect: { left: 60, top: 100, width: 320, height: 200, bottom: 300 },
       getBoundingClientRect() { return this.rect; },
