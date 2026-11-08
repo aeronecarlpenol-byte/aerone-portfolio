@@ -24,6 +24,33 @@
 .tech-logo:focus-visible { outline: none; }
 .tech-logo.is-dragging { cursor: grabbing; z-index: 2; }
 .tech-logo.is-dragging .tech-logo__float { animation-play-state: paused; }
+.tech-logo-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 1100;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  pointer-events: none;
+}
+.tech-logo-layer .tech-logo {
+  left: var(--page-x);
+  top: var(--page-y);
+  pointer-events: auto;
+}
+.tech-drag-hint {
+  position: absolute;
+  left: 48%;
+  top: 7.7rem;
+  color: #aac6b5;
+  font: .85rem/1.4 'Segoe Print', 'Bradley Hand', cursive;
+  transform: rotate(-7deg);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: opacity 220ms ease;
+}
+.tech-drag-hint svg { position: absolute; width: 3.4rem; height: 2rem; right: calc(100% + 5px); bottom: 0; stroke: currentColor; }
+.tech-constellation.has-dragged .tech-drag-hint { opacity: 0; }
 .tech-logo__float {
   display: block;
   position: relative;
@@ -51,7 +78,7 @@
   outline-offset: 3px;
   box-shadow: 0 0 16px rgb(88 166 255 / .1);
 }
-.hero .tech-constellation img {
+.tech-logo .tech-logo__float img {
   display: block;
   width: 100%;
   height: 100%;
@@ -102,7 +129,7 @@
 }
 @media (hover: hover) and (pointer: fine) {
   .tech-logo:hover .tech-logo__float { scale: 1.1; }
-  .hero .tech-logo:hover img { filter: brightness(1.12); opacity: 1; }
+  .tech-logo:hover .tech-logo__float img { filter: brightness(1.12); opacity: 1; }
   .tech-logo:hover .tech-logo__float::before {
     border-color: rgb(88 166 255 / .65);
     box-shadow: 0 0 16px rgb(88 166 255 / .1);
@@ -115,9 +142,10 @@
   .tech-logo--vercel { --logo-size: 1.625rem; --logo-top: 4.7rem; }
   .tech-logo--supabase { --logo-size: 1.75rem; --logo-top: 3.6rem; }
   .tech-logo__float::before { inset: -.5rem; }
+  .tech-drag-hint { top: 6.4rem; font-size: .75rem; }
 }
 @media (prefers-reduced-motion: reduce) {
-  .tech-constellation .tech-logo,
-  .tech-constellation .tech-logo__float { animation: none !important; opacity: 1 !important; transform: none !important; scale: 1 !important; }
-  .hero .tech-constellation img { transition: none; }
+  .tech-logo,
+  .tech-logo__float { animation: none !important; opacity: 1 !important; transform: none !important; scale: 1 !important; }
+  .tech-logo .tech-logo__float img, .tech-drag-hint { transition: none; }
 }
