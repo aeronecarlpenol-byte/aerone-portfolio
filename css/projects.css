@@ -27,8 +27,6 @@
   .work-pile:hover, .work-card:nth-child(2) .work-pile:hover { transform: translateY(-8px) rotate(0deg); border-color: var(--blue-highlight); }
 }
 .work-pile:active { transform: translateY(-3px); }
-.work-card.is-entering { animation: work-enter 650ms cubic-bezier(.2,.8,.2,1) var(--work-delay,0ms) both; }
-@keyframes work-enter { from { opacity: .55; translate: 0 18px; } to { opacity: 1; translate: 0 0; } }
 .work-story { width: min(1160px,calc(100% - 48px)); max-width: none; max-height: calc(100dvh - 64px); padding: 0; color: var(--text-secondary); background: #151c25; border: 1px solid #465365; border-radius: 20px; margin: auto; overflow: auto; box-shadow: 0 24px 100px rgb(0 0 0 / .55); }
 .work-story::backdrop { background: rgb(4 8 14 / .78); backdrop-filter: blur(7px); }
 .work-story[open] { animation: story-open 240ms cubic-bezier(.2,.8,.2,1) both; }
