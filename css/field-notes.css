@@ -41,7 +41,7 @@
 .field-year { font: 600 clamp(4rem, 8vw, 7.2rem)/1 var(--font-display); letter-spacing: -.065em; margin: 1.25rem 0 2rem; }
 .year-digit { display: block; height: 1em; width: .62em; }
 .year-digit:nth-child(n+3) { color: var(--blue-highlight); }
-.year-digit__strip { display: block; transform: translateY(calc(var(--digit) * -1em)); transition: none; }
+.year-digit__strip { display: block; transform: translateY(calc(var(--digit) * -1em)); filter: none; transition: none; }
 .year-digit__strip > span { display: block; height: 1em; }
 .field-active { border-top: 1px dashed var(--border); padding-top: 1.5rem; min-height: 8rem; }
 .field-active__org { font: 600 1.35rem/1.4 var(--font-display); color: var(--text-primary); }
