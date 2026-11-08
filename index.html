@@ -30,8 +30,10 @@
 <link rel="stylesheet" href="/css/research.css" />
 <link rel="stylesheet" href="css/projects.css" />
 <link rel="stylesheet" href="css/navigation.css" />
+<link rel="stylesheet" href="css/composition.css" />
+<link rel="stylesheet" href="css/tech-logos.css" />
 </head>
-<body>
+<body class="portfolio-home">
 <a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ───────────────────────────────────────────────────
@@ -119,7 +121,15 @@
 
   <!-- Bottom: statement + intro -->
   <div class="hero-bottom">
-    <p class="hero-statement">The obstacle<br>is the way<span class="hero-name-period">.</span></p>
+    <div class="hero-thought">
+      <ul class="tech-constellation" aria-label="Technology logos">
+        <li class="tech-logo tech-logo--claude"><span class="tech-logo__float"><img src="assets/brand/claude.svg" width="38" height="38" alt="Claude" decoding="async" /></span></li>
+        <li class="tech-logo tech-logo--chatgpt"><span class="tech-logo__float"><img src="assets/brand/chatgpt.svg" width="38" height="38" alt="ChatGPT" decoding="async" /></span></li>
+        <li class="tech-logo tech-logo--vercel"><span class="tech-logo__float"><img src="assets/brand/vercel.svg" width="32" height="28" alt="Vercel" decoding="async" /></span></li>
+        <li class="tech-logo tech-logo--supabase"><span class="tech-logo__float"><img src="assets/brand/supabase.svg" width="34" height="35" alt="Supabase" decoding="async" /></span></li>
+      </ul>
+      <p class="hero-statement">The obstacle<br>is the way<span class="hero-name-period">.</span></p>
+    </div>
     <div class="hero-intro">
       <p class="hero-curiosity"><span class="sr-only">Curious about what I can build next.</span><span aria-hidden="true">Curious about <span class="hero-curiosity__phrases"><span>how circuits work.</span><span>what code can do.</span><span>how things connect.</span><span>what I can build next.</span></span></span></p>
       <p>I'm an Electronics Engineering student interested in technical problem-solving, programming, research, and turning theoretical concepts into practical solutions.</p>
@@ -621,6 +631,7 @@
 
 <script src="js/field-notes.js" defer></script>
 <script src="js/contact.js" defer></script>
+<script src="js/tech-logos.js" defer></script>
 <dialog id="work-story" class="work-story" aria-labelledby="story-title">
   <div class="work-story__top"><span>NOTES FROM THE WORKBENCH</span><button class="work-story__close" type="button" aria-label="Close project story">×</button></div>
   <div class="work-story__content"></div>
