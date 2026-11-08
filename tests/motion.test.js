@@ -39,7 +39,7 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
   const document = events({ body, hidden: false, documentElement: element('html'),
     createElement: tag => element(tag), querySelector: () => hero,
     querySelectorAll: selector => selector === '.hero .reveal' ? items.slice(0, 2) :
-      selector.includes('.hero-top') ? items : []
+      selector.includes('.hero-top') ? items.slice(0, 2) : []
   });
   function matchMedia(query) {
     if (!media.has(query)) media.set(query, events({ matches:
@@ -92,7 +92,7 @@ test('intro orbits, scatters, assembles real element bounds, then removes its ba
   }
 });
 
-test('direct section links skip the intro and still animate section assembly', () => {
+test('direct section links skip the intro and keep assembly limited to hero elements', () => {
   const app = setup({ hash: '#research' });
   assert.equal(app.intro(), undefined);
   app.reveal(); app.tick(100);
@@ -105,7 +105,8 @@ test('reduced motion disables frames and reveals all content immediately', () =>
   assert.equal(app.frames.size, 0);
   assert.equal(app.canvas().hidden, true);
   assert.equal(app.intro(), undefined);
-  assert.ok(app.items.every(e => e.classList.contains('is-visible')));
+  assert.ok(app.items.slice(0, 2).every(e => e.classList.contains('is-visible')));
+  assert.equal(app.items[2].classList.contains('reveal'), false);
 });
 
 test('changing motion preferences or print state cancels rendering and the intro', () => {
@@ -158,12 +159,12 @@ test('unobserved text stays readable and heading clipping only begins after dete
   const app = setup();
   assert.ok(app.items.every(e => !e.classList.contains('is-visible')));
   app.reveal();
-  assert.ok(app.items.every(e => e.classList.contains('is-visible')));
+  assert.ok(app.items.slice(0, 2).every(e => e.classList.contains('is-visible')));
   app.tick(5000);
   assert.equal(app.intro().removed, true);
 });
 
-test('sections replay after leaving above or below the viewport, with fresh assembly', () => {
+test('hero elements replay after leaving above or below the viewport, with fresh assembly', () => {
   const app = setup({ hash: '#research' });
   const target = app.items[0];
   app.reveal([target]); app.tick(100);
@@ -198,4 +199,16 @@ test('temporary clipping cannot reset visible text; rapid scrolling rearms unfin
   target.rect = { ...target.rect, top: 100, bottom: 300 };
   app.reveal([target]);
   assert.equal(target.classList.contains('is-visible'), true);
+});
+
+test('content outside the hero never receives reveal classes, delays, or canvas assembly', () => {
+  const app = setup({ hash: '#experience' });
+  const outside = app.items[2];
+  assert.equal(outside.classList.contains('reveal'), false);
+  assert.equal(outside.style.getPropertyValue('--reveal-delay'), '');
+  app.reveal([outside]); app.tick(100); app.tick(600);
+  assert.equal(outside.classList.contains('is-visible'), false);
+  assert.equal(app.calls.filter(c => c.name === 'strokeRect').length, 0);
+  app.window.emit('scroll'); app.tick(900);
+  assert.equal(outside.style.getPropertyValue('--reveal-delay'), '');
 });
