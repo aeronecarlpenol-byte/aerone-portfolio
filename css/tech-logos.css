@@ -14,7 +14,16 @@
   top: var(--logo-top);
   width: var(--logo-size, 2.25rem);
   height: var(--logo-size, 2.25rem);
+  translate: var(--drag-x, 0px) var(--drag-y, 0px);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
 }
+.tech-logo::before { content: ''; position: absolute; inset: -.65rem; border-radius: 50%; }
+.tech-logo:focus-visible { outline: 2px solid var(--blue-highlight); outline-offset: 12px; border-radius: 50%; }
+.tech-logo.is-dragging { cursor: grabbing; z-index: 2; }
+.tech-logo.is-dragging .tech-logo__float { animation-play-state: paused; }
 .tech-logo__float {
   display: block;
   position: relative;
