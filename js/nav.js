@@ -5,9 +5,14 @@
   if (!nav) return;
   const toggle = document.getElementById('nav-toggle'), drawer = document.getElementById('nav-drawer');
   const links = Array.from(document.querySelectorAll('.nav__link, .nav__drawer-link, .nav__dock-link'));
-  const sections = links.map(link => {
+  // The Research item opens its own page, while tracking the homepage preview.
+  function sectionId(link) {
     const href = link.getAttribute('href');
-    return href.startsWith('#') ? document.getElementById(href.slice(1)) : null;
+    return href.startsWith('#') ? href.slice(1) : href === '/research' ? 'research' : null;
+  }
+  const sections = links.map(link => {
+    const id = sectionId(link);
+    return id ? document.getElementById(id) : null;
   }).filter((section, i, all) => section && all.indexOf(section) === i).sort((a,b) => a.offsetTop-b.offsetTop);
   const tracks = Array.from(document.querySelectorAll('.nav__links, .section-dock'));
   tracks.forEach(track => {
@@ -46,7 +51,7 @@
   }
   function setActive(id) {
     links.forEach(link => {
-      const active = link.getAttribute('href') === '#'+id;
+      const active = sectionId(link) === id;
       link.classList.toggle('active',active);
       if (active) link.setAttribute('aria-current','location'); else link.removeAttribute('aria-current');
     });
