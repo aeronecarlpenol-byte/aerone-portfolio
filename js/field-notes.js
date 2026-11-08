@@ -8,6 +8,14 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const entries = Array.from(experience.querySelectorAll('.field-timeline [data-year]'));
   const digits = Array.from(experience.querySelectorAll('.year-digit__strip'));
+  const yearMotion = new WeakMap();
+  function cancelYearMotion() {
+    digits.forEach(function (digit) {
+      const animation = yearMotion.get(digit);
+      if (animation && typeof animation.cancel === 'function') animation.cancel();
+      yearMotion.delete(digit);
+    });
+  }
   const org = experience.querySelector('.field-active__org');
   const role = experience.querySelector('.field-active__role');
   let current = -1, frame = 0, dirty = true, length = 0, start = 0, end = 1;
@@ -214,10 +222,26 @@
   }
   function setActive(index) {
     if (index === current || !entries[index]) return;
+    const previousYear = entries[current] ? entries[current].dataset.year : null;
     current = index;
     const item = entries[index];
     entries.forEach((entry, i) => entry.classList.toggle('is-current', i === index));
-    digits.forEach((digit, i) => digit.style.setProperty('--digit', item.dataset.year[i]));
+    digits.forEach(function (digit, i) {
+      const value = item.dataset.year[i];
+      const changed = previousYear && previousYear[i] !== value;
+      const from = changed ? window.getComputedStyle(digit).transform || `translateY(-${previousYear[i]}em)` : '';
+      const previous = yearMotion.get(digit);
+      if (changed && previous && typeof previous.cancel === 'function') previous.cancel();
+      digit.style.setProperty('--digit', value);
+      if (!changed || reduced.matches || typeof digit.animate !== 'function') return;
+      const animation = digit.animate([
+        { transform: from, filter: 'blur(0px)', offset: 0 },
+        { filter: 'blur(3px)', offset: .4 },
+        { transform: `translateY(-${value}em)`, filter: 'blur(0px)', offset: 1 }
+      ], { duration: 460, easing: 'cubic-bezier(.2,.75,.2,1)' });
+      yearMotion.set(digit, animation);
+      animation.onfinish = function () { if (yearMotion.get(digit) === animation) yearMotion.delete(digit); };
+    });
     org.textContent = item.dataset.org; role.textContent = item.dataset.role;
   }
   function update() {
@@ -252,7 +276,7 @@
   function resize() { dirty = true; schedule(); }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', resize, { passive: true });
-  reduced.addEventListener('change', resize);
+  reduced.addEventListener('change', function () { if (reduced.matches) cancelYearMotion(); resize(); });
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(resize);
     observer.observe(main);
@@ -261,7 +285,7 @@
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
-  document.addEventListener('visibilitychange', function () { if (document.hidden) clearTrail(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');
@@ -272,4 +296,5 @@
   });
   schedule();
 }());
+
 
