@@ -51,7 +51,7 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
   });
   function flush() { frames.splice(0).forEach(fn => fn()); }
   flush();
-  return { window, media, main, digits, org, active, spark, flush,
+  return { window, media, main, digits, org, active, spark, flush, entries,
     scroll(y) { window.scrollY = y; handlers.scroll(); flush(); },
     svg: main.children[0] };
 }
@@ -76,7 +76,7 @@ test('reduced motion keeps trace complete and role readable without animation', 
   assert.equal(app.active.animations, undefined);
   assert.equal(app.svg.children[1].style.strokeDashoffset, '0');
   app.media.matches = false; app.media.change(); app.flush();
-  app.scroll(0); assert.equal(app.active.animations, 1);
+  app.scroll(0); assert.equal(app.active.animations, undefined, 'role changes do not fade in late');
 });
 test('schematic button exposes its toggled state', () => {
   const app = setup();
@@ -92,6 +92,19 @@ test('Experience signal follows the scroll position without distance-weighting l
   assert.ok(Math.abs(signalY() - 1120) < 1, 'signal locks to the 65% reading line');
   app.scroll(350);
   assert.ok(Math.abs(signalY() - 870) < 1, 'reverse scrolling follows the same mapping');
+});
+
+test('role and year switch exactly as the signal crosses a marker, including repeated years', () => {
+  const app = setup();
+  app.entries[1].dataset.year = '2025';
+  app.scroll(615); // Signal y=1135, just before marker y=1135.3.
+  assert.equal(app.org.textContent, 'org0');
+  app.scroll(616);
+  assert.equal(app.org.textContent, 'org1', 'same-year role must change on the marker crossing');
+  assert.equal(app.digits[3].style['--digit'], '5');
+  assert.equal(app.active.animations, undefined);
+  app.scroll(615);
+  assert.equal(app.org.textContent, 'org0', 'reverse crossing changes back immediately');
 });
 test('desktop route crosses gutters and follows timeline nodes; mobile simplifies it', () => {
   const app = setup();

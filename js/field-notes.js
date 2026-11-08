@@ -8,7 +8,6 @@
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const entries = Array.from(experience.querySelectorAll('.field-timeline [data-year]'));
   const digits = Array.from(experience.querySelectorAll('.year-digit__strip'));
-  const active = experience.querySelector('.field-active');
   const org = experience.querySelector('.field-active__org');
   const role = experience.querySelector('.field-active__role');
   let current = -1, frame = 0, dirty = true, length = 0, start = 0, end = 1;
@@ -27,6 +26,7 @@
   const nodes = [];
   let samples = [];
   let experienceRange = null;
+  let markerY = [];
   const terminal = element('g', { class: 'field-path__terminal' });
   const pad = document.createElementNS(ns, 'circle');
   pad.setAttribute('r', '7'); terminal.appendChild(pad);
@@ -58,6 +58,10 @@
     const collage = find('.research-collage');
     const skills = find('#skills');
     const timeline = find('.field-timeline');
+    markerY = entries.map(entry => {
+      const b = box(entry), dot = window.getComputedStyle(entry, '::before');
+      return b.y + parseFloat(dot.top || '28.8') + parseFloat(dot.height || '13') / 2;
+    });
     const schematic = find('.field-schematic svg');
     const contactBox = box(contact);
     // Match the CSS viewport breakpoint, not clientWidth (which excludes the
@@ -162,14 +166,10 @@
     entries.forEach((entry, i) => entry.classList.toggle('is-current', i === index));
     digits.forEach((digit, i) => digit.style.setProperty('--digit', item.dataset.year[i]));
     org.textContent = item.dataset.org; role.textContent = item.dataset.role;
-    if (!reduced.matches && active.animate) active.animate([{ opacity: .3, transform: 'translateY(7px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'ease-out' });
   }
   function update() {
     frame = 0;
     if (dirty) measure();
-    let index = 0;
-    entries.forEach((entry, i) => { if (entry.getBoundingClientRect().top <= window.innerHeight * .45) index = i; });
-    setActive(index);
     const targetY = window.scrollY + window.innerHeight * .65 - (main.getBoundingClientRect().top + window.scrollY);
     let low = 0, high = samples.length - 1;
     while (low < high) { const mid = (low + high) >> 1; if (samples[mid].y < targetY) low = mid + 1; else high = mid; }
@@ -180,7 +180,11 @@
     if (window.scrollY + window.innerHeight * .65 >= end) progress = 1;
     svg.dataset.progress = progress.toFixed(4);
     draw.style.strokeDashoffset = reduced.matches ? '0' : String(length * (1 - progress));
-    if (!reduced.matches) { const p = draw.getPointAtLength(length * progress); signal.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(45)`); }
+    const p = draw.getPointAtLength(length * progress);
+    let index = 0;
+    markerY.forEach((y, i) => { if (p.y >= y) index = i; });
+    setActive(index);
+    if (!reduced.matches) signal.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(45)`);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   function resize() { dirty = true; schedule(); }
