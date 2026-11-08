@@ -33,14 +33,21 @@
   const pins = document.createElementNS(ns, 'path');
   pins.setAttribute('d', 'M-14 0h7m14 0h7M0-14v7m0 14v7'); terminal.appendChild(pins);
   const trail = element('g', { class: 'field-path__trail', 'aria-hidden': 'true' });
-  const signal = element('image', { class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-17.5', y: '-17.5', width: '35', height: '35', preserveAspectRatio: 'xMidYMid meet' });
+  const position = element('g', { class: 'field-path__position' });
+  const tiltGroup = document.createElementNS(ns, 'g');
+  tiltGroup.setAttribute('class', 'field-path__tilt'); position.appendChild(tiltGroup);
+  const rollGroup = document.createElementNS(ns, 'g'); tiltGroup.appendChild(rollGroup);
+  const signal = document.createElementNS(ns, 'image');
+  Object.entries({ class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-17.5', y: '-17.5', width: '35', height: '35', preserveAspectRatio: 'xMidYMid meet' }).forEach(([key,value]) => signal.setAttribute(key,value));
+  rollGroup.appendChild(signal);
   const particles = new Set();
-  let previousDistance = null, previousScroll = null, lastEmission = 0, particleIndex = 0;
+  let previousDistance = null, previousScroll = null, lastEmission = 0, particleIndex = 0, travelSinceEmission = 0, lastDirection = 0;
   function clearTrail() {
     particles.forEach(particle => particle.remove());
     particles.clear();
     previousDistance = null;
     previousScroll = null;
+    travelSinceEmission = 0; lastDirection = 0;
   }
   function emitTrail(distance) {
     const now = Date.now(), mobile = window.innerWidth <= 900;
@@ -52,13 +59,17 @@
     if (reduced.matches || Math.abs(scrollDelta) > window.innerHeight * .7 || Math.abs(delta) > 180) {
       clearTrail(); return;
     }
-    if (!scrollDelta || Math.abs(delta) < 2 || now - lastEmission < (mobile ? 170 : 105) ||
+    const direction = Math.sign(delta);
+    if (direction && direction !== lastDirection) travelSinceEmission = 0;
+    if (direction) lastDirection = direction;
+    travelSinceEmission += Math.abs(delta);
+    if (!scrollDelta || travelSinceEmission + .001 < (mobile ? 14 : 10) || now - lastEmission < (mobile ? 90 : 65) ||
         particles.size >= (mobile ? 4 : 8) || distance <= 0 || distance >= length) return;
     const behind = draw.getPointAtLength(Math.max(0, Math.min(length, distance - Math.sign(delta) * 18)));
     const tip = draw.getPointAtLength(distance);
     const screenY = behind.y + main.getBoundingClientRect().top;
     if (screenY < 24 || screenY > window.innerHeight - 24) return;
-    lastEmission = now;
+    lastEmission = now; travelSinceEmission = 0;
     const shapes = ['M-2-4 1-4-1-1H2L-2 4 0 0h-2Z', 'M-3 2V-2H2V-4M-4 2h2', 'M-2-2h4v4h-4Z'];
     const particle = document.createElementNS(ns, 'path');
     particle.setAttribute('d', shapes[particleIndex % 3]);
@@ -69,9 +80,9 @@
     const dy = Math.max(-6, Math.min(6, (behind.y - tip.y) * .25));
     trail.appendChild(particle); particles.add(particle);
     const animation = particle.animate([
-      { transform: `translate(${x}px, ${y}px) rotate(0deg) scale(1)`, opacity: .65 },
+      { transform: `translate(${x}px, ${y}px) rotate(0deg) scale(1.25)`, opacity: .92 },
       { transform: `translate(${x + dx}px, ${y + dy}px) rotate(${side * 24}deg) scale(.2)`, opacity: 0 }
-    ], { duration: mobile ? 460 : 620, easing: 'ease-out', fill: 'forwards' });
+    ], { duration: mobile ? 650 : 780, easing: 'ease-out', fill: 'forwards' });
     const remove = () => { particle.remove(); particles.delete(particle); };
     animation.onfinish = remove; animation.oncancel = remove;
   }
@@ -233,7 +244,9 @@
     emitTrail(length * progress);
     signal.setAttribute('x', -size / 2); signal.setAttribute('y', -size / 2);
     signal.setAttribute('width', size); signal.setAttribute('height', size);
-    signal.setAttribute('transform', `translate(${resting.x} ${resting.y}) rotate(${tilt})`);
+    position.setAttribute('transform', `translate(${resting.x} ${resting.y})`);
+    tiltGroup.setAttribute('transform', `rotate(${tilt})`);
+    rollGroup.setAttribute('transform', `rotate(${reduced.matches ? 0 : length * progress / 850 * 360})`);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   function resize() { dirty = true; schedule(); }

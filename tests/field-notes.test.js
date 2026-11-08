@@ -84,13 +84,27 @@ test('trail caps desktop and mobile density and resets on resize or reduced moti
     const trail = app.svg.children.find(n => n.attrs.class === 'field-path__trail');
     for (let y = 5; y <= 100; y += 5) { app.tick(180); app.scroll(y); }
     assert.equal(trail.children.length, cap);
-    const emblem = app.svg.children.find(n => n.attrs.class === 'field-path__emblem');
+    const emblem = app.svg.children.find(n => n.attrs.class === 'field-path__position').children[0].children[0].children[0];
     assert.equal(emblem.attrs.width, size);
     app.resize(); assert.equal(trail.children.length, 0);
     app.media.matches = true; app.media.change(); app.flush();
     app.tick(180); app.scroll(110);
     assert.equal(trail.children.length, 0);
   }
+});
+
+test('rolling rotation is distance-based, reversible, stable at rest, and disabled for reduced motion', () => {
+  const app = setup();
+  const position = app.svg.children.find(n => n.attrs.class === 'field-path__position');
+  const roll = position.children[0].children[0];
+  const initial = roll.attrs.transform;
+  app.scroll(200); const forward = roll.attrs.transform;
+  assert.notEqual(forward, initial);
+  app.tick(1000); app.scroll(200); assert.equal(roll.attrs.transform, forward);
+  app.scroll(0); assert.equal(roll.attrs.transform, initial);
+  app.resize(); assert.equal(roll.attrs.transform, initial);
+  app.media.matches = true; app.media.change(); app.flush();
+  app.scroll(700); assert.equal(roll.attrs.transform, 'rotate(0)');
 });
 
 test('year, active role, and trace track scrolling in both directions', () => {
@@ -124,7 +138,7 @@ test('schematic button exposes its toggled state', () => {
 
 test('Experience signal follows the scroll position without distance-weighting lag', () => {
   const app = setup();
-  const signal = app.svg.children.find(n => n.attrs.class === 'field-path__emblem');
+  const signal = app.svg.children.find(n => n.attrs.class === 'field-path__position');
   function signalY() { return Number(signal.attrs.transform.match(/translate\([^ ]+ ([^)]+)\)/)[1]); }
   app.scroll(600);
   assert.ok(Math.abs(signalY() - 1120) < 1, 'signal locks to the 65% reading line');
