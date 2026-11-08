@@ -35,6 +35,7 @@
     content.querySelector('[data-gallery-next]').addEventListener('click', () => select(index + 1));
     select(0);
     dialog.showModal();
+    dialog.scrollTop = 0;
     document.body.classList.add('work-story-open');
     close.focus({ preventScroll: true });
   }

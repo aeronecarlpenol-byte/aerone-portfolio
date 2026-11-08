@@ -45,7 +45,7 @@ body.work-story-open { overflow: hidden; }
 .work-gallery__stage { position: relative; border: 1px solid var(--border); border-radius: 12px; background: #0b1017; overflow: hidden; }
 .work-gallery__stage figure { margin: 0; }
 .work-gallery__stage figure[hidden] { display: none; }
-.work-gallery__stage img { width: 100%; height: clamp(240px,38vw,450px); object-fit: contain; display: block; filter: none; }
+.work-gallery__stage img { width: 100%; height: clamp(240px,42dvh,400px); object-fit: contain; display: block; filter: none; }
 .work-gallery__stage figcaption { padding: .75rem 1rem; color: var(--text-muted); font-size: .8rem; border-top: 1px solid var(--border); }
 .work-gallery__arrows { display: flex; justify-content: space-between; gap: 1rem; margin-top: .75rem; }
 .work-gallery__arrows[hidden] { display: none; }
