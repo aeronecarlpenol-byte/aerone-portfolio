@@ -56,6 +56,7 @@
 .field-timeline .learning-timeline__body::before { display: none; }
 .field-timeline .learning-timeline__body h3 { font-size: clamp(1.8rem, 3vw, 2.5rem); letter-spacing: -.04em; margin-block: .75rem; }
 .field-timeline .learning-timeline__org { font-size: 1.1rem; margin-bottom: 1.5rem; }
+.field-timeline .learning-timeline__body > .learning-timeline__recognition { margin-top: .75rem; color: var(--text-muted); font-size: var(--text-sm); line-height: 1.7; max-width: 65ch; }
 .field-timeline .learning-tags { margin-top: 2rem; }
 .field-timeline .learning-tags li { padding: .75rem; background: var(--bg-card); border-radius: 8px; }
 #skills.field-section { background: #10161e; }
