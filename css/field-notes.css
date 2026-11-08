@@ -69,8 +69,6 @@
 .field-timeline .learning-timeline__body > .learning-timeline__recognition { margin-top: .75rem; color: var(--text-muted); font-size: var(--text-sm); line-height: 1.7; max-width: 65ch; }
 .field-timeline .learning-tags { margin-top: 2rem; }
 .field-timeline .learning-tags li { padding: .75rem; background: var(--bg-card); border-radius: 8px; }
-#skills.field-section { background: #10161e; }
-#skills.field-section::before { opacity: .18; background-image: radial-gradient(var(--text-muted) .6px, transparent .6px); background-size: 24px 24px; }
 .field-section .learning-skills { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.25rem; align-items: stretch; }
 .field-section .learning-panel { background: #171f29; padding: 1.8rem; border-radius: 16px; transition: transform 240ms ease, border-color 240ms, background 240ms; }
 .field-section .learning-panel:nth-child(2), .field-section .learning-panel:nth-child(5) { background: #17232a; }
@@ -117,8 +115,6 @@
 .contact-action-status { color: var(--text-muted); font-size: .8rem; line-height: 1.7; margin-top: .75rem; }
 .contact-action-status:empty { display: none; }
 .field-path__signal { fill: #a8d3ff; stroke: #0d1117; stroke-width: 2; filter: drop-shadow(0 0 3px rgb(88 166 255 / .45)); }
-.field-section .reveal.is-visible, .field-section .section__header.reveal.is-visible { animation: field-enter 550ms cubic-bezier(.2,.8,.2,1) both; animation-delay: var(--field-delay, 0ms); clip-path: none; }
-@keyframes field-enter { from { opacity: .55; transform: translateY(16px); } to { opacity: 1; transform: none; } }
 @media (max-width: 1000px) { .field-section .learning-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 @media (max-width: 760px) {
   .field-section .education-grid { grid-template-columns: minmax(0, 1fr); }
@@ -192,3 +188,4 @@ body .footer { background: transparent; }
   body { background-size: 156px 156px, 26px 26px; background-position: 13px 13px, 13px 13px; }
 }
 @media print { body { background-image: none; } }
+
