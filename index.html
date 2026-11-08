@@ -28,6 +28,7 @@
   <link rel="stylesheet" href="css/sections.css" />  <link rel="stylesheet" href="css/motion.css" />
 <link rel="stylesheet" href="css/field-notes.css" />
 <link rel="stylesheet" href="/css/research.css" />
+<link rel="stylesheet" href="css/projects.css" />
 </head>
 <body>
 
@@ -200,7 +201,39 @@
   </div>
 </section>
 
-<!-- ───────────────────────────────────────────────────     CURRENTLY EXPLORING──────────────────────────────────────────────────── --><section id="exploring" class="section" aria-labelledby="exploring-title">  <div class="container">    <div class="exploring__header">      <div>        <span class="section__eyebrow">Currently Exploring <span class="exploring__indicator">Learning</span></span>        <h2 id="exploring-title" class="exploring__title">Built &amp; Explored</h2>      </div>      <p id="exploring-description" class="exploring__description" aria-live="polite">Select an area to view related work and current interests.</p>    </div>    <div class="exploring__list" role="list" aria-label="Areas currently being explored">      <button class="exploring__item is-selected" type="button" role="listitem" aria-pressed="true" aria-controls="exploring-electronics" data-description="Building practical circuit knowledge through design, analysis, and hands-on experimentation." data-panel="exploring-electronics">        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M19 9h4M19 15h4M1 9h4M1 15h4"/><path d="M9 9h6v6H9z"/></svg>        <span>Electronics</span><span class="exploring__arrow" aria-hidden="true">↗</span>      </button>      <button class="exploring__item" type="button" role="listitem" aria-pressed="false" aria-controls="exploring-software" data-description="Developing web tools and programming fundamentals with a focus on useful, clear interfaces." data-panel="exploring-software">        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="8 6 2 12 8 18"/><polyline points="16 6 22 12 16 18"/><path d="m14 4-4 16"/></svg>        <span>Software</span><span class="exploring__arrow" aria-hidden="true">↗</span>      </button>    </div>    <div class="exploring__panels">      <article id="exploring-electronics" class="exploring__panel exploring__panel--cards" aria-labelledby="exploring-electronics-title">        <h3 id="exploring-electronics-title" class="sr-only">Electronics projects</h3>        <div class="electronics-cards">          <article class="electronics-card">            <div class="electronics-card__inner">              <div class="electronics-card__face electronics-card__face--front">                <button class="electronics-card__image research-gallery__trigger" type="button" data-lightbox-src="assets/projects/regulated-full-wave-bridge-5v.png" data-lightbox-alt="Full PCB layout for the regulated full-wave bridge 5V power supply" data-lightbox-caption="Regulated Full-Wave Bridge 5V Power Supply PCB layout" aria-label="View full PCB layout for the regulated full-wave bridge 5V power supply">                  <img src="assets/projects/regulated-full-wave-bridge-5v.png" alt="PCB layout for the regulated full-wave bridge 5V power supply" />                </button>                <div class="electronics-card__front-copy">                  <p class="exploring__panel-label">ELECTRONICS</p>                  <h4>Regulated Full-Wave Bridge 5V Power Supply</h4>                  <button class="electronics-card__details-toggle" type="button" aria-expanded="false">View details</button>                </div>              </div>              <div class="electronics-card__face electronics-card__face--back" inert aria-hidden="true">                <p class="exploring__panel-label">PROJECT DETAILS</p>                <h4>Regulated Full-Wave Bridge 5V Power Supply</h4>                <p>My first PCB layout, designed in EasyEDA for Computer-Aided Design. It converts AC input into a stable 5V DC output through rectification, filtering, and voltage regulation.</p>                <div class="tags"><span class="tag">EasyEDA</span><span class="tag tag--neutral">PCB Design</span><span class="tag tag--neutral">5V Power Supply</span></div>                <button class="electronics-card__details-toggle" type="button" aria-expanded="true">Back to image</button>              </div>            </div>          </article>        </div>      </article>      <article id="exploring-software" class="exploring__panel exploring__panel--cards" aria-labelledby="exploring-software-title" hidden>        <h3 id="exploring-software-title" class="sr-only">Software projects</h3>        <div class="electronics-cards">          <article class="electronics-card" aria-label="Axiom Studia project">            <div class="electronics-card__inner">              <div class="electronics-card__face electronics-card__face--front">                <div class="electronics-card__image electronics-card__image--logo">                  <img src="assets/projects/axiom-studia/logo.png" alt="Axiom Studia logo" />                </div>                <div class="electronics-card__front-copy">                  <p class="exploring__panel-label">SOFTWARE</p>                  <h4>Axiom Studia</h4>                  <button class="electronics-card__details-toggle" type="button" aria-expanded="false">View details</button>                </div>              </div>              <div class="electronics-card__face electronics-card__face--back" inert aria-hidden="true">                <p class="exploring__panel-label">PROJECT DETAILS</p>                <h4>Axiom Studia</h4>                <p>A personal web-based academic productivity platform for organizing subjects, learning resources, and study activities in one focused workspace.</p>                <a href="pages/project-axiom.html" class="card__icon-link">View project page <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></a>                <button class="electronics-card__details-toggle" type="button" aria-expanded="true">Back to image</button>              </div>            </div>          </article>        </div>      </article>    </div>  </div></section><!-- ───────────────────────────────────────────────────     PROJECTS
+<!-- ───────────────────────────────────────────────────     CURRENTLY EXPLORING──────────────────────────────────────────────────── --><section id="exploring" class="section field-section work-section" aria-labelledby="exploring-title">
+  <div class="container">
+    <div class="work-header">
+      <span class="section__eyebrow">From the workbench</span>
+      <h2 id="exploring-title">Built &amp; Explored<span class="field-period">.</span></h2>
+      <div class="work-header__line"><p>A few things I’ve worked on.</p><span class="field-annotation">open a snapshot, see the story ↙</span></div>
+    </div>
+    <ul class="work-grid" aria-label="Projects">
+      <li class="work-card">
+        <a class="work-pile" href="assets/projects/regulated-full-wave-bridge-5v.png" data-project-story="story-power" aria-label="Open Regulated Full-Wave Bridge 5V Power Supply project story, 1 image">
+          <img class="work-pile__image" src="assets/projects/regulated-full-wave-bridge-5v.png" width="842" height="847" alt="Full PCB layout for the regulated full-wave bridge 5V power supply" loading="lazy" decoding="async" />
+          <span class="work-pile__label">01 / Electronics</span><span class="work-pile__count">1 image</span><span class="work-pile__open" aria-hidden="true">↗</span>
+        </a>
+        <div class="work-card__meta"><span>Coursework · PCB layout</span></div>
+        <h3>Regulated Full-Wave Bridge 5V Power Supply</h3>
+        <p class="work-card__description">My first PCB layout, designed in EasyEDA for Computer-Aided Design. It converts AC input into a stable 5V DC output through rectification, filtering, and voltage regulation.</p>
+        <ul class="work-card__tags"><li>EasyEDA</li><li>PCB Design</li><li>5V Power Supply</li></ul>
+        <a class="work-card__link" href="assets/projects/regulated-full-wave-bridge-5v.png" data-project-story="story-power">Open project story <span class="sr-only">for Regulated Full-Wave Bridge 5V Power Supply</span><span aria-hidden="true">&nbsp;↗</span></a>
+      </li>
+      <li class="work-card">
+        <a class="work-pile" href="pages/project-axiom.html" data-project-story="story-axiom" aria-label="Open Axiom Studia project story, 1 image">
+          <img class="work-pile__image" src="assets/projects/axiom-studia/dashboard.png" width="1871" height="913" alt="Axiom Studia dashboard with subjects, daily tasks, deadlines, and study tools" loading="lazy" decoding="async" />
+          <span class="work-pile__label">02 / Software</span><span class="work-pile__count">1 screenshot</span><span class="work-pile__open" aria-hidden="true">↗</span>
+        </a>
+        <div class="work-card__meta"><span>Personal project</span><span class="work-card__status">In progress</span></div>
+        <h3>Axiom Studia</h3>
+        <p class="work-card__description">A personal web-based academic productivity platform for organizing subjects, learning resources, and study activities in one focused workspace.</p>
+        <ul class="work-card__tags"><li>Web Development</li><li>UI/UX Design</li><li>AI-Assisted Coding</li></ul>
+        <a class="work-card__link" href="pages/project-axiom.html" data-project-story="story-axiom">Open project story <span class="sr-only">for Axiom Studia</span><span aria-hidden="true">&nbsp;↗</span></a>
+      </li>
+    </ul>
+  </div>
+</section><!-- ───────────────────────────────────────────────────     PROJECTS
 ──────────────────────────────────────────────────── -->
 <section id="projects" class="section" aria-labelledby="projects-title" hidden>
   <div class="container">
@@ -578,6 +611,49 @@
 
 <script src="js/field-notes.js" defer></script>
 <script src="js/contact.js" defer></script>
+<dialog id="work-story" class="work-story" aria-labelledby="story-title">
+  <div class="work-story__top"><span>NOTES FROM THE WORKBENCH</span><button class="work-story__close" type="button" aria-label="Close project story">×</button></div>
+  <div class="work-story__content"></div>
+</dialog>
+<template id="story-power">
+  <div class="work-story__layout">
+    <div class="work-gallery" role="region" aria-label="Regulated Full-Wave Bridge 5V Power Supply image gallery">
+      <div class="work-gallery__stage"><figure><img src="assets/projects/regulated-full-wave-bridge-5v.png" width="842" height="847" alt="Full PCB layout for the regulated full-wave bridge 5V power supply" decoding="async" /><figcaption>EasyEDA PCB layout</figcaption></figure></div>
+      <div class="work-gallery__arrows" hidden><button type="button" data-gallery-prev aria-label="Previous image">← Previous</button><button type="button" data-gallery-next aria-label="Next image">Next →</button></div>
+      <p class="work-gallery__count" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="work-gallery__thumbnails" role="group" aria-label="Choose image"></div>
+    </div>
+    <div class="work-story__copy">
+      <div class="work-card__meta"><span>Coursework · PCB layout</span></div>
+      <h2 id="story-title">Regulated Full-Wave Bridge 5V Power Supply</h2>
+      <p>My first PCB layout, designed in EasyEDA for Computer-Aided Design. It converts AC input into a stable 5V DC output through rectification, filtering, and voltage regulation.</p>
+      <h3>My contribution</h3><ul><li>I designed this PCB layout in EasyEDA for Computer-Aided Design.</li></ul>
+      <h3>Tools &amp; technologies</h3><ul class="work-card__tags"><li>EasyEDA</li><li>PCB Design</li><li>5V Power Supply</li></ul>
+      <div class="work-story__links"><a href="assets/projects/regulated-full-wave-bridge-5v.png" target="_blank" rel="noopener noreferrer">Open full PCB image ↗</a></div>
+      
+    </div>
+  </div>
+</template>
+<template id="story-axiom">
+  <div class="work-story__layout">
+    <div class="work-gallery" role="region" aria-label="Axiom Studia image gallery">
+      <div class="work-gallery__stage"><figure><img src="assets/projects/axiom-studia/dashboard.png" width="1871" height="913" alt="Axiom Studia dashboard with subjects, daily tasks, deadlines, and study tools" decoding="async" /><figcaption>Academic productivity dashboard</figcaption></figure></div>
+      <div class="work-gallery__arrows" hidden><button type="button" data-gallery-prev aria-label="Previous image">← Previous</button><button type="button" data-gallery-next aria-label="Next image">Next →</button></div>
+      <p class="work-gallery__count" role="status" aria-live="polite" aria-atomic="true"></p>
+      <div class="work-gallery__thumbnails" role="group" aria-label="Choose image"></div>
+    </div>
+    <div class="work-story__copy">
+      <div class="work-card__meta"><span>Personal project</span><span class="work-card__status">In progress</span></div>
+      <h2 id="story-title">Axiom Studia</h2>
+      <p>A personal web-based academic productivity platform for organizing subjects, learning resources, and study activities in one focused workspace.</p>
+      <h3>My contribution</h3><ul><li>Designed and refined the interface layouts and navigation structure.</li><li>Applied iterative problem-solving to improve usability across design cycles.</li><li>Used AI-assisted coding tools to support implementation, troubleshooting, and design refinement.</li></ul>
+      <h3>Tools &amp; technologies</h3><ul class="work-card__tags"><li>Web Development</li><li>UI/UX Design</li><li>AI-Assisted Coding</li></ul>
+      <div class="work-story__links"><a href="https://axiomstudia.vercel.app/" target="_blank" rel="noopener noreferrer">Visit Axiom Studia ↗</a><a href="pages/project-axiom.html" target="_blank" rel="noopener noreferrer">Full project page ↗</a></div>
+      <img class="work-story__logo" src="assets/projects/axiom-studia/logo.png" width="40" height="40" alt="Axiom Studia logo" />
+    </div>
+  </div>
+</template>
+<script src="js/projects.js" defer></script>
 </body>
 </html>
 
