@@ -14,7 +14,7 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
     classList: { toggle() {} }, appendChild(c) { this.children.push(c); c.parent = this; },
     remove() { if (this.parent) this.parent.children = this.parent.children.filter(c => c !== this); },
     getTotalLength() { return 2000; }, getPointAtLength(n) { return { x: 20, y: n }; },
-    animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = {}; },
+    animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = { cancelled: false, cancel() { this.cancelled = true; } }; },
     addEventListener(k, fn) { this[k] = fn; }
   });
   const window = { innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
@@ -121,6 +121,35 @@ test('year, active role, and trace track scrolling in both directions', () => {
   assert.equal(Number(app.svg.dataset.progress), first);
   app.scroll(9999); assert.equal(Number(app.svg.dataset.progress), 1);
   app.scroll(-9999); assert.equal(Number(app.svg.dataset.progress), 0);
+});
+test('only changing year digits roll with brief blur and interrupted rolls are cancelled', () => {
+  const app = setup();
+  assert.ok(app.digits.every(digit => !digit.animations), 'initial year is immediately sharp');
+  app.scroll(1000);
+  assert.ok(app.digits.slice(0, 3).every(digit => !digit.animations));
+  const last = app.digits[3], first = last.animation;
+  assert.equal(last.animationOptions.duration, 460);
+  assert.equal(last.keyframes[1].filter, 'blur(3px)');
+  assert.equal(last.keyframes.at(-1).filter, 'blur(0px)');
+  assert.equal(last.keyframes.at(-1).transform, 'translateY(-4em)');
+  assert.equal(last.animationOptions.fill, undefined, 'final CSS year remains authoritative');
+  app.scroll(0);
+  assert.equal(first.cancelled, true);
+  assert.equal(last.keyframes.at(-1).transform, 'translateY(-5em)');
+  const reverse = last.animation;
+  app.media.matches = true; app.media.change(); app.flush();
+  assert.equal(reverse.cancelled, true);
+  const count = last.animations;
+  app.scroll(1000);
+  assert.equal(last.animations, count, 'reduced motion changes the year without a roll or blur');
+  assert.equal(last.style['--digit'], '4');
+});
+test('same-year role changes never blur the digits', () => {
+  const app = setup();
+  app.entries[1].dataset.year = '2025';
+  app.scroll(1000);
+  assert.equal(app.org.textContent, 'org1');
+  assert.ok(app.digits.every(digit => !digit.animations));
 });
 test('reduced motion keeps trace complete and role readable without animation', () => {
   const app = setup(true); app.scroll(1000);
