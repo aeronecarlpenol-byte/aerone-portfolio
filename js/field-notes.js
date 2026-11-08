@@ -26,6 +26,7 @@
   const draw = element('path', { class: 'field-path__draw' });
   const nodes = [];
   let samples = [];
+  let experienceRange = null;
   const terminal = element('g', { class: 'field-path__terminal' });
   const pad = document.createElementNS(ns, 'circle');
   pad.setAttribute('r', '7'); terminal.appendChild(pad);
@@ -86,6 +87,7 @@
       const rail = mobile ? left : timeline.x + .5;
       const firstEntry = box(entries[0]);
       const last = box(entries[entries.length - 1]);
+      experienceRange = { start: firstEntry.y, end: last.bottom - 32 };
       add(left, firstEntry.y - 32);
       add(rail, firstEntry.y - 32);
       add(rail, last.bottom + 16);
@@ -127,7 +129,26 @@
       // A small distance contribution makes horizontal runs strictly monotonic
       // in scroll space, so the signal cannot jump across a level connector.
       const y = .9 * p.y + .1 * (first.y + (finish.y - first.y) * i / count);
-      samples.push({ y, distance });
+      samples.push({ y, actualY: p.y, distance });
+    }
+    if (experienceRange && experienceRange.end > experienceRange.start) {
+      // Keep the vertical Experience rail locked to the reader. The global
+      // distance weighting needed by horizontal connectors otherwise makes
+      // the signal drift behind scrolling through this long section.
+      function mappedY(y) {
+        const i = samples.findIndex(sample => sample.actualY >= y);
+        const b = samples[Math.max(1, i)], a = samples[Math.max(0, i - 1)];
+        const t = (y - a.actualY) / (b.actualY - a.actualY || 1);
+        return a.y + (b.y - a.y) * t;
+      }
+      const from = mappedY(experienceRange.start), to = mappedY(experienceRange.end);
+      const firstY = samples[0].y, lastY = samples[samples.length - 1].y;
+      samples.forEach(sample => {
+        const y = sample.y;
+        if (y < from) sample.y = firstY + (y - firstY) * (experienceRange.start - firstY) / (from - firstY);
+        else if (y <= to) sample.y = experienceRange.start + (y - from) * (experienceRange.end - experienceRange.start) / (to - from);
+        else sample.y = experienceRange.end + (y - to) * (lastY - experienceRange.end) / (lastY - to);
+      });
     }
     start = bounds.top + window.scrollY + first.y;
     end = bounds.top + window.scrollY + finish.y;

@@ -83,6 +83,16 @@ test('schematic button exposes its toggled state', () => {
   app.spark.click(); assert.equal(app.spark.attrs['aria-pressed'], 'true');
   app.spark.click(); assert.equal(app.spark.attrs['aria-pressed'], 'false');
 });
+
+test('Experience signal follows the scroll position without distance-weighting lag', () => {
+  const app = setup();
+  const signal = app.svg.children.find(n => n.attrs.class === 'field-path__signal');
+  function signalY() { return Number(signal.attrs.transform.match(/translate\([^ ]+ ([^)]+)\)/)[1]); }
+  app.scroll(600);
+  assert.ok(Math.abs(signalY() - 1120) < 1, 'signal locks to the 65% reading line');
+  app.scroll(350);
+  assert.ok(Math.abs(signalY() - 870) < 1, 'reverse scrolling follows the same mapping');
+});
 test('desktop route crosses gutters and follows timeline nodes; mobile simplifies it', () => {
   const app = setup();
   const path = app.svg.children[1].attrs.d;
