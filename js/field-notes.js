@@ -246,7 +246,7 @@
     signal.setAttribute('width', size); signal.setAttribute('height', size);
     position.setAttribute('transform', `translate(${resting.x} ${resting.y})`);
     tiltGroup.setAttribute('transform', `rotate(${tilt})`);
-    rollGroup.setAttribute('transform', `rotate(${reduced.matches ? 0 : length * progress / 850 * 360})`);
+    rollGroup.setAttribute('transform', `rotate(${reduced.matches ? 0 : length * progress / 250 * 360})`);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   function resize() { dirty = true; schedule(); }

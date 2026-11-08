@@ -174,3 +174,21 @@
 .field-path__particle--1 { fill: none; stroke: #d9ecff; }
 .field-path__particle--2 { fill: #79baff; stroke: none; }
 @media (prefers-reduced-motion: reduce) { .field-path__tilt { transition: none; } }
+
+/* One document-origin prototyping grid; sections never restart its phase. */
+body {
+  background-color: var(--bg-main);
+  background-image:
+    radial-gradient(circle, rgb(88 166 255 / .32) 0 .75px, transparent .95px),
+    radial-gradient(circle, rgb(120 143 165 / .22) 0 .6px, transparent .85px);
+  background-size: 168px 168px, 28px 28px;
+  background-position: 14px 14px, 14px 14px;
+  background-repeat: repeat;
+}
+body #main-content > section[id],
+body .footer { background: transparent; }
+#main-content > section::before, #main-content > section::after { display: none; }
+@media (max-width: 680px) {
+  body { background-size: 156px 156px, 26px 26px; background-position: 13px 13px, 13px 13px; }
+}
+@media print { body { background-image: none; } }
