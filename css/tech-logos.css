@@ -21,7 +21,7 @@
   -webkit-user-select: none;
 }
 .tech-logo::before { content: ''; position: absolute; inset: -.65rem; border-radius: 50%; }
-.tech-logo:focus-visible { outline: 2px solid var(--blue-highlight); outline-offset: 12px; border-radius: 50%; }
+.tech-logo:focus-visible { outline: none; }
 .tech-logo.is-dragging { cursor: grabbing; z-index: 2; }
 .tech-logo.is-dragging .tech-logo__float { animation-play-state: paused; }
 .tech-logo__float {
@@ -30,6 +30,9 @@
   isolation: isolate;
   width: 100%;
   height: 100%;
+  scale: 1;
+  transform-origin: center;
+  transition: scale 220ms ease;
 }
 .tech-logo__float::before {
   content: '';
@@ -41,6 +44,12 @@
   background: rgb(13 17 23 / .65);
   pointer-events: none;
   transition: border-color 220ms ease, box-shadow 220ms ease;
+}
+.tech-logo:focus-visible .tech-logo__float::before {
+  border-color: var(--blue-highlight);
+  outline: 2px solid var(--blue-highlight);
+  outline-offset: 3px;
+  box-shadow: 0 0 16px rgb(88 166 255 / .1);
 }
 .hero .tech-constellation img {
   display: block;
@@ -92,7 +101,8 @@
   to { transform: translate(var(--float-x), var(--float-y)) rotate(var(--float-tilt)); }
 }
 @media (hover: hover) and (pointer: fine) {
-  .hero .tech-logo:hover img { transform: scale(1.1); filter: brightness(1.12); opacity: 1; }
+  .tech-logo:hover .tech-logo__float { scale: 1.1; }
+  .hero .tech-logo:hover img { filter: brightness(1.12); opacity: 1; }
   .tech-logo:hover .tech-logo__float::before {
     border-color: rgb(88 166 255 / .65);
     box-shadow: 0 0 16px rgb(88 166 255 / .1);
@@ -108,6 +118,6 @@
 }
 @media (prefers-reduced-motion: reduce) {
   .tech-constellation .tech-logo,
-  .tech-constellation .tech-logo__float { animation: none !important; opacity: 1 !important; transform: none !important; }
+  .tech-constellation .tech-logo__float { animation: none !important; opacity: 1 !important; transform: none !important; scale: 1 !important; }
   .hero .tech-constellation img { transition: none; }
 }
