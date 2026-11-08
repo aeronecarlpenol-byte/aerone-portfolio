@@ -59,7 +59,9 @@
     const timeline = find('.field-timeline');
     const schematic = find('.field-schematic svg');
     const contactBox = box(contact);
-    const mobile = width < 900;
+    // Match the CSS viewport breakpoint, not clientWidth (which excludes the
+    // scrollbar and can otherwise switch the route up to 15px too early).
+    const mobile = window.innerWidth <= 900;
     const left = mobile ? 12 : Math.max(20, (width - 1200) / 2 + 20);
     const right = width - left;
     const first = { x: right, y: portrait ? portrait.bottom - 24 : hero ? hero.bottom - 100 : 160 };
@@ -78,17 +80,16 @@
     if (about) { add(right, about.bottom - 28); add(left, about.bottom - 28); }
     if (!mobile && projects) { add(left, projects.bottom - 28); add(right, projects.bottom - 28); }
     if (!mobile && research) { add(right, research.bottom - 28); add(left, research.bottom - 28); }
-    const nodePoints = [];
     if (timeline && entries.length) {
-      const rail = left;
-      entries.forEach(entry => {
-        const b = box(entry);
-        const dot = window.getComputedStyle(entry, '::before');
-        const p = { x: rail, y: b.y + parseFloat(dot.top || '28.8') + parseFloat(dot.height || '13') / 2 };
-        add(p.x, p.y); nodePoints.push(p);
-      });
+      // Join the real timeline rail through the gap above the grid. Do not
+      // create a second set of year markers beside the sticky year panel.
+      const rail = mobile ? left : timeline.x + .5;
+      const firstEntry = box(entries[0]);
       const last = box(entries[entries.length - 1]);
-      add(rail, last.bottom + 12);
+      add(left, firstEntry.y - 32);
+      add(rail, firstEntry.y - 32);
+      add(rail, last.bottom + 16);
+      add(left, last.bottom + 16);
     }
     if (skills) { add(left, skills.bottom - 28); add(right, skills.bottom - 28); }
     add(finish.x, finish.y);
@@ -112,8 +113,10 @@
     svg.setAttribute('height', main.offsetHeight);
     base.setAttribute('d', d); draw.setAttribute('d', d);
     length = draw.getTotalLength(); draw.style.strokeDasharray = String(length);
-    while (nodes.length < nodePoints.length + 1) nodes.push(element('circle', { class: 'field-path__node', r: '4' }));
-    [first, ...nodePoints].forEach((p, i) => { nodes[i].setAttribute('cx', p.x); nodes[i].setAttribute('cy', p.y); });
+    // Timeline dots are the existing CSS markers, on the same rail as the
+    // signal. Only the hero terminal needs a separate SVG node.
+    if (!nodes.length) nodes.push(element('circle', { class: 'field-path__node', r: '4' }));
+    nodes[0].setAttribute('cx', first.x); nodes[0].setAttribute('cy', first.y);
     terminal.setAttribute('transform', `translate(${finish.x} ${finish.y}) scale(${mobile ? .65 : 1})`);
     // Map vertical scroll to distance along the actual curve, including its
     // horizontal crossings. The signal stays near the reader in both directions.

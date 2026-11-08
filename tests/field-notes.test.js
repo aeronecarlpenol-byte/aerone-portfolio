@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function setup(reduced = false, width = 1280) {
+function setup(reduced = false, width = 1280, clientWidth = width) {
   const frames = [], handlers = {};
   const media = { matches: reduced, addEventListener: (_, fn) => { media.change = fn; } };
   const node = () => ({ attrs: {}, styles: {}, dataset: {}, textContent: '', children: [],
@@ -15,7 +15,7 @@ function setup(reduced = false, width = 1280) {
     animate() { this.animations = (this.animations || 0) + 1; },
     addEventListener(k, fn) { this[k] = fn; }
   });
-  const window = { innerHeight: 800, scrollY: 0, matchMedia: () => media,
+  const window = { innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
     getComputedStyle: () => ({ top: '28.8px', height: '13px' }),
     addEventListener(k, fn) { handlers[k] = fn; } };
   const rect = top => () => ({ top: top - window.scrollY });
@@ -27,7 +27,7 @@ function setup(reduced = false, width = 1280) {
     querySelectorAll: s => s.includes('[data-year]') ? entries : digits,
     querySelector: s => ({ '.field-active': active, '.field-active__org': org, '.field-active__role': role })[s] };
   const main = Object.assign(node(), { clientWidth: 1280, offsetHeight: 4000, getBoundingClientRect: rect(0) });
-  main.clientWidth = width;
+  main.clientWidth = clientWidth;
   const contact = { offsetHeight: 700, getBoundingClientRect: rect(3000) };
   const schematic = node(), spark = node(); spark.attrs['aria-pressed'] = 'false'; spark.closest = () => schematic;
   const geometry = (x, y, w, h) => Object.assign(node(), { offsetLeft: x, offsetTop: y, offsetWidth: w, offsetHeight: h, offsetParent: main });
@@ -36,8 +36,8 @@ function setup(reduced = false, width = 1280) {
   entries.forEach((entry, i) => Object.assign(entry, { offsetLeft: width * .43, offsetTop: 500 + i * 600, offsetWidth: width * .5, offsetHeight: 500, offsetParent: main }));
   const landmarks = {
     '#hero': geometry(0, 0, width, 300), '.hero-portrait__image': geometry(width * .55, 50, width * .3, 120),
-    '#about': geometry(0, 300, width, 100), '#exploring': geometry(0, 400, width, 100),
-    '#research': geometry(0, 500, width, 100), '.research-collage': geometry(60, 510, 200, 60),
+    '#about': geometry(0, 300, width, 100), '#exploring': geometry(0, 400, width, 40),
+    '#research': geometry(0, 440, width, 30), '.research-collage': geometry(60, 442, 200, 20),
     '#skills': geometry(0, 1800, width, 800), '.field-timeline': geometry(width * .43, 500, width * .5, 1100),
     '.field-schematic svg': geometry(width - 300, 3200, 250, 250)
   };
@@ -91,14 +91,21 @@ test('desktop route crosses gutters and follows timeline nodes; mobile simplifie
   assert.equal(app.svg.dataset.route, 'desktop');
   assert.ok(!/NaN|undefined/.test(path));
   const circles = app.svg.children.filter(n => n.attrs.class === 'field-path__node');
-  assert.equal(circles.length, 3);
-  assert.equal(circles[1].attrs.cx, 60, 'timeline signal stays outside the sticky year and content');
+  assert.equal(circles.length, 1, 'only the hero has an SVG marker; timeline dots are not duplicated');
+  assert.ok(path.includes('L550.9 '), 'desktop signal joins the actual timeline rail');
   const mobile = setup(false, 390);
   assert.equal(mobile.svg.dataset.route, 'mobile');
   assert.ok(!mobile.svg.children[1].attrs.d.includes(' C'));
-  assert.equal(mobile.svg.children.filter(n => n.attrs.class === 'field-path__node')[1].attrs.cx, 12);
+  assert.equal(mobile.svg.children.filter(n => n.attrs.class === 'field-path__node').length, 1);
+  assert.ok(!mobile.svg.children[1].attrs.d.includes('L168.2 '), 'mobile keeps one straight gutter rail without a tiny sideways detour');
   const old = mobile.svg.children[1].attrs.d;
   mobile.main.clientWidth = 320;
   mobile.main.load(); mobile.flush();
   assert.notEqual(mobile.svg.children[1].attrs.d, old, 'image loads remeasure geometry');
+});
+
+test('timeline route uses the same 900px viewport boundary as its CSS markers', () => {
+  assert.equal(setup(false, 900).svg.dataset.route, 'mobile');
+  assert.equal(setup(false, 901).svg.dataset.route, 'desktop');
+  assert.equal(setup(false, 901, 886).svg.dataset.route, 'desktop', 'a desktop scrollbar must not select the mobile rail');
 });

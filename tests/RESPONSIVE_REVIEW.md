@@ -44,3 +44,11 @@ Viewport screenshots reviewed the hero, About, project transition, Research, exp
 `node scripts/check.js`: syntax and linked-asset checks passed; local static build completed.
 
 Reduced-motion behavior was checked through source inspection and automated tests, not by changing the operating system preference. Browser checks used desktop Chromium at the listed viewport sizes; physical iOS/Android devices were not tested. The browser reported a nonfatal native cross-page View Transition opt-in warning; ordinary Research navigation and return navigation worked. Remote GitHub repository insights were unavailable in the preview; that existing data integration was outside this layout/navigation change.
+
+## Experience signal correction
+
+Follow-up review on November 8, 2026 fixed the detached Experience rail. On desktop, the SVG now joins the actual timeline rail through the whitespace above its first entry and returns to the outside gutter below its last entry. On phones/tablets, existing CSS dots move onto the single straight gutter route; there is no small sideways hook or duplicate set of SVG timeline dots. The original CSS border remains available when the SVG enhancement is absent.
+
+Route selection now uses the viewport's 900px breakpoint, matching CSS rather than using scrollbar-reduced clientWidth. Browser checks at 360, 390, 768, 900, approximately 901 (rendered as 902 by the browser's device-pixel rounding), 1024 and 1440 CSS pixels found less than 1px of marker-to-rail misalignment, no horizontal overflow, no content collisions and no vertical backtracking. Entry and exit turns and forward scrolling were inspected in viewport screenshots; regression tests also check progress in both scroll directions and reduced motion. Only the hero retains an independent SVG marker.
+
+After this correction, all 41 local automated tests and the syntax/asset/build checks passed. The earlier physical-device and reduced-motion browser-testing limitations still apply.
