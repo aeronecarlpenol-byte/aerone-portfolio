@@ -1,4 +1,4 @@
-/* Motion system: progressive enhancement, repeatable entrances, and signal feedback. */
+/* Hero assembly, progressive image color, and navigation signal feedback. */
 (function () {
   'use strict';
   document.documentElement.classList.add('js');
@@ -116,7 +116,7 @@
     }
 
     function assemble(element, delay) {
-      if (reduced.matches || print.matches || !element.getBoundingClientRect) return;
+      if (!element.closest('.hero') || reduced.matches || print.matches || !element.getBoundingClientRect) return;
       // Keep the animation attached to the real element while the page scrolls.
       assemblies = assemblies.filter(function (item) { return item.element !== element; });
       assemblies.push({ element: element, start: performance.now() + delay });
@@ -211,12 +211,8 @@
   }
 
   const revealSelectors = [
-    '.hero-top', '.hero-showcase h1', '.hero-portrait', '.hero-bottom', '.hero-foot',
-    '.section__header', '.exploring__header', '.exploring__list', '.exploring__panel', '.electronics-card',
-    '.research-card', '.research-gallery__item', '.research-documentation', '.research-collage__photo', '.research-preview__copy',
-    '.timeline__item', '.edu-item-numbered', '.skill-group', '.github-card__heading', '.github-data', '.github-card__footer',
-    '.contact-bottom', '.contact-statement', '.learning-timeline__entry', '.learning-panel', '.contact-learning__intro', '.project-section', '.project-sidebar__card', '.section-line'
-  ].join(',');
+    '.hero-top', '.hero-showcase h1', '.hero-portrait', '.hero-bottom', '.hero-foot'
+  ].map(function (selector) { return '.hero ' + selector; }).join(',');
   const items = Array.from(document.querySelectorAll(revealSelectors));
   const replayDelays = new WeakMap();
   items.forEach(function (item, index) {
@@ -239,13 +235,14 @@
     }
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
+        if (!entry.target.closest('.hero')) return;
         if (!entry.isIntersecting) {
           resetOutside(entry.target, entry.boundingClientRect || entry.target.getBoundingClientRect());
           return;
         }
         if (active.has(entry.target)) return;
         active.add(entry.target);
-        if (scene && !entry.target.closest('.field-section')) {
+        if (scene) {
           const delay = parseInt(entry.target.style.getPropertyValue('--reveal-delay'), 10) || 0;
           scene.assemble(entry.target, Math.max(0, delay - 420));
         }
@@ -291,4 +288,3 @@
   });
   window.addEventListener('pageshow', function () { document.body.classList.remove('is-page-leaving'); });
 }());
-
