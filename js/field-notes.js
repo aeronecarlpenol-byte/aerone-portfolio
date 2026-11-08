@@ -32,7 +32,49 @@
   pad.setAttribute('r', '7'); terminal.appendChild(pad);
   const pins = document.createElementNS(ns, 'path');
   pins.setAttribute('d', 'M-14 0h7m14 0h7M0-14v7m0 14v7'); terminal.appendChild(pins);
-  const signal = element('image', { class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-22', y: '-22', width: '44', height: '44', preserveAspectRatio: 'xMidYMid meet' });
+  const trail = element('g', { class: 'field-path__trail', 'aria-hidden': 'true' });
+  const signal = element('image', { class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-17.5', y: '-17.5', width: '35', height: '35', preserveAspectRatio: 'xMidYMid meet' });
+  const particles = new Set();
+  let previousDistance = null, previousScroll = null, lastEmission = 0, particleIndex = 0;
+  function clearTrail() {
+    particles.forEach(particle => particle.remove());
+    particles.clear();
+    previousDistance = null;
+    previousScroll = null;
+  }
+  function emitTrail(distance) {
+    const now = Date.now(), mobile = window.innerWidth <= 900;
+    const delta = previousDistance === null ? 0 : distance - previousDistance;
+    const scrollDelta = previousScroll === null ? 0 : window.scrollY - previousScroll;
+    previousDistance = distance;
+    previousScroll = window.scrollY;
+    // Never backfill skipped frames or leave a burst across a navigation jump.
+    if (reduced.matches || Math.abs(scrollDelta) > window.innerHeight * .7 || Math.abs(delta) > 180) {
+      clearTrail(); return;
+    }
+    if (!scrollDelta || Math.abs(delta) < 2 || now - lastEmission < (mobile ? 170 : 105) ||
+        particles.size >= (mobile ? 4 : 8) || distance <= 0 || distance >= length) return;
+    const behind = draw.getPointAtLength(Math.max(0, Math.min(length, distance - Math.sign(delta) * 18)));
+    const tip = draw.getPointAtLength(distance);
+    const screenY = behind.y + main.getBoundingClientRect().top;
+    if (screenY < 24 || screenY > window.innerHeight - 24) return;
+    lastEmission = now;
+    const shapes = ['M-2-4 1-4-1-1H2L-2 4 0 0h-2Z', 'M-3 2V-2H2V-4M-4 2h2', 'M-2-2h4v4h-4Z'];
+    const particle = document.createElementNS(ns, 'path');
+    particle.setAttribute('d', shapes[particleIndex % 3]);
+    particle.setAttribute('class', 'field-path__particle field-path__particle--' + particleIndex % 3);
+    const x = Math.max(8, Math.min(main.clientWidth - 8, behind.x));
+    const y = behind.y, side = particleIndex++ % 2 ? 1 : -1;
+    const dx = Math.max(-5, Math.min(5, (behind.x - tip.x) * .2 + side * 3));
+    const dy = Math.max(-6, Math.min(6, (behind.y - tip.y) * .25));
+    trail.appendChild(particle); particles.add(particle);
+    const animation = particle.animate([
+      { transform: `translate(${x}px, ${y}px) rotate(0deg) scale(1)`, opacity: .65 },
+      { transform: `translate(${x + dx}px, ${y + dy}px) rotate(${side * 24}deg) scale(.2)`, opacity: 0 }
+    ], { duration: mobile ? 460 : 620, easing: 'ease-out', fill: 'forwards' });
+    const remove = () => { particle.remove(); particles.delete(particle); };
+    animation.onfinish = remove; animation.oncancel = remove;
+  }
   main.appendChild(svg);
   function measure() {
     const bounds = main.getBoundingClientRect();
@@ -169,7 +211,7 @@
   }
   function update() {
     frame = 0;
-    if (dirty) measure();
+    if (dirty) { clearTrail(); measure(); }
     const targetY = window.scrollY + window.innerHeight * .65 - (main.getBoundingClientRect().top + window.scrollY);
     let low = 0, high = samples.length - 1;
     while (low < high) { const mid = (low + high) >> 1; if (samples[mid].y < targetY) low = mid + 1; else high = mid; }
@@ -187,7 +229,8 @@
     const resting = reduced.matches ? draw.getPointAtLength(0) : p;
     const ahead = draw.getPointAtLength(Math.min(length, length * progress + 8));
     const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));
-    const size = window.innerWidth <= 900 ? 30 : 44;
+    const size = window.innerWidth <= 900 ? 24 : 35;
+    emitTrail(length * progress);
     signal.setAttribute('x', -size / 2); signal.setAttribute('y', -size / 2);
     signal.setAttribute('width', size); signal.setAttribute('height', size);
     signal.setAttribute('transform', `translate(${resting.x} ${resting.y}) rotate(${tilt})`);
@@ -205,6 +248,7 @@
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
+  document.addEventListener('visibilitychange', function () { if (document.hidden) clearTrail(); });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');

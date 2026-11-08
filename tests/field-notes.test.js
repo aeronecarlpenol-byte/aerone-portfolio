@@ -6,13 +6,15 @@ const vm = require('node:vm');
 
 function setup(reduced = false, width = 1280, clientWidth = width) {
   const frames = [], handlers = {};
+  let now = 1000;
   const media = { matches: reduced, addEventListener: (_, fn) => { media.change = fn; } };
   const node = () => ({ attrs: {}, styles: {}, dataset: {}, textContent: '', children: [],
     setAttribute(k, v) { this.attrs[k] = v; }, getAttribute(k) { return this.attrs[k]; },
     style: { setProperty(k, v) { this[k] = v; } },
-    classList: { toggle() {} }, appendChild(c) { this.children.push(c); },
+    classList: { toggle() {} }, appendChild(c) { this.children.push(c); c.parent = this; },
+    remove() { if (this.parent) this.parent.children = this.parent.children.filter(c => c !== this); },
     getTotalLength() { return 2000; }, getPointAtLength(n) { return { x: 20, y: n }; },
-    animate() { this.animations = (this.animations || 0) + 1; },
+    animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = {}; },
     addEventListener(k, fn) { this[k] = fn; }
   });
   const window = { innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
@@ -43,18 +45,54 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
   };
   main.querySelector = s => landmarks[s];
   const document = {
+    addEventListener() {},
     getElementById: id => ({ experience, contact, 'main-content': main, skills: { getBoundingClientRect: rect(1800) } })[id],
     createElementNS: node, querySelectorAll: () => [], querySelector: () => spark
   };
   vm.runInNewContext(fs.readFileSync('js/field-notes.js', 'utf8'), {
-    window, document, requestAnimationFrame: fn => { frames.push(fn); return frames.length; }
+    window, document, Date: { now: () => now }, requestAnimationFrame: fn => { frames.push(fn); return frames.length; }
   });
   function flush() { frames.splice(0).forEach(fn => fn()); }
   flush();
   return { window, media, main, digits, org, active, spark, flush, entries,
+    tick(ms) { now += ms; }, resize() { handlers.resize(); flush(); },
     scroll(y) { window.scrollY = y; handlers.scroll(); flush(); },
     svg: main.children[0] };
 }
+test('trail follows travel direction, stops emitting at rest, and cleans completed particles', () => {
+  const app = setup();
+  const trail = app.svg.children.find(n => n.attrs.class === 'field-path__trail');
+  app.scroll(20);
+  assert.equal(trail.children.length, 1);
+  const forward = trail.children[0];
+  assert.ok(forward.keyframes[0].transform.includes('522px'), 'forward particle starts behind the emblem at y=540');
+  app.tick(150); app.scroll(10);
+  assert.equal(trail.children.length, 2);
+  const reverseY = Number(trail.children[1].keyframes[0].transform.match(/, ([\d.]+)px/)[1]);
+  assert.ok(Math.abs(reverseY - 548) < .01, 'reverse particle starts below the emblem at y=530');
+  app.tick(1000); app.scroll(10);
+  assert.equal(trail.children.length, 2, 'no emission without movement');
+  forward.animation.onfinish();
+  assert.equal(trail.children.length, 1);
+  app.scroll(2000);
+  assert.equal(trail.children.length, 0, 'navigation jump clears old particles');
+});
+
+test('trail caps desktop and mobile density and resets on resize or reduced motion', () => {
+  for (const [width, cap, size] of [[1280, 8, 35], [390, 4, 24]]) {
+    const app = setup(false, width);
+    const trail = app.svg.children.find(n => n.attrs.class === 'field-path__trail');
+    for (let y = 5; y <= 100; y += 5) { app.tick(180); app.scroll(y); }
+    assert.equal(trail.children.length, cap);
+    const emblem = app.svg.children.find(n => n.attrs.class === 'field-path__emblem');
+    assert.equal(emblem.attrs.width, size);
+    app.resize(); assert.equal(trail.children.length, 0);
+    app.media.matches = true; app.media.change(); app.flush();
+    app.tick(180); app.scroll(110);
+    assert.equal(trail.children.length, 0);
+  }
+});
+
 test('year, active role, and trace track scrolling in both directions', () => {
   const app = setup();
   assert.equal(app.org.textContent, 'org0');
@@ -86,7 +124,7 @@ test('schematic button exposes its toggled state', () => {
 
 test('Experience signal follows the scroll position without distance-weighting lag', () => {
   const app = setup();
-  const signal = app.svg.children.find(n => n.attrs.class === 'field-path__signal');
+  const signal = app.svg.children.find(n => n.attrs.class === 'field-path__emblem');
   function signalY() { return Number(signal.attrs.transform.match(/translate\([^ ]+ ([^)]+)\)/)[1]); }
   app.scroll(600);
   assert.ok(Math.abs(signalY() - 1120) < 1, 'signal locks to the 65% reading line');

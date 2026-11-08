@@ -155,3 +155,10 @@
   .hero-curiosity__phrases > span { animation: none !important; opacity: 0; transform: none; }
   .hero-curiosity__phrases > span:last-child { opacity: 1; }
 }
+
+/* Sparse circuit debris stays inside the reserved route gutter. */
+.field-path__trail, .field-path__particle { pointer-events: none; }
+.field-path__particle { fill: #a8d3ff; stroke: #a8d3ff; stroke-width: .7; transform-box: view-box; filter: drop-shadow(0 0 1.5px rgb(88 166 255 / .35)); }
+.field-path__particle--1 { fill: none; stroke: #aac6b5; }
+.field-path__particle--2 { fill: #58a6ff; stroke: none; }
+@media (prefers-reduced-motion: reduce) { .field-path__trail { display: none; } }
