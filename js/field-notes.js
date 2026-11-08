@@ -32,7 +32,7 @@
   pad.setAttribute('r', '7'); terminal.appendChild(pad);
   const pins = document.createElementNS(ns, 'path');
   pins.setAttribute('d', 'M-14 0h7m14 0h7M0-14v7m0 14v7'); terminal.appendChild(pins);
-  const signal = element('rect', { class: 'field-path__signal', x: '-5', y: '-5', width: '10', height: '10', rx: '2' });
+  const signal = element('image', { class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-22', y: '-22', width: '44', height: '44', preserveAspectRatio: 'xMidYMid meet' });
   main.appendChild(svg);
   function measure() {
     const bounds = main.getBoundingClientRect();
@@ -184,7 +184,13 @@
     let index = 0;
     markerY.forEach((y, i) => { if (p.y >= y) index = i; });
     setActive(index);
-    if (!reduced.matches) signal.setAttribute('transform', `translate(${p.x} ${p.y}) rotate(45)`);
+    const resting = reduced.matches ? draw.getPointAtLength(0) : p;
+    const ahead = draw.getPointAtLength(Math.min(length, length * progress + 8));
+    const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));
+    const size = window.innerWidth <= 900 ? 30 : 44;
+    signal.setAttribute('x', -size / 2); signal.setAttribute('y', -size / 2);
+    signal.setAttribute('width', size); signal.setAttribute('height', size);
+    signal.setAttribute('transform', `translate(${resting.x} ${resting.y}) rotate(${tilt})`);
   }
   function schedule() { if (!frame) frame = requestAnimationFrame(update); }
   function resize() { dirty = true; schedule(); }
