@@ -29,8 +29,10 @@
 <link rel="stylesheet" href="css/field-notes.css" />
 <link rel="stylesheet" href="/css/research.css" />
 <link rel="stylesheet" href="css/projects.css" />
+<link rel="stylesheet" href="css/navigation.css" />
 </head>
 <body>
+<a class="skip-link" href="#main-content">Skip to content</a>
 
 <!-- ───────────────────────────────────────────────────
      NAVIGATION
@@ -52,6 +54,7 @@
       <a href="/research"    class="nav__link">Research</a>
       <a href="#experience"  class="nav__link">Experience</a>
       <a href="#skills"      class="nav__link">Skills</a>      <a href="#github"      class="nav__link">GitHub</a>
+      <a href="#contact" class="nav__link">Contact</a>
     </nav>
 
     <!-- Desktop CTA -->
@@ -87,7 +90,7 @@
   </nav>
 </header>
 
-<main id="main-content">
+<main tabindex="-1" id="main-content">
 
 <!-- ───────────────────────────────────────────────────
      HERO
@@ -597,6 +600,12 @@
   </div>
 </footer>
 
+<nav class="section-dock" aria-label="Quick section navigation">
+  <a class="nav__dock-link" href="#exploring"><span aria-hidden="true">01</span>Projects</a>
+  <a class="nav__dock-link" href="#experience"><span aria-hidden="true">02</span>Experience</a>
+  <a class="nav__dock-link" href="#skills"><span aria-hidden="true">03</span>Skills</a>
+  <a class="nav__dock-link" href="#contact"><span aria-hidden="true">04</span>Contact</a>
+</nav>
 <!-- Back to top -->
 <button id="back-to-top" class="back-to-top" aria-label="Back to top of page" title="Back to top">
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">

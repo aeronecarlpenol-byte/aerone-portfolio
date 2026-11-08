@@ -87,12 +87,12 @@ test('desktop route crosses gutters and follows timeline nodes; mobile simplifie
   const app = setup();
   const path = app.svg.children[1].attrs.d;
   assert.ok(path.includes('Q'), 'bends are rounded');
-  assert.ok(path.includes(' C'), 'desktop has a whitespace loop');
+  assert.ok(!path.includes(' C'), 'desktop has no decorative loops');
   assert.equal(app.svg.dataset.route, 'desktop');
   assert.ok(!/NaN|undefined/.test(path));
   const circles = app.svg.children.filter(n => n.attrs.class === 'field-path__node');
   assert.equal(circles.length, 3);
-  assert.equal(circles[1].attrs.cx, 1280 * .43);
+  assert.equal(circles[1].attrs.cx, 60, 'timeline signal stays outside the sticky year and content');
   const mobile = setup(false, 390);
   assert.equal(mobile.svg.dataset.route, 'mobile');
   assert.ok(!mobile.svg.children[1].attrs.d.includes(' C'));

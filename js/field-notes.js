@@ -62,21 +62,25 @@
     const mobile = width < 900;
     const left = mobile ? 12 : Math.max(20, (width - 1200) / 2 + 20);
     const right = width - left;
-    const first = portrait ? { x: Math.min(right, portrait.right + (mobile ? 8 : 18)), y: portrait.bottom - (mobile ? 24 : 60) } : { x: right, y: hero ? hero.bottom - 100 : 160 };
-    const finish = schematic ? { x: Math.min(right, schematic.right + (mobile ? 10 : 24)), y: schematic.y + schematic.height * .53 } : { x: right, y: contactBox.bottom - 90 };
-    const points = [first, { x: right, y: first.y + 44 }];
-    const add = (x, y) => points.push({ x, y });
-    // Cross only through the generous padding between content blocks.
-    if (about) { add(right, about.bottom - 48); add(left, about.bottom - 18); }
-    if (projects) { add(left, projects.bottom - 52); add(right, projects.bottom - 18); }
-    // Research stays on the outside: the collage's reserved box plus 24px
-    // clearance includes its rotated frames and hover movement.
-    if (research) add(right, Math.max(research.bottom + 20, collage ? collage.bottom + 24 : 0));
+    const first = { x: right, y: portrait ? portrait.bottom - 24 : hero ? hero.bottom - 100 : 160 };
+    // Terminate in the reserved outer gutter, clear of the schematic and buttons.
+    const finish = { x: right, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - 90 };
+    const points = [first];
+    const add = (x, y) => {
+      const previous = points[points.length - 1];
+      // Never reverse vertically, even if a section collapses while loading.
+      y = Math.max(previous.y, y);
+      if (x !== previous.x && y !== previous.y) points.push({ x: previous.x, y });
+      if (x !== previous.x || y !== previous.y) points.push({ x, y });
+    };
+    // Cross at section boundaries, inside reserved bottom padding. All crossings
+    // are level; the mobile route makes only two changes of side.
+    if (about) { add(right, about.bottom - 28); add(left, about.bottom - 28); }
+    if (!mobile && projects) { add(left, projects.bottom - 28); add(right, projects.bottom - 28); }
+    if (!mobile && research) { add(right, research.bottom - 28); add(left, research.bottom - 28); }
     const nodePoints = [];
     if (timeline && entries.length) {
-      const rail = mobile ? left : timeline.x;
-      const firstBox = box(entries[0]);
-      add(right, firstBox.y - 54); add(rail, firstBox.y - 26);
+      const rail = left;
       entries.forEach(entry => {
         const b = box(entry);
         const dot = window.getComputedStyle(entry, '::before');
@@ -84,23 +88,24 @@
         add(p.x, p.y); nodePoints.push(p);
       });
       const last = box(entries[entries.length - 1]);
-      add(rail, last.bottom + 12); add(left, last.bottom + 28);
+      add(rail, last.bottom + 12);
     }
-    if (skills) { add(left, skills.y + 26); add(right, skills.y + 66); }
-    add(right, finish.y - 48); add(finish.x, finish.y);
-    // Round each intentional bend without overshooting the reserved gutter.
-    // A small loop occupies the empty padding below About on wider screens.
+    if (skills) { add(left, skills.bottom - 28); add(right, skills.bottom - 28); }
+    add(finish.x, finish.y);
+    // Remove duplicate/collinear vertices before rounding. Each corner consumes
+    // at most half of either adjacent segment: no overlap, overshoot or curls.
+    for (let i = points.length - 2; i > 0; i--) {
+      const a = points[i - 1], b = points[i], c = points[i + 1];
+      if ((a.x === b.x && b.x === c.x) || (a.y === b.y && b.y === c.y)) points.splice(i, 1);
+    }
     let d = `M${first.x} ${first.y}`;
     for (let i = 1; i < points.length - 1; i++) {
       const a = points[i - 1], b = points[i], c = points[i + 1];
       const before = Math.hypot(b.x - a.x, b.y - a.y), after = Math.hypot(c.x - b.x, c.y - b.y);
-      const r = Math.min(mobile ? 12 : 28, before / 3, after / 3);
+      const r = Math.min(mobile ? 10 : 24, before / 2, after / 2);
       const p = { x: b.x + (a.x - b.x) * r / (before || 1), y: b.y + (a.y - b.y) * r / (before || 1) };
       const q = { x: b.x + (c.x - b.x) * r / (after || 1), y: b.y + (c.y - b.y) * r / (after || 1) };
       d += ` L${p.x} ${p.y} Q${b.x} ${b.y} ${q.x} ${q.y}`;
-      if (!mobile && about && b.x === left && b.y === about.bottom - 18) {
-        d += ` C${left + 42} ${q.y + 8} ${left + 42} ${q.y + 38} ${left + 12} ${q.y + 38} C${left - 6} ${q.y + 38} ${left - 6} ${q.y + 12} ${left} ${q.y + 48}`;
-      }
     }
     d += ` L${finish.x} ${finish.y}`;
     svg.setAttribute('viewBox', `0 0 ${width} ${main.offsetHeight}`);
@@ -109,13 +114,18 @@
     length = draw.getTotalLength(); draw.style.strokeDasharray = String(length);
     while (nodes.length < nodePoints.length + 1) nodes.push(element('circle', { class: 'field-path__node', r: '4' }));
     [first, ...nodePoints].forEach((p, i) => { nodes[i].setAttribute('cx', p.x); nodes[i].setAttribute('cy', p.y); });
-    terminal.setAttribute('transform', `translate(${finish.x} ${finish.y})`);
+    terminal.setAttribute('transform', `translate(${finish.x} ${finish.y}) scale(${mobile ? .65 : 1})`);
     // Map vertical scroll to distance along the actual curve, including its
     // horizontal crossings. The signal stays near the reader in both directions.
     samples = [];
     const count = Math.min(1600, Math.max(2, Math.ceil(length / 10)));
-    let lastY = first.y;
-    for (let i = 0; i <= count; i++) { const distance = length * i / count; const p = draw.getPointAtLength(distance); lastY = Math.max(lastY, p.y); samples.push({ y: lastY, distance }); }
+    for (let i = 0; i <= count; i++) {
+      const distance = length * i / count, p = draw.getPointAtLength(distance);
+      // A small distance contribution makes horizontal runs strictly monotonic
+      // in scroll space, so the signal cannot jump across a level connector.
+      const y = .9 * p.y + .1 * (first.y + (finish.y - first.y) * i / count);
+      samples.push({ y, distance });
+    }
     start = bounds.top + window.scrollY + first.y;
     end = bounds.top + window.scrollY + finish.y;
     svg.dataset.route = mobile ? 'mobile' : 'desktop';
@@ -153,7 +163,11 @@
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', resize, { passive: true });
   reduced.addEventListener('change', resize);
-  if ('ResizeObserver' in window) new ResizeObserver(resize).observe(main);
+  if ('ResizeObserver' in window) {
+    const observer = new ResizeObserver(resize);
+    observer.observe(main);
+    main.querySelectorAll('section, .container').forEach(el => observer.observe(el));
+  }
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
