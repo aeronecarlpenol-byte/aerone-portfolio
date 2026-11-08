@@ -73,11 +73,4 @@
     const keys = { ArrowLeft: index - 1, ArrowRight: index + 1, Home: 0, End: slides.length - 1 };
     if (Object.prototype.hasOwnProperty.call(keys, event.key)) { event.preventDefault(); select(keys[event.key]); }
   });
-  if ('IntersectionObserver' in window && !reduced.matches) {
-    const observer = new IntersectionObserver(entries => entries.forEach(entry => {
-      if (!entry.isIntersecting) return;
-      entry.target.classList.add('is-entering'); observer.unobserve(entry.target);
-    }), { threshold: .08 });
-    document.querySelectorAll('.work-card').forEach((card, i) => { card.style.setProperty('--work-delay', `${i * 100}ms`); observer.observe(card); });
-  }
 }());
