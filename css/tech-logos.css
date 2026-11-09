@@ -1,13 +1,12 @@
 /* Stationary circular badges, adapted from the inspected reference. */
 #skills .tech-logo { position: relative; flex: 0 0 84px; min-width: 0; text-align: center; list-style: none; cursor: default; }
 #skills .tech-logo__float { display: grid; place-items: center; width: 60px; height: 60px; margin: 0 auto; border: 1px solid rgb(201 209 217 / .2); border-radius: 50%; background: var(--bg-main); transition: transform 220ms ease, border-color 220ms ease; }
-#skills .tech-logo--primary .tech-logo__float { border: 3px solid var(--blue-highlight); }
 #skills .tech-logo img { display: block; width: 28px; height: 28px; object-fit: contain; color-scheme: dark; filter: none; user-select: none; -webkit-user-drag: none; }
 #skills .tech-logo__name { display: block; margin-top: 10px; color: var(--text-secondary); font-size: .73rem; line-height: 1.4; overflow-wrap: anywhere; }
 #skills .tech-logo:focus-visible { outline: none; }
 #skills .tech-logo:focus-visible .tech-logo__float { outline: 2px solid var(--blue-highlight); outline-offset: 4px; }
 @media (hover: hover) and (pointer: fine) {
-  #skills .tech-logo:hover .tech-logo__float { transform: scale(1.07) rotate(-5deg); border-color: var(--blue-highlight); }
+  #skills .tech-logo:hover .tech-logo__float { transform: scale(1.07) rotate(-5deg); border-color: rgb(201 209 217 / .45); }
   #skills .tech-logo:hover .tech-logo__name { color: var(--text-primary); }
 }
 @media (max-width: 480px) {
