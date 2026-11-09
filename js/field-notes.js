@@ -241,7 +241,7 @@
       const from = insetContainer(fromSelector), to = insetContainer(toSelector);
       const lower = from ? from.bottom : fromFallback, upper = to ? to.y : toFallback;
       const currentPoint = points[points.length - 1];
-      if (upper - lower < radius * 2 + 4 || lower <= currentPoint.y || nextSide === side) return false;
+      if (upper - lower < radius * 2 + 4 || lower < currentPoint.y || nextSide === side) return false;
       // Try the widest curve first, then trim it only if the full reactor would
       // clip either content block. All trials stay within measured whitespace.
       for (let margin = radius * .25; margin <= radius + 8; margin += 2) {
@@ -260,11 +260,18 @@
       return false;
     }
     if (about && projects) crossing('#about > .container', '#exploring > .container', about.bottom, projects.y, left);
-    // Keep the journey in the outside lane through Projects, Research and
-    // Experience. The timeline's 32-45px gaps cannot safely fit a 44px reactor
-    // plus a broad lateral turn without changing the user's section layout.
+    // Share the timeline's actual node axis, including the compact mobile gutter.
     if (timeline && entries.length) {
       const firstEntry = box(entries[0]), last = box(entries[entries.length - 1]);
+      const dot = window.getComputedStyle(entries[0], '::before');
+      const nodeLeft = parseFloat(dot.left);
+      const rail = Number.isFinite(nodeLeft) ? firstEntry.x + nodeLeft + parseFloat(dot.width || dot.height) / 2 : side;
+      const group = find('.field-experience');
+      if (group && rail !== side) crossing('#research > .container', '.field-experience', group.y - 96, group.y, rail);
+      if (side === rail && group) {
+        add(rail, group.bottom);
+        crossing('.field-experience', '.learning-project-note', group.bottom, group.bottom + 72, left);
+      }
       experienceRange = { start: firstEntry.y, end: last.bottom - 32 };
     }
     const github = find('#github');
@@ -284,7 +291,7 @@
     base.setAttribute('d', d); draw.setAttribute('d', d);
     length = draw.getTotalLength(); draw.style.strokeDasharray = String(length);
     // Timeline dots remain semantic CSS markers inside the existing content.
-    // The continuous journey itself stays in the reserved outside lane.
+    // The continuous journey shares their measured axis through Experience.
     if (!nodes.length) nodes.push(element('circle', { class: 'field-path__node', r: '4' }));
     nodes[0].setAttribute('cx', first.x); nodes[0].setAttribute('cy', first.y);
     terminal.setAttribute('transform', `translate(${finish.x} ${finish.y}) scale(${mobile ? .65 : 1})`);
@@ -413,6 +420,7 @@
   });
   schedule();
 }());
+
 
 
 
