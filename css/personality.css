@@ -1,0 +1,61 @@
+/* Hand-placed engineering keepsakes, in the quote's existing negative space. */
+.hero-curiosities { position: relative; width: min(100%, 22rem); height: 9.75rem; margin-bottom: 1.5rem; }
+.hero-sticker { position: absolute; left: var(--sticker-left); top: var(--sticker-top); width: var(--sticker-width); translate: var(--sticker-x, 0px) var(--sticker-y, 0px); transition: translate 480ms cubic-bezier(.22,1.3,.36,1); animation: sticker-arrive 700ms ease calc(var(--reveal-delay, 0ms) + var(--sticker-delay, 0ms)) both; }
+.hero-sticker__float { display: block; animation: sticker-bob var(--sticker-speed, 8s) ease-in-out infinite alternate; }
+.hero-sticker svg { display: block; width: 100%; height: auto; transition: transform 300ms cubic-bezier(.2,1.3,.4,1); }
+.sticker-pcb { --sticker-left: 5%; --sticker-top: 12px; --sticker-width: 68px; --sticker-speed: 8s; --sticker-angle: -7deg; --sticker-delay: 0ms; }
+.sticker-chip { --sticker-left: 37%; --sticker-top: 4px; --sticker-width: 38px; --sticker-speed: 6.5s; --sticker-angle: 8deg; --sticker-delay: 90ms; }
+.sticker-bolt { --sticker-left: 86%; --sticker-top: 10px; --sticker-width: 18px; --sticker-speed: 7.2s; --sticker-angle: -8deg; --sticker-delay: 180ms; }
+.sticker-terminal { --sticker-left: 49%; --sticker-top: 53px; --sticker-width: 136px; --sticker-speed: 9s; --sticker-angle: 3deg; --sticker-delay: 270ms; }
+.sticker-cursor { --sticker-left: 17%; --sticker-top: 110px; --sticker-width: 22px; --sticker-speed: 7.8s; --sticker-angle: -5deg; --sticker-delay: 360ms; }
+.sticker-resistor { --sticker-left: 37%; --sticker-top: 119px; --sticker-width: 54px; --sticker-speed: 10s; --sticker-angle: 6deg; --sticker-delay: 420ms; }
+.sticker-star { --sticker-left: 78%; --sticker-top: 120px; --sticker-width: 17px; --sticker-speed: 8.4s; --sticker-angle: -10deg; --sticker-delay: 480ms; }
+.terminal-caret { animation: terminal-blink 1.2s steps(1) infinite; }
+.sticker-star svg { animation: sticker-twinkle 5s ease-in-out infinite; }
+@keyframes sticker-arrive { from { opacity: 0; transform: translateY(7px) scale(.92); } to { opacity: 1; transform: none; } }
+@keyframes sticker-bob { from { transform: translateY(0) rotate(var(--sticker-angle)); } to { transform: translateY(-5px) rotate(calc(var(--sticker-angle) * -.5)); } }
+@keyframes terminal-blink { 0%, 55% { opacity: 1; } 56%, 100% { opacity: 0; } }
+@keyframes sticker-twinkle { 0%, 100% { opacity: .5; } 50% { opacity: 1; } }
+@media (hover: hover) and (pointer: fine) {
+  .hero-sticker:hover svg { transform: scale(1.07) rotate(-4deg); }
+  .sticker-chip:hover svg { transform: scale(1.1) rotate(12deg); }
+  .sticker-bolt:hover svg { animation: bolt-spark 380ms ease; }
+}
+@keyframes bolt-spark { 0%, 100% { opacity: 1; } 30% { opacity: .35; transform: rotate(8deg); } 60% { opacity: 1; transform: rotate(-5deg) scale(1.12); } }
+
+/* One tool constellation, in Skills only. Layout is reserved before images load. */
+.skills-constellation { position: relative; display: block; width: min(100%, 56rem); height: 18rem; margin: 0 0 3rem; padding: 0; list-style: none; }
+.skills-constellation.is-in-view .tech-logo { animation: none; }
+.skills-constellation.is-awaiting .tech-logo { opacity: 0; visibility: hidden; }
+.skills-constellation .tech-drag-hint { left: 48%; top: auto; bottom: -1.4rem; }
+.tech-logo--html5 { --logo-left: 7%; --logo-top: 12%; --logo-size: 2.375rem; --float-x: 3px; --float-y: -5px; --float-tilt: 4deg; --float-duration: 7.4s; }
+.tech-logo--codex { --logo-left: 28%; --logo-top: 40%; --logo-size: 2.375rem; --float-x: -4px; --float-y: 4px; --float-tilt: -3deg; --float-duration: 8.3s; }
+.tech-logo--supabase { --logo-left: 49%; --logo-top: 8%; }
+.tech-logo--claude { --logo-left: 73%; --logo-top: 28%; }
+.tech-logo--java { --logo-left: 89%; --logo-top: 5%; --logo-size: 2.375rem; --float-x: -3px; --float-y: 4px; --float-tilt: 3deg; --float-duration: 9.1s; }
+.tech-logo--python { --logo-left: 10%; --logo-top: 75%; --logo-size: 2.375rem; --float-x: 4px; --float-y: -4px; --float-tilt: -4deg; --float-duration: 8.7s; }
+.tech-logo--github { --logo-left: 39%; --logo-top: 80%; --logo-size: 2.375rem; --float-x: -3px; --float-y: -5px; --float-tilt: 3deg; --float-duration: 7.9s; }
+.tech-logo--vercel { --logo-left: 62%; --logo-top: 68%; }
+.tech-logo--antigravity { --logo-left: 86%; --logo-top: 82%; --logo-size: 2.375rem; --float-x: 3px; --float-y: -4px; --float-tilt: -3deg; --float-duration: 9.8s; }
+@media (max-width: 680px) {
+  .hero-curiosities { width: min(100%, 18rem); height: 7.5rem; }
+  .sticker-pcb { --sticker-width: 54px; }
+  .sticker-chip { --sticker-width: 32px; --sticker-left: 42%; }
+  .sticker-terminal { --sticker-width: 122px; --sticker-left: 40%; --sticker-top: 55px; }
+  .sticker-cursor, .sticker-star, .sticker-resistor { display: none; }
+  .skills-constellation { height: 18rem; }
+  .skills-constellation .tech-logo, .tech-logo-layer .tech-logo { --logo-size: 1.875rem; }
+  .tech-logo--html5 { --logo-left: 8%; --logo-top: 8%; }
+  .tech-logo--codex { --logo-left: 42%; --logo-top: 3%; }
+  .tech-logo--supabase { --logo-left: 76%; --logo-top: 13%; }
+  .tech-logo--claude { --logo-left: 8%; --logo-top: 39%; }
+  .tech-logo--java { --logo-left: 42%; --logo-top: 33%; }
+  .tech-logo--python { --logo-left: 76%; --logo-top: 45%; }
+  .tech-logo--github { --logo-left: 8%; --logo-top: 75%; }
+  .tech-logo--vercel { --logo-left: 42%; --logo-top: 70%; }
+  .tech-logo--antigravity { --logo-left: 76%; --logo-top: 80%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-sticker, .hero-sticker__float, .hero-sticker svg, .terminal-caret { animation: none !important; transition: none !important; opacity: 1; translate: none; transform: none; }
+  .skills-constellation.is-awaiting .tech-logo { opacity: 1; visibility: visible; }
+}
