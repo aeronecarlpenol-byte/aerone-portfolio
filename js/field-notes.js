@@ -270,7 +270,11 @@
       if (group && rail !== side) crossing('#research > .container', '.field-experience', group.y - 96, group.y, rail);
       if (side === rail && group) {
         add(rail, group.bottom);
-        crossing('.field-experience', '.learning-project-note', group.bottom, group.bottom + 72, left);
+        // Experience uses a wider container than the other sections on large
+        // screens. Keep the full reactor outside that container, not on its edge.
+        const education = insetContainer('#experience > .container');
+        const educationLane = education ? Math.max(radius + 1, Math.min(left, education.x - radius - 8)) : left;
+        crossing('.field-experience', '.learning-project-note', group.bottom, group.bottom + 96, educationLane);
       }
       experienceRange = { start: firstEntry.y, end: last.bottom - 32 };
     }

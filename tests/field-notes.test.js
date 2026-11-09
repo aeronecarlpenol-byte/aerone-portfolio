@@ -52,6 +52,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     const rail = width <= 759 ? 28 : width * .43 - 51.2;
     entries.forEach(entry => { entry.offsetTop += 200; });
     window.getComputedStyle = (el, pseudo) => pseudo ? ({ top: '56px', height: '24px', width: '24px', left: String(rail - entries[0].offsetLeft - 12) }) : ({});
+    landmarks['#experience > .container'] = geometry(width * .1, 600, width * .8, 1600);
     landmarks['#research > .container'] = geometry(80, 440, width - 160, 30);
     landmarks['.field-experience'] = geometry(80, 600, width - 160, 1200);
     landmarks['.learning-project-note'] = geometry(80, 1896, width - 160, 30);
@@ -292,7 +293,7 @@ test('rendering reuses cached layout, and a resize preserves the rolling angle',
 });
 
 test('Experience journey joins the measured timeline axis and exits before supporting education', () => {
-  for (const width of [390, 768, 1280]) {
+  for (const width of [390, 768, 1280, 1920]) {
     const app = setup(false, width, width, true), d = app.svg.children[1].attrs.d;
     const numbers = d.match(/-?\d+(?:\.\d+)?/g).map(Number);
     const ends = [];
@@ -300,7 +301,10 @@ test('Experience journey joins the measured timeline axis and exits before suppo
     const rail = width <= 759 ? 28 : width * .43 - 51.2;
     assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y<600), 'joins ahead of the heading');
     assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y===1800), 'continuous rail through the final entry');
-    assert.ok(ends.some(p=>p.x!==rail&&p.y>1800&&p.y<1896), 'returns to the outer lane before education');
+    const exit = ends.find(p=>Math.abs(p.x-rail)>.01&&p.y>1800&&p.y<1896);
+    assert.ok(exit, 'returns to the outer lane before education');
+    const radius = width <= 900 ? 15 : 22;
+    assert.ok(exit.x + radius + 8 <= width * .1, 'reactor clears the wider Experience content, including large desktops');
   }
 });
 
