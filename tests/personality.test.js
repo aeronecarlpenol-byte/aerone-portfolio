@@ -11,7 +11,6 @@ function setup({reducedMotion=false,supported=true,markerPresent=true}={}) {
       getBoundingClientRect(){return this.rect;},querySelector(){return null;},
       animate(keyframes,options){const a={keyframes,options,cancelled:false,cancel(){this.cancelled=true;}};this.animations.push(a);return a;}};
   }
-  const hero=element({left:0,top:0,width:1200,height:900}),stickers=[element(),element(),element()];
   const section=element({top:600,bottom:2400}),workbench=element({left:100,top:900,bottom:2200,width:1000,height:1300});
   const marker=element({left:20,top:500,width:24,height:24});
   const logos=[],badges=[],names=[],images=[];
@@ -25,18 +24,18 @@ function setup({reducedMotion=false,supported=true,markerPresent=true}={}) {
     }
     stage.querySelectorAll=()=>group;return stage;
   });
-  const reduced={matches:reducedMotion,addEventListener(k,fn){this.change=fn;}},fine={matches:true,addEventListener(){}};
+  const reduced={matches:reducedMotion,addEventListener(k,fn){this.change=fn;}};
   const document=element();document.hidden=false;
-  document.querySelector=s=>({'#hero':hero,'#skills':section,'#skills .skills-workbench':workbench,'.field-path__position':markerPresent?marker:null})[s];
-  document.querySelectorAll=s=>s.includes('skills-constellation')?stages:stickers;
-  const window=element();window.innerHeight=800;window.innerWidth=1280;window.matchMedia=s=>s.includes('reduced')?reduced:fine;
+  document.querySelector=s=>({'#skills':section,'#skills .skills-workbench':workbench,'.field-path__position':markerPresent?marker:null})[s];
+  document.querySelectorAll=s=>s.includes('skills-constellation')?stages:[];
+  const window=element();window.innerHeight=800;window.innerWidth=1280;window.matchMedia=()=>reduced;
   class Observer{observe(){}disconnect(){this.disconnected=true;}}
   if(supported)window.IntersectionObserver=Observer;
   vm.runInNewContext(fs.readFileSync('js/personality.js','utf8'),{document,window,IntersectionObserver:Observer,Math,
     requestAnimationFrame(fn){frames.set(++next,fn);return next;},cancelAnimationFrame(id){frames.delete(id);}});
   function step(time){now=time;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now));}
   function arrive(){workbench.rect={...workbench.rect,top:300,bottom:1600};if(window.handlers.scroll)window.handlers.scroll();step(0);}
-  return {logos,badges,names,images,stages,marker,workbench,hero,stickers,reduced,window,document,frames,step,arrive};
+  return {logos,badges,names,images,stages,marker,workbench,reduced,window,document,frames,step,arrive};
 }
 test('reference choreography waits 550ms and releases all 16 logos globally at 32ms intervals',()=>{
   const app=setup();app.arrive();app.step(549);assert.equal(app.logos[0].animations.length,0);
