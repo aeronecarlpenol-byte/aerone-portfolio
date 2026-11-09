@@ -31,3 +31,17 @@ Categorized workbench additions (November 9, 2026):
 - autocad.svg, sketchup.svg, easyeda.svg: unmodified Simple Icons geometry
   from https://github.com/simple-icons/simple-icons/tree/develop/icons, with
   brand fills E51050, 005F9E, 1765F6 from its data/simple-icons.json metadata.
+
+## Reference-aligned badge variants — November 9, 2026
+
+The live https://iamkreezel.com/#skills was inspected through rendered DOM and
+computed styles. Shared marks use the same standard Simple Icons geometry:
+HTML5, JavaScript, Supabase, PostgreSQL, GitHub, Vercel, Python and Claude.
+Downloaded directly from https://github.com/simple-icons/simple-icons/tree/develop/icons
+under the upstream CC0 icon license; no personal artwork was copied.
+Fills use Simple Icons brand metadata, with off-white for the approved monochrome
+GitHub/Vercel marks on dark backgrounds. These entries supersede the earlier
+source notes for those eight files. CSS3, Java, AutoCAD, SketchUp and EasyEDA
+retain their documented standard marks; ChatGPT and Antigravity retain official
+assets. The supplied AutoCAD image is a visual reference, not a site background
+or a raster replacement for the SVG.

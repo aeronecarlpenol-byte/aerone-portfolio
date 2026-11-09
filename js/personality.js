@@ -34,6 +34,15 @@
 
   const section = document.querySelector('#skills');
   if (!section) return;
+  const heading = document.querySelector('#skills .section__header');
+  if (heading && 'IntersectionObserver' in window && !reduced.matches) {
+    const headingObserver = new IntersectionObserver(function (entries) {
+      if (entries.some(function (entry) { return entry.isIntersecting; })) {
+        heading.classList.add('is-arriving'); headingObserver.disconnect();
+      }
+    }, { threshold: .15 });
+    headingObserver.observe(heading);
+  }
   document.querySelectorAll('#skills .skills-constellation').forEach(function (stage) {
   const logos = Array.from(stage.querySelectorAll('.tech-logo'));
   let emitted = false, checkFrame = 0, observer, markerObserver;
@@ -52,6 +61,7 @@
     if (emitted) return;
     emitted = true;
     stage.classList.add('is-in-view');
+    if (stage.parentElement) stage.parentElement.classList.add('is-arriving');
     stage.classList.remove('is-awaiting');
     disconnect();
     if (reduced.matches || !origin) return;
@@ -66,7 +76,7 @@
         { transform: 'scale(1.12) rotate(3deg)', opacity: 1, filter: 'blur(0px)', offset: .76 },
         { transform: 'scale(.97) rotate(-1deg)', offset: .9 },
         { transform: 'none', opacity: 1, filter: 'blur(0px)' }
-      ], { duration: 900, delay: i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+      ], { duration: 900, delay: 240 + i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
       flights.set(logo, animation);
       animation.onfinish = function () { if (flights.get(logo) === animation) flights.delete(logo); };
     });
@@ -101,12 +111,7 @@
     window.addEventListener('scroll', schedule, { passive: true });
   } else { launch(null); }
   window.addEventListener('resize', function () { if (emitted) settle(); else schedule(); });
-  stage.addEventListener('pointerdown', function (event) {
-    const logo = event.target.closest('.tech-logo');
-    const animation = flights.get(logo);
-    if (animation) { animation.cancel(); flights.delete(logo); }
-  }, true);
-  stage.addEventListener('keydown', function () { settle(); }, true);
+  stage.addEventListener('focusin', function () { if (!emitted) launch(null); settle(); });
   reduced.addEventListener('change', function () {
     resetParallax();
     if (reduced.matches) { if (!emitted) launch(null); settle(); }

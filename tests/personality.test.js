@@ -53,7 +53,7 @@ test('each category launches once from the real emblem only when it reaches Skil
   assert.equal(app.stage.classes.has('is-awaiting'), false);
   assert.ok(app.logos.every(logo => logo.animation));
   assert.match(app.logos[0].keyframes[0].transform, /translate\(-87px, 93px\)/);
-  assert.equal(app.logos[8].options.delay, 480);
+  assert.equal(app.logos[8].options.delay, 720);
   assert.equal(app.window.handlers.scroll, undefined, 'emission stops listening after one launch');
 });
 
@@ -68,9 +68,9 @@ test('reduced motion and missing observation support leave every tool visible wi
   assert.ok(app.logos.every(logo => !logo.animation));
 });
 
-test('dragging, resizing and reduced-motion changes cancel flights without hiding tools', () => {
+test('focusing, resizing and reduced-motion changes cancel flights without hiding tools', () => {
   const app = setup(); app.arrive();
-  app.stage.handlers.pointerdown({ target: { closest: () => app.logos[0] } });
+  app.stage.handlers.focusin();
   assert.equal(app.logos[0].animation.cancelled, true);
   app.window.handlers.resize();
   assert.ok(app.logos.every(logo => logo.animation.cancelled));
