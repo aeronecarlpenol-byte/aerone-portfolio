@@ -23,37 +23,34 @@
 }
 @keyframes bolt-spark { 0%, 100% { opacity: 1; } 30% { opacity: .35; transform: rotate(8deg); } 60% { opacity: 1; transform: rotate(-5deg) scale(1.12); } }
 
-/* One tool constellation, in Skills only. Layout is reserved before images load. */
-.skills-constellation { position: relative; display: block; width: min(100%, 56rem); height: 18rem; margin: 0 0 3rem; padding: 0; list-style: none; }
+/* Open families on one continuous canvas; space is reserved before SVGs load. */
+.tech-logo { --float-x: 3px; --float-y: -5px; --float-tilt: 3deg; --float-duration: 8s; --arrival-delay: 0ms; }
+.skills-workbench { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: clamp(2rem, 7vw, 7rem); row-gap: 2rem; }
+.skill-family { min-width: 0; }
+.skill-family h3 { font-size: 1.15rem; margin: 0 0 .65rem; }
+.skill-family__note { color: var(--text-secondary, #8b949e); font-size: .9rem; line-height: 1.6; max-width: 35em; min-height: 3.2em; margin: 0; }
+.skills-constellation { position: relative; display: block; width: 100%; height: 11rem; margin: 0; padding: 0; list-style: none; }
 .skills-constellation.is-in-view .tech-logo { animation: none; }
 .skills-constellation.is-awaiting .tech-logo { opacity: 0; visibility: hidden; }
-.skills-constellation .tech-drag-hint { left: 48%; top: auto; bottom: -1.4rem; }
-.tech-logo--html5 { --logo-left: 7%; --logo-top: 12%; --logo-size: 2.375rem; --float-x: 3px; --float-y: -5px; --float-tilt: 4deg; --float-duration: 7.4s; }
-.tech-logo--codex { --logo-left: 28%; --logo-top: 40%; --logo-size: 2.375rem; --float-x: -4px; --float-y: 4px; --float-tilt: -3deg; --float-duration: 8.3s; }
-.tech-logo--supabase { --logo-left: 49%; --logo-top: 8%; }
-.tech-logo--claude { --logo-left: 73%; --logo-top: 28%; }
-.tech-logo--java { --logo-left: 89%; --logo-top: 5%; --logo-size: 2.375rem; --float-x: -3px; --float-y: 4px; --float-tilt: 3deg; --float-duration: 9.1s; }
-.tech-logo--python { --logo-left: 10%; --logo-top: 75%; --logo-size: 2.375rem; --float-x: 4px; --float-y: -4px; --float-tilt: -4deg; --float-duration: 8.7s; }
-.tech-logo--github { --logo-left: 39%; --logo-top: 80%; --logo-size: 2.375rem; --float-x: -3px; --float-y: -5px; --float-tilt: 3deg; --float-duration: 7.9s; }
-.tech-logo--vercel { --logo-left: 62%; --logo-top: 68%; }
-.tech-logo--antigravity { --logo-left: 86%; --logo-top: 82%; --logo-size: 2.375rem; --float-x: 3px; --float-y: -4px; --float-tilt: -3deg; --float-duration: 9.8s; }
+.skills-constellation .tech-drag-hint { left: auto; right: 8%; top: auto; bottom: .4rem; }
+.skills-constellation .tech-logo { left: calc(9% + var(--slot) * 22%); top: 3rem; --logo-size: 2.375rem; --float-x: 3px; --float-y: -5px; --float-tilt: 3deg; --float-duration: 8s; }
+.skills-constellation .tech-logo:nth-of-type(even) { top: 5.25rem; --float-x: -4px; --float-y: 4px; --float-tilt: -4deg; --float-duration: 9.3s; }
+.skills-constellation .tech-logo:nth-of-type(3n) { --float-duration: 7.1s; }
+.tech-logo__name { position: absolute; top: calc(100% + 1.15rem); left: 50%; translate: -50% 0; width: max-content; max-width: 10rem; padding: .3rem .5rem; border-radius: .35rem; background: #151d27; color: #e8edf5; font-size: .72rem; line-height: 1.4; text-align: center; opacity: 0; visibility: hidden; pointer-events: none; transition: opacity 180ms ease; }
+.skills-constellation .tech-logo:last-child .tech-logo__name { left: auto; right: -.5rem; translate: none; }
+.tech-logo:hover .tech-logo__name, .tech-logo:focus-visible .tech-logo__name, .tech-logo.is-dragging .tech-logo__name { opacity: 1; visibility: visible; }
+.tech-logo:hover, .tech-logo:focus-visible { z-index: 3; }
 @media (max-width: 680px) {
   .hero-curiosities { width: min(100%, 18rem); height: 7.5rem; }
   .sticker-pcb { --sticker-width: 54px; }
   .sticker-chip { --sticker-width: 32px; --sticker-left: 42%; }
   .sticker-terminal { --sticker-width: 122px; --sticker-left: 40%; --sticker-top: 55px; }
   .sticker-cursor, .sticker-star, .sticker-resistor { display: none; }
-  .skills-constellation { height: 18rem; }
+  .skills-workbench { grid-template-columns: minmax(0, 1fr); row-gap: 1.25rem; }
+  .skill-family__note { min-height: 0; }
+  .skills-constellation { height: 10rem; }
   .skills-constellation .tech-logo, .tech-logo-layer .tech-logo { --logo-size: 1.875rem; }
-  .tech-logo--html5 { --logo-left: 8%; --logo-top: 8%; }
-  .tech-logo--codex { --logo-left: 42%; --logo-top: 3%; }
-  .tech-logo--supabase { --logo-left: 76%; --logo-top: 13%; }
-  .tech-logo--claude { --logo-left: 8%; --logo-top: 39%; }
-  .tech-logo--java { --logo-left: 42%; --logo-top: 33%; }
-  .tech-logo--python { --logo-left: 76%; --logo-top: 45%; }
-  .tech-logo--github { --logo-left: 8%; --logo-top: 75%; }
-  .tech-logo--vercel { --logo-left: 42%; --logo-top: 70%; }
-  .tech-logo--antigravity { --logo-left: 76%; --logo-top: 80%; }
+
 }
 @media (prefers-reduced-motion: reduce) {
   .hero-sticker, .hero-sticker__float, .hero-sticker svg, .terminal-caret { animation: none !important; transition: none !important; opacity: 1; translate: none; transform: none; }

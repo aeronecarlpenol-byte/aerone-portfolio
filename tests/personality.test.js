@@ -4,13 +4,14 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function setup({ reducedMotion = false, finePointer = true, supported = true, markerPresent = true } = {}) {
+function setup({ reducedMotion = false, finePointer = true, supported = true, markerPresent = true, grouped = false } = {}) {
   const frames = new Map(); let next = 0;
   function element(rect) {
-    const classes = new Set(), handlers = {}, values = {};
+    const classes = new Set(), handlers = {}, values = {}, listeners = {};
     return { classes, handlers, values, rect, classList: { add: v => classes.add(v), remove: v => classes.delete(v) },
       style: { setProperty: (k, v) => { values[k] = v; } },
-      addEventListener(k, fn) { handlers[k] = fn; }, removeEventListener(k) { delete handlers[k]; },
+      addEventListener(k, fn) { (listeners[k] ||= []).push(fn); handlers[k] = event => [...listeners[k]].forEach(fn => fn(event)); },
+      removeEventListener(k, fn) { listeners[k] = (listeners[k] || []).filter(listener => listener !== fn); if (!listeners[k].length) delete handlers[k]; },
       getBoundingClientRect() { return this.rect; },
       animate(keyframes, options) { this.keyframes = keyframes; this.options = options;
         this.animation = { cancelled: false, cancel() { this.cancelled = true; } }; return this.animation; }
@@ -23,12 +24,16 @@ function setup({ reducedMotion = false, finePointer = true, supported = true, ma
   const marker = element({ left: 20, top: 500, width: 24, height: 24 });
   const logos = Array.from({ length: 9 }, (_, i) => element({ left: 100 + i * 70, top: 400, width: 38, height: 38 }));
   stage.querySelectorAll = () => logos;
+  const laterStage = element({ top: 1600, bottom: 1800 });
+  const laterLogo = element({ left: 200, top: 500, width: 38, height: 38 });
+  laterStage.querySelectorAll = () => [laterLogo];
+  const stages = grouped ? [stage, laterStage] : [stage];
   const reduced = { matches: reducedMotion, addEventListener(name, fn) { this.change = fn; } };
   const fine = { matches: finePointer, addEventListener(name, fn) { this.change = fn; } };
   const document = element(); document.hidden = false;
   document.querySelector = selector => ({ '#hero': hero, '#skills': section, '#skills .skills-constellation': stage,
     '.field-path__position': markerPresent ? marker : null })[selector];
-  document.querySelectorAll = () => stickers;
+  document.querySelectorAll = selector => selector.includes('skills-constellation') ? stages : stickers;
   const window = element(); window.innerHeight = 800;
   window.matchMedia = query => query.includes('reduced') ? reduced : fine;
   class Observer { observe() {} disconnect() { this.disconnected = true; } }
@@ -37,10 +42,10 @@ function setup({ reducedMotion = false, finePointer = true, supported = true, ma
     requestAnimationFrame(fn) { frames.set(++next, fn); return next; }, cancelAnimationFrame(id) { frames.delete(id); } });
   function flush() { const pending = [...frames.values()]; frames.clear(); pending.forEach(fn => fn()); }
   function arrive() { stage.rect = { top: 300, bottom: 588 }; section.rect = { top: 0, bottom: 1400 }; if (window.handlers.scroll) window.handlers.scroll(); flush(); }
-  return { hero, stickers, stage, logos, marker, document, window, reduced, fine, frames, flush, arrive };
+  return { laterStage, laterLogo, hero, stickers, stage, logos, marker, document, window, reduced, fine, frames, flush, arrive };
 }
 
-test('nine tools launch once from the real emblem only when it reaches Skills', () => {
+test('each category launches once from the real emblem only when it reaches Skills', () => {
   const app = setup(); app.flush();
   assert.ok(app.stage.classes.has('is-awaiting'));
   assert.ok(app.logos.every(logo => !logo.animation));
@@ -85,4 +90,18 @@ test('hero parallax is bounded, resets, and never runs for touch or reduced moti
     other.hero.handlers.pointermove({ clientX: 400, clientY: 400, pointerType: 'touch' });
     assert.equal(other.frames.size, 0);
   }
+});
+
+
+test('category groups emit independently as they enter view, with a bounce before settling', () => {
+  const app = setup({ grouped: true }); app.arrive();
+  assert.ok(app.logos[0].animation);
+  assert.equal(app.laterLogo.animation, undefined);
+  assert.ok(app.laterStage.classes.has('is-awaiting'));
+  assert.equal(app.logos[0].keyframes[2].transform, 'scale(1.12) rotate(3deg)');
+  app.laterStage.rect = { top: 300, bottom: 500 };
+  app.window.handlers.scroll(); app.flush();
+  assert.ok(app.laterLogo.animation);
+  assert.equal(app.laterStage.classes.has('is-awaiting'), false);
+  assert.equal(app.window.handlers.scroll, undefined);
 });

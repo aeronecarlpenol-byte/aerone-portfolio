@@ -23,3 +23,11 @@ Additional Skills & Tools symbols:
 - `codex.svg`: Codex symbol from https://devicons.io/devicons/icons/codex-icon.svg.
 - `antigravity.svg`: official full-color icon from
   https://antigravity.google/assets/image/brand/antigravity-icon__full-color.svg.
+
+Categorized workbench additions (November 9, 2026):
+
+- css3.svg, javascript.svg, postgresql.svg: original-color SVGs from
+  https://github.com/devicons/devicon/tree/master/icons
+- autocad.svg, sketchup.svg, easyeda.svg: unmodified Simple Icons geometry
+  from https://github.com/simple-icons/simple-icons/tree/develop/icons, with
+  brand fills E51050, 005F9E, 1765F6 from its data/simple-icons.json metadata.

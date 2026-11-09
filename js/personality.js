@@ -32,9 +32,9 @@
     fine.addEventListener('change', resetParallax);
   }
 
-  const stage = document.querySelector('#skills .skills-constellation');
   const section = document.querySelector('#skills');
-  if (!stage || !section) return;
+  if (!section) return;
+  document.querySelectorAll('#skills .skills-constellation').forEach(function (stage) {
   const logos = Array.from(stage.querySelectorAll('.tech-logo'));
   let emitted = false, checkFrame = 0, observer, markerObserver;
   const flights = new Map();
@@ -63,6 +63,8 @@
       const animation = logo.animate([
         { transform: `translate(${dx}px, ${dy}px) scale(.18) rotate(${i % 2 ? 18 : -18}deg)`, opacity: 0, filter: 'blur(2px)' },
         { opacity: 1, offset: .35 },
+        { transform: 'scale(1.12) rotate(3deg)', opacity: 1, filter: 'blur(0px)', offset: .76 },
+        { transform: 'scale(.97) rotate(-1deg)', offset: .9 },
         { transform: 'none', opacity: 1, filter: 'blur(0px)' }
       ], { duration: 900, delay: i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
       flights.set(logo, animation);
@@ -81,7 +83,7 @@
     if (!point.width || !point.height) { launch(null); return; }
     const sectionBox = section.getBoundingClientRect();
     const y = point.top + point.height / 2;
-    if (y < sectionBox.top || y > sectionBox.bottom) return;
+    if (y < sectionBox.top || y > sectionBox.bottom) { launch(null); return; }
     launch({ x: point.left + point.width / 2, y: y });
   }
   function schedule() { if (!emitted && !checkFrame) checkFrame = requestAnimationFrame(check); }
@@ -111,4 +113,5 @@
   });
   document.addEventListener('visibilitychange', function () { if (document.hidden) { resetParallax(); settle(); } });
   schedule();
+  });
 }());
