@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function setup(reduced = false, width = 1280, clientWidth = width) {
+function setup(reduced = false, width = 1280, clientWidth = width, integratedTimeline = false) {
   const frames = new Map(), handlers = {}, documentHandlers = {}; let frameId = 0;
   let now = 1000;
   const media = { matches: reduced, addEventListener: (_, fn) => { media.change = fn; } };
@@ -48,6 +48,14 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
     '#skills': geometry(0, 1800, width, 800), '.field-timeline': geometry(width * .43, 500, width * .5, 1100),
     '.field-schematic svg': geometry(width - 300, 3200, 250, 250)
   };
+  if (integratedTimeline) {
+    const rail = width <= 759 ? 28 : width * .43 - 51.2;
+    entries.forEach(entry => { entry.offsetTop += 200; });
+    window.getComputedStyle = (el, pseudo) => pseudo ? ({ top: '56px', height: '24px', width: '24px', left: String(rail - entries[0].offsetLeft - 12) }) : ({});
+    landmarks['#research > .container'] = geometry(80, 440, width - 160, 30);
+    landmarks['.field-experience'] = geometry(80, 600, width - 160, 1200);
+    landmarks['.learning-project-note'] = geometry(80, 1896, width - 160, 30);
+  }
   main.querySelector = s => landmarks[s];
   const document = {
     hidden: false, addEventListener(k, fn) { documentHandlers[k] = fn; },
@@ -281,5 +289,18 @@ test('rendering reuses cached layout, and a resize preserves the rolling angle',
   app.main.getBoundingClientRect=()=>({top:-app.window.scrollY});
   const roll=app.svg.children.find(n=>n.attrs.class==='field-path__position').children[0].children[0];const angle=roll.attrs.transform;
   app.main.clientWidth=1024;app.resize();assert.equal(roll.attrs.transform,angle);
+});
+
+test('Experience journey joins the measured timeline axis and exits before supporting education', () => {
+  for (const width of [390, 768, 1280]) {
+    const app = setup(false, width, width, true), d = app.svg.children[1].attrs.d;
+    const numbers = d.match(/-?\d+(?:\.\d+)?/g).map(Number);
+    const ends = [];
+    for (let i=2; i<numbers.length; i+=6) ends.push({x:numbers[i+4],y:numbers[i+5]});
+    const rail = width <= 759 ? 28 : width * .43 - 51.2;
+    assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y<600), 'joins ahead of the heading');
+    assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y===1800), 'continuous rail through the final entry');
+    assert.ok(ends.some(p=>p.x!==rail&&p.y>1800&&p.y<1896), 'returns to the outer lane before education');
+  }
 });
 

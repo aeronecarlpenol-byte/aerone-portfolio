@@ -1,5 +1,5 @@
 /* Reference proportions: shared year/header grid, natural-height entries. */
-.portfolio-home #experience > .container { width: min(80vw, 1400px); max-width: none; padding-inline: 0; }
+.portfolio-home #experience > .container { width: min(80%, 1400px); max-width: none; padding-inline: 0; }
 #experience .field-experience { --experience-gap: clamp(72px, 8vw, 112px); display: grid; grid-template-columns: minmax(0, .6fr) minmax(0, 1.6fr); grid-template-areas: 'year heading' 'year list'; column-gap: var(--experience-gap); row-gap: 0; position: relative; }
 #experience .field-experience > .section__header { grid-area: heading; display: block; margin: 0 0 clamp(30px, 4vw, 48px); }
 #experience .section__title { margin-block: 6px; }
@@ -20,7 +20,7 @@
 #experience .learning-timeline__body > p { font-size: 17px; line-height: 1.6; }
 #experience .learning-timeline__body > .learning-timeline__recognition { margin-top: 12px; font-size: .9375rem; line-height: 1.7; }
 #experience .field-timeline .learning-tags { margin-top: 22px; }
-#experience .learning-project-note { margin-top: 72px; }
+#experience .learning-project-note { margin-top: 96px; }
 /* The existing SVG owns this rail; a single static fallback works without JS. */
 #experience .field-experience::before { content: ''; position: absolute; left: calc((100% - var(--experience-gap)) * .6 / 2.2 + var(--experience-gap) / 2); top: 0; bottom: 0; border-left: 1px dashed var(--border); }
 #main-content:has(> .field-path) #experience .field-experience::before { display: none; }
@@ -37,4 +37,7 @@
   #experience .field-experience::before { left: -28px; }
   #experience .field-timeline { gap: 56px; }
 }
+
+#experience .experience-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
+#experience .experience-meta .learning-timeline__year, #experience .experience-meta .learning-timeline__label { margin: 0; }
 
