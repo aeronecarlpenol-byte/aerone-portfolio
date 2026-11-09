@@ -45,9 +45,103 @@
   const tiltGroup = document.createElementNS(ns, 'g');
   tiltGroup.setAttribute('class', 'field-path__tilt'); position.appendChild(tiltGroup);
   const rollGroup = document.createElementNS(ns, 'g'); tiltGroup.appendChild(rollGroup);
-  const signal = document.createElementNS(ns, 'image');
-  Object.entries({ class: 'field-path__emblem', href: '/assets/brand/electronics-emblem.png', x: '-17.5', y: '-17.5', width: '35', height: '35', preserveAspectRatio: 'xMidYMid meet' }).forEach(([key,value]) => signal.setAttribute(key,value));
+  // A procedural electromagnetic reactor; the outer position/roll groups keep
+  // their original route coordinates and distance-based rotation.
+  const signal = document.createElementNS(ns, 'svg');
+  Object.entries({ class: 'field-path__emblem energy-core', viewBox: '-24 -24 48 48',
+    x: '-22', y: '-22', width: '44', height: '44', overflow: 'visible', 'aria-hidden': 'true' })
+    .forEach(([key, value]) => signal.setAttribute(key, value));
   rollGroup.appendChild(signal);
+  function corePart(parent, tag, attrs) {
+    const part = document.createElementNS(ns, tag);
+    Object.entries(attrs).forEach(([key, value]) => part.setAttribute(key, value));
+    parent.appendChild(part); return part;
+  }
+  const coreDefs = corePart(signal, 'defs', {});
+  const coreGradient = corePart(coreDefs, 'radialGradient', { id: 'scroll-reactor-light' });
+  [['0%', '#ffffff', '1'], ['28%', '#e9fcff', '1'], ['60%', '#79e7ff', '.95'], ['100%', '#218bdd', '.15']]
+    .forEach(([offset, color, opacity]) => corePart(coreGradient, 'stop', { offset: offset, 'stop-color': color, 'stop-opacity': opacity }));
+  const auraGradient = corePart(coreDefs, 'radialGradient', { id: 'scroll-reactor-aura' });
+  [['0%', '#b5f5ff', '.45'], ['35%', '#48dcf5', '.22'], ['100%', '#26c6d1', '0']]
+    .forEach(([offset, color, opacity]) => corePart(auraGradient, 'stop', { offset: offset, 'stop-color': color, 'stop-opacity': opacity }));
+  corePart(signal, 'circle', { class: 'energy-core__aura', r: '24', fill: 'url(#scroll-reactor-aura)' });
+  corePart(signal, 'circle', { class: 'energy-core__wave energy-core__wave--one', r: '13' });
+  corePart(signal, 'circle', { class: 'energy-core__wave energy-core__wave--two', r: '13' });
+  const orbitAnimations = [];
+  const orbits = [
+    { angle: -24, rx: 20, ry: 7.5, color: '#8aeaff', duration: 6800, direction: 1 },
+    { angle: 48, rx: 18.5, ry: 8, color: '#d0f5ff', duration: 9100, direction: -1 },
+    { angle: 108, rx: 20, ry: 9, color: '#54d9ca', duration: 11300, direction: 1 }
+  ];
+  orbits.forEach(function (orbit, i) {
+    const spin = corePart(signal, 'g', { class: 'energy-core__orbit' });
+    const plane = corePart(spin, 'g', { transform: 'rotate(' + orbit.angle + ')' });
+    corePart(plane, 'ellipse', { rx: orbit.rx, ry: orbit.ry, fill: 'none', stroke: orbit.color, 'stroke-width': i === 1 ? '.6' : '.8', 'stroke-dasharray': i === 2 ? '30 3 2 3' : 'none' });
+    corePart(plane, 'circle', { class: 'energy-core__electron', cx: orbit.rx, cy: '0', r: i === 1 ? '1' : '1.35', fill: orbit.color });
+    corePart(plane, 'circle', { cx: -orbit.rx, cy: '0', r: '.65', fill: '#efffff', opacity: '.75' });
+    orbitAnimations.push({ node: spin, orbit: orbit, animation: null });
+  });
+  corePart(signal, 'path', { class: 'energy-core__circuit', d: 'M-11-5v-4h4m14 0h4v4M11 5v4H7M-7 9h-4V5M-14 0h3m22 0h3M0-14v3m0 22v3' });
+  corePart(signal, 'circle', { class: 'energy-core__containment', r: '9.5' });
+  const coreHeart = corePart(signal, 'g', { class: 'energy-core__heart' });
+  corePart(coreHeart, 'circle', { r: '7.4', fill: 'url(#scroll-reactor-light)' });
+  corePart(coreHeart, 'circle', { r: '3.2', fill: '#f3feff' });
+  ['M-16-2l4 1 2-4 2 2', 'M6-10l2-3 3 2 1-4', 'M8 8l4 1-1 4 4 1'].forEach(function (d, i) {
+    corePart(signal, 'path', { class: 'energy-core__arc energy-core__arc--' + i, d: d });
+  });
+  let energyFrame = 0, energy = 0, velocityTarget = 0, energyTick = 0;
+  let coreDistance = null, coreScroll = null, coreTime = 0, lastCoreMovement = 0;
+  function coreIdle() {
+    orbitAnimations.forEach(function (item) {
+      if (!item.animation && !reduced.matches && !document.hidden && typeof item.node.animate === 'function') {
+        item.animation = item.node.animate([{ transform: 'rotate(0deg)' },
+          { transform: 'rotate(' + (360 * item.orbit.direction) + 'deg)' }],
+        { duration: item.orbit.duration, iterations: Infinity, easing: 'linear' });
+      }
+      if (!item.animation) return;
+      const paused = reduced.matches || document.hidden;
+      if (paused && item.animation.playState !== 'paused' && typeof item.animation.pause === 'function') item.animation.pause();
+      if (!paused && item.animation.playState !== 'running' && typeof item.animation.play === 'function') item.animation.play();
+      const rate = paused ? 1 : 1 + energy * 3;
+      if (Math.abs((item.animation.playbackRate || 1) - rate) > .005) item.animation.playbackRate = rate;
+    });
+    signal.classList.toggle('is-energy-paused', Boolean(document.hidden));
+  }
+  function resetCore() {
+    if (energyFrame) cancelAnimationFrame(energyFrame);
+    energyFrame = 0; energy = velocityTarget = energyTick = 0;
+    coreDistance = coreScroll = null;
+    signal.style.setProperty('--core-energy', '0');
+    coreIdle();
+  }
+  function animateEnergy() {
+    energyFrame = 0;
+    if (reduced.matches || document.hidden) { resetCore(); return; }
+    const now = Date.now(), dt = Math.min(64, Math.max(1, now - (energyTick || now - 16)));
+    energyTick = now;
+    if (now - lastCoreMovement > 75) velocityTarget *= Math.exp(-dt / 240);
+    energy += (velocityTarget - energy) * (1 - Math.exp(-dt / 100));
+    signal.style.setProperty('--core-energy', energy.toFixed(3));
+    coreIdle();
+    if (energy > .002 || velocityTarget > .002) energyFrame = requestAnimationFrame(animateEnergy);
+    else { energy = 0; signal.style.setProperty('--core-energy', '0'); coreIdle(); }
+  }
+  function energizeCore(distance) {
+    const now = Date.now();
+    if (coreDistance !== null && !reduced.matches && !document.hidden) {
+      const delta = Math.abs(distance - coreDistance), scrollDelta = Math.abs(window.scrollY - coreScroll);
+      if (delta > 180 || scrollDelta > window.innerHeight * .7) { resetCore(); }
+      else if (delta > .01 && scrollDelta > 0) {
+        const dt = Math.max(16, now - coreTime);
+        velocityTarget = Math.min(1, delta / dt / 2);
+        lastCoreMovement = now;
+        if (!energyFrame) { energyTick = now; energyFrame = requestAnimationFrame(animateEnergy); }
+      }
+    }
+    coreDistance = distance; coreScroll = window.scrollY; coreTime = now;
+  }
+  coreIdle();
+
   const particles = new Set();
   let previousDistance = null, previousScroll = null, lastEmission = 0, particleIndex = 0, travelSinceEmission = 0, lastDirection = 0;
   function clearTrail() {
@@ -73,15 +167,15 @@
     travelSinceEmission += Math.abs(delta);
     if (!scrollDelta || travelSinceEmission + .001 < (mobile ? 14 : 10) || now - lastEmission < (mobile ? 90 : 65) ||
         particles.size >= (mobile ? 4 : 8) || distance <= 0 || distance >= length) return;
-    const behind = draw.getPointAtLength(Math.max(0, Math.min(length, distance - Math.sign(delta) * 18)));
+    const behind = draw.getPointAtLength(Math.max(0, Math.min(length, distance - Math.sign(delta) * (mobile ? 20 : 28))));
     const tip = draw.getPointAtLength(distance);
     const screenY = behind.y + main.getBoundingClientRect().top;
     if (screenY < 24 || screenY > window.innerHeight - 24) return;
     lastEmission = now; travelSinceEmission = 0;
-    const shapes = ['M-2-4 1-4-1-1H2L-2 4 0 0h-2Z', 'M-3 2V-2H2V-4M-4 2h2', 'M-2-2h4v4h-4Z'];
+    const shapes = ['M-2-4 1-4-1-1H2L-2 4 0 0h-2Z', 'M-3 2V-2H2V-4M-4 2h2', 'M-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0', 'M-6 0h3l2-2h3', 'M-3 0h6M0-3v6'];
     const particle = document.createElementNS(ns, 'path');
-    particle.setAttribute('d', shapes[particleIndex % 3]);
-    particle.setAttribute('class', 'field-path__particle field-path__particle--' + particleIndex % 3);
+    particle.setAttribute('d', shapes[particleIndex % shapes.length]);
+    particle.setAttribute('class', 'field-path__particle field-path__particle--' + particleIndex % shapes.length);
     const x = Math.max(8, Math.min(main.clientWidth - 8, behind.x));
     const y = behind.y, side = particleIndex++ % 2 ? 1 : -1;
     const dx = Math.max(-5, Math.min(5, (behind.x - tip.x) * .2 + side * 3));
@@ -246,7 +340,7 @@
   }
   function update() {
     frame = 0;
-    if (dirty) { clearTrail(); measure(); }
+    if (dirty) { clearTrail(); resetCore(); measure(); }
     const targetY = window.scrollY + window.innerHeight * .65 - (main.getBoundingClientRect().top + window.scrollY);
     let low = 0, high = samples.length - 1;
     while (low < high) { const mid = (low + high) >> 1; if (samples[mid].y < targetY) low = mid + 1; else high = mid; }
@@ -264,8 +358,9 @@
     const resting = reduced.matches ? draw.getPointAtLength(0) : p;
     const ahead = draw.getPointAtLength(Math.min(length, length * progress + 8));
     const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));
-    const size = window.innerWidth <= 900 ? 24 : 35;
+    const size = window.innerWidth <= 900 ? 30 : 44;
     emitTrail(length * progress);
+    energizeCore(length * progress);
     signal.setAttribute('x', -size / 2); signal.setAttribute('y', -size / 2);
     signal.setAttribute('width', size); signal.setAttribute('height', size);
     position.setAttribute('transform', `translate(${resting.x} ${resting.y})`);
@@ -276,7 +371,7 @@
   function resize() { dirty = true; schedule(); }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', resize, { passive: true });
-  reduced.addEventListener('change', function () { if (reduced.matches) cancelYearMotion(); resize(); });
+  reduced.addEventListener('change', function () { if (reduced.matches) cancelYearMotion(); resetCore(); resize(); });
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(resize);
     observer.observe(main);
@@ -285,7 +380,7 @@
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); } else { coreIdle(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');
@@ -296,5 +391,6 @@
   });
   schedule();
 }());
+
 
 

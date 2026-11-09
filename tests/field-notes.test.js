@@ -5,7 +5,7 @@ const fs = require('node:fs');
 const vm = require('node:vm');
 
 function setup(reduced = false, width = 1280, clientWidth = width) {
-  const frames = [], handlers = {};
+  const frames = new Map(), handlers = {}, documentHandlers = {}; let frameId = 0;
   let now = 1000;
   const media = { matches: reduced, addEventListener: (_, fn) => { media.change = fn; } };
   const node = () => ({ attrs: {}, styles: {}, dataset: {}, textContent: '', children: [],
@@ -14,7 +14,7 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
     classList: { toggle() {} }, appendChild(c) { this.children.push(c); c.parent = this; },
     remove() { if (this.parent) this.parent.children = this.parent.children.filter(c => c !== this); },
     getTotalLength() { return 2000; }, getPointAtLength(n) { return { x: 20, y: n }; },
-    animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = { cancelled: false, cancel() { this.cancelled = true; } }; },
+    animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = { cancelled: false, playState: 'running', playbackRate: 1, pause() { this.playState = 'paused'; }, play() { this.playState = 'running'; }, cancel() { this.cancelled = true; } }; },
     addEventListener(k, fn) { this[k] = fn; }
   });
   const window = { innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
@@ -45,16 +45,16 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
   };
   main.querySelector = s => landmarks[s];
   const document = {
-    addEventListener() {},
+    hidden: false, addEventListener(k, fn) { documentHandlers[k] = fn; },
     getElementById: id => ({ experience, contact, 'main-content': main, skills: { getBoundingClientRect: rect(1800) } })[id],
     createElementNS: node, querySelectorAll: () => [], querySelector: () => spark
   };
   vm.runInNewContext(fs.readFileSync('js/field-notes.js', 'utf8'), {
-    window, document, Date: { now: () => now }, requestAnimationFrame: fn => { frames.push(fn); return frames.length; }
+    window, document, Date: { now: () => now }, requestAnimationFrame: fn => { frames.set(++frameId, fn); return frameId; }, cancelAnimationFrame: id => frames.delete(id)
   });
-  function flush() { frames.splice(0).forEach(fn => fn()); }
+  function flush() { const pending = [...frames.values()]; frames.clear(); pending.forEach(fn => fn()); }
   flush();
-  return { window, media, main, digits, org, active, spark, flush, entries,
+  return { frames, document, documentHandlers, window, media, main, digits, org, active, spark, flush, entries,
     tick(ms) { now += ms; }, resize() { handlers.resize(); flush(); },
     scroll(y) { window.scrollY = y; handlers.scroll(); flush(); },
     svg: main.children[0] };
@@ -65,11 +65,11 @@ test('trail follows travel direction, stops emitting at rest, and cleans complet
   app.scroll(20);
   assert.equal(trail.children.length, 1);
   const forward = trail.children[0];
-  assert.ok(forward.keyframes[0].transform.includes('522px'), 'forward particle starts behind the emblem at y=540');
+  assert.ok(forward.keyframes[0].transform.includes('512px'), 'forward particle starts 28px behind the core at y=540');
   app.tick(150); app.scroll(10);
   assert.equal(trail.children.length, 2);
   const reverseY = Number(trail.children[1].keyframes[0].transform.match(/, ([\d.]+)px/)[1]);
-  assert.ok(Math.abs(reverseY - 548) < .01, 'reverse particle starts below the emblem at y=530');
+  assert.ok(Math.abs(reverseY - 558) < .01, 'reverse particle starts below the emblem at y=530');
   app.tick(1000); app.scroll(10);
   assert.equal(trail.children.length, 2, 'no emission without movement');
   forward.animation.onfinish();
@@ -79,7 +79,7 @@ test('trail follows travel direction, stops emitting at rest, and cleans complet
 });
 
 test('trail caps desktop and mobile density and resets on resize or reduced motion', () => {
-  for (const [width, cap, size] of [[1280, 8, 35], [390, 4, 24]]) {
+  for (const [width, cap, size] of [[1280, 8, 44], [390, 4, 30]]) {
     const app = setup(false, width);
     const trail = app.svg.children.find(n => n.attrs.class === 'field-path__trail');
     for (let y = 5; y <= 100; y += 5) { app.tick(180); app.scroll(y); }
@@ -213,3 +213,32 @@ test('timeline route uses the same 900px viewport boundary as its CSS markers', 
   assert.equal(setup(false, 901).svg.dataset.route, 'desktop');
   assert.equal(setup(false, 901, 886).svg.dataset.route, 'desktop', 'a desktop scrollbar must not select the mobile rail');
 });
+
+function reactor(app) { return app.svg.children.find(n => n.attrs.class === 'field-path__position').children[0].children[0].children[0]; }
+test('reactor is procedural SVG with three independent counter-rotating electron orbits', () => {
+  const core=reactor(setup());
+  assert.equal(core.attrs.viewBox, '-24 -24 48 48'); assert.equal(core.attrs.href, undefined);
+  const rings=core.children.filter(n=>n.attrs.class==='energy-core__orbit'); assert.equal(rings.length,3);
+  assert.deepEqual(rings.map(n=>n.animationOptions.duration),[6800,9100,11300]);
+  assert.ok(rings[0].keyframes[1].transform.includes('360deg'));
+  assert.ok(rings[1].keyframes[1].transform.includes('-360deg'));
+  assert.ok(rings.every(n=>n.animationOptions.iterations===Infinity));
+});
+test('scroll velocity increases reactor speed and smoothly decays without an idle JS frame loop', () => {
+  const app=setup(),core=reactor(app),ring=core.children.find(n=>n.attrs.class==='energy-core__orbit');
+  assert.equal(app.frames.size,0);
+  app.tick(16);app.scroll(40);app.tick(16);app.flush();
+  const boosted=Number(core.style['--core-energy']); assert.ok(boosted>0); assert.ok(ring.animation.playbackRate>1);
+  app.tick(64);app.flush();assert.ok(Number(core.style['--core-energy'])>0,'energy does not snap off');
+  for(let i=0;i<60;i++){app.tick(64);app.flush();}
+  assert.equal(core.style['--core-energy'],'0');assert.ok(ring.animation.playbackRate<1.01);assert.equal(app.frames.size,0);
+});
+test('reduced motion and hidden tabs stop reactor orbit activity and discard velocity', () => {
+  const app=setup(),core=reactor(app),rings=core.children.filter(n=>n.attrs.class==='energy-core__orbit');
+  app.tick(16);app.scroll(40);app.document.hidden=true;app.documentHandlers.visibilitychange();
+  assert.ok(rings.every(n=>n.animation.playState==='paused'));assert.equal(core.style['--core-energy'],'0');
+  app.document.hidden=false;app.documentHandlers.visibilitychange();assert.ok(rings.every(n=>n.animation.playState==='running'));
+  app.media.matches=true;app.media.change();app.flush();assert.ok(rings.every(n=>n.animation.playState==='paused'));
+  const still=reactor(setup(true));assert.ok(still.children.filter(n=>n.attrs.class==='energy-core__orbit').every(n=>!n.animation));
+});
+
