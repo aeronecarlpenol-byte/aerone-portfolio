@@ -32,6 +32,7 @@
 <link rel="stylesheet" href="css/navigation.css" />
 <link rel="stylesheet" href="css/composition.css" />
 <link rel="stylesheet" href="css/tech-logos.css" />
+<link rel="stylesheet" href="css/personality.css" />
 </head>
 <body class="portfolio-home">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -122,13 +123,15 @@
   <!-- Bottom: statement + intro -->
   <div class="hero-bottom">
     <div class="hero-thought">
-      <ul class="tech-constellation" aria-label="Technology logos">
-        <li class="tech-drag-hint" aria-hidden="true">drag me<svg viewBox="0 0 56 32" fill="none"><path d="M54 27C26 32 6 24 7 4M2 11 7 4l8 4" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg></li>
-        <li class="tech-logo tech-logo--claude"><span class="tech-logo__float"><img src="assets/brand/claude.svg" width="38" height="38" alt="Claude" decoding="async" /></span></li>
-        <li class="tech-logo tech-logo--chatgpt"><span class="tech-logo__float"><img src="assets/brand/chatgpt.svg" width="38" height="38" alt="ChatGPT" decoding="async" /></span></li>
-        <li class="tech-logo tech-logo--vercel"><span class="tech-logo__float"><img src="assets/brand/vercel.svg" width="32" height="28" alt="Vercel" decoding="async" /></span></li>
-        <li class="tech-logo tech-logo--supabase"><span class="tech-logo__float"><img src="assets/brand/supabase.svg" width="34" height="35" alt="Supabase" decoding="async" /></span></li>
-      </ul>
+      <div class="hero-curiosities" aria-hidden="true">
+        <span class="hero-sticker sticker-pcb"><span class="hero-sticker__float"><svg viewBox="0 0 76 56" fill="none"><rect x="3" y="3" width="70" height="50" rx="7" fill="#152e29" stroke="#86b9a3"/><rect x="29" y="17" width="18" height="22" rx="2" fill="#0d1117" stroke="#a7cbb7"/><path d="M10 14h12l7 7M10 42h12l7-8m18-10h12V11m-12 22h11l8 9M34 10v7m8-7v7m-8 22v7m8-7v7" stroke="#86b9a3"/><g fill="#a7cbb7"><circle cx="10" cy="14" r="2"/><circle cx="10" cy="42" r="2"/><circle cx="59" cy="11" r="2"/><circle cx="66" cy="42" r="2"/></g></svg></span></span>
+        <span class="hero-sticker sticker-chip"><span class="hero-sticker__float"><svg viewBox="0 0 40 40" fill="none"><rect x="10" y="10" width="20" height="20" rx="3" fill="#19232e" stroke="#a9ccf1"/><path d="M15 4v6m10-6v6M15 30v6m10-6v6M4 15h6m-6 10h6m20-10h6m-6 10h6M16 17h8v6h-8z" stroke="#a9ccf1" stroke-linecap="round"/></svg></span></span>
+        <span class="hero-sticker sticker-bolt"><span class="hero-sticker__float"><svg viewBox="0 0 24 38"><path d="m15 2-12 20h9l-3 14 13-21h-9z" fill="#e4c78c"/></svg></span></span>
+        <span class="hero-sticker sticker-terminal"><span class="hero-sticker__float"><svg viewBox="0 0 140 48" fill="none"><rect x="1" y="1" width="138" height="46" rx="6" fill="#151e28" stroke="#536879"/><path d="M1 12h138" stroke="#536879"/><g fill="#aac6b5"><circle cx="9" cy="7" r="1.5"/><circle cx="15" cy="7" r="1.5"/><circle cx="21" cy="7" r="1.5"/></g><text x="10" y="33" fill="#b7d8ff" font-family="monospace" font-size="11">&gt; hello_world</text><path class="terminal-caret" d="M114 35h7" stroke="#aac6b5" stroke-width="2"/></svg></span></span>
+        <span class="hero-sticker sticker-cursor"><span class="hero-sticker__float"><svg viewBox="0 0 28 32" fill="#b7d8ff"><path d="M3 2h4v4h4v4h4v4h4v4h-8v4H7v4H3z"/><path d="M13 20h4v8h-4z"/></svg></span></span>
+        <span class="hero-sticker sticker-resistor"><span class="hero-sticker__float"><svg viewBox="0 0 70 25" fill="none"><path d="M2 12h14l5-8 8 16 8-16 8 16 6-8h17" stroke="#b4a7cc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span></span>
+        <span class="hero-sticker sticker-star"><span class="hero-sticker__float"><svg viewBox="0 0 24 24" fill="none"><path d="M12 2v20M2 12h20M5 5l14 14M5 19 19 5" stroke="#d9c6a2" stroke-linecap="round"/></svg></span></span>
+      </div>
       <p class="hero-statement">The obstacle<br>is the way<span class="hero-name-period">.</span></p>
     </div>
     <div class="hero-intro">
@@ -510,11 +513,23 @@
 <section id="skills" class="section section--alt field-section" aria-labelledby="skills-title">
   <div class="container">
     <div class="section__header">
-      <span class="section__eyebrow">Skills</span>
+      <span class="section__eyebrow">Skills &amp; Tools</span>
       <h2 id="skills-title" class="section__title">An ever-growing<br>workbench<span class="field-period">.</span></h2><span class="field-annotation field-heading-note">things I’m learning &amp; working with ↙</span>
       <p class="section__subtitle">Foundations I’m building, tools I use, and habits that help me keep learning.</p>
       <span class="section-line" aria-hidden="true"></span>
     </div>
+    <ul class="tech-constellation skills-constellation" aria-label="Skills and tools">
+      <li class="tech-drag-hint" aria-hidden="true">drag me<svg viewBox="0 0 56 32" fill="none"><path d="M54 27C26 32 6 24 7 4M2 11 7 4l8 4" stroke-width="1.4" stroke-linecap="round" /></svg></li>
+      <li class="tech-logo tech-logo--html5"><span class="tech-logo__float"><img src="assets/brand/html5.svg" width="38" height="38" alt="HTML5" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--codex"><span class="tech-logo__float"><img src="assets/brand/codex.svg" width="38" height="38" alt="OpenAI Codex" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--supabase"><span class="tech-logo__float"><img src="assets/brand/supabase.svg" width="38" height="38" alt="Supabase" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--claude"><span class="tech-logo__float"><img src="assets/brand/claude.svg" width="38" height="38" alt="Claude" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--java"><span class="tech-logo__float"><img src="assets/brand/java.svg" width="38" height="38" alt="Java" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--python"><span class="tech-logo__float"><img src="assets/brand/python.svg" width="38" height="38" alt="Python" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--github"><span class="tech-logo__float"><img src="assets/brand/github.svg" width="38" height="38" alt="GitHub" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--vercel"><span class="tech-logo__float"><img src="assets/brand/vercel.svg" width="38" height="38" alt="Vercel" loading="lazy" decoding="async" /></span></li>
+      <li class="tech-logo tech-logo--antigravity"><span class="tech-logo__float"><img src="assets/brand/antigravity.svg" width="38" height="38" alt="Google Antigravity" loading="lazy" decoding="async" /></span></li>
+    </ul>
     <div class="learning-skills">
       <article class="learning-panel" aria-labelledby="learning-skill-0">
         <div class="field-panel-top"><svg class="field-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-6 6 6 6m8-12 6 6-6 6m-2-14-4 16"/></svg><span class="learning-panel__index" aria-hidden="true">01 /</span></div>
@@ -633,6 +648,7 @@
 <script src="js/field-notes.js" defer></script>
 <script src="js/contact.js" defer></script>
 <script src="js/tech-logos.js" defer></script>
+<script src="js/personality.js" defer></script>
 <dialog id="work-story" class="work-story" aria-labelledby="story-title">
   <div class="work-story__top"><span>NOTES FROM THE WORKBENCH</span><button class="work-story__close" type="button" aria-label="Close project story">×</button></div>
   <div class="work-story__content"></div>
