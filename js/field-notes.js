@@ -387,6 +387,7 @@
     let index = 0;
     markerY.forEach((y, i) => { if (p.y >= y) index = i; });
     setActive(index);
+    entries.forEach((entry, i) => entry.classList.toggle('is-reached', p.y >= markerY[i]));
     const resting = reduced.matches ? draw.getPointAtLength(0) : p;
     const ahead = draw.getPointAtLength(Math.min(length, renderedDistance + 8));
     const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));

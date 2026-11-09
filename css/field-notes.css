@@ -50,7 +50,7 @@
 .field-sticky__trace { color: var(--border); stroke: currentColor; }
 .field-timeline .learning-timeline__entry { position: relative; display: block; padding: 1.5rem 0 5rem 2.5rem; border-left: 1px dashed var(--border); }
 .field-timeline .learning-timeline__entry::before { content: ''; position: absolute; left: -7px; top: 1.8rem; width: 13px; height: 13px; border: 2px solid var(--blue-highlight); background: var(--bg-main); border-radius: 50%; transition: background 250ms, box-shadow 250ms; }
-.field-timeline .learning-timeline__entry.is-current::before { background: var(--blue-highlight); box-shadow: 0 0 0 6px rgb(88 166 255 / .1); }
+.field-timeline .learning-timeline__entry.is-reached::before { background: var(--blue-highlight); box-shadow: 0 0 0 6px rgb(88 166 255 / .1); }
 /* The scroll SVG owns the connected rail; retain the CSS rail as a fallback. */
 #main-content:has(> .field-path) .field-timeline .learning-timeline__entry { border-left-color: transparent; }
 .field-timeline .learning-timeline__entry::before { z-index: 3; pointer-events: none; }
