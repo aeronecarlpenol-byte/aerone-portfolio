@@ -43,7 +43,7 @@
     }, { threshold: .15 });
     headingObserver.observe(heading);
   }
-  document.querySelectorAll('#skills .skills-constellation').forEach(function (stage) {
+  document.querySelectorAll('#skills .skills-constellation').forEach(function (stage, groupIndex) {
   const logos = Array.from(stage.querySelectorAll('.tech-logo'));
   let emitted = false, checkFrame = 0, observer, markerObserver;
   const flights = new Map();
@@ -70,13 +70,19 @@
       const box = logo.getBoundingClientRect();
       const dx = origin.x - box.left - box.width / 2;
       const dy = origin.y - box.top - box.height / 2;
+      // Reference rhythm: borders first, quick successive releases, a brief
+      // airborne pause, then a slower settle. Only transforms move; slots stay fixed.
+      const tilt = i % 2 ? 8 : -8;
+      const drift = i % 2 ? 10 : -10;
       const animation = logo.animate([
-        { transform: `translate(${dx}px, ${dy}px) scale(.18) rotate(${i % 2 ? 18 : -18}deg)`, opacity: 0, filter: 'blur(2px)' },
-        { opacity: 1, offset: .35 },
-        { transform: 'scale(1.12) rotate(3deg)', opacity: 1, filter: 'blur(0px)', offset: .76 },
-        { transform: 'scale(.97) rotate(-1deg)', offset: .9 },
-        { transform: 'none', opacity: 1, filter: 'blur(0px)' }
-      ], { duration: 900, delay: 240 + i * 60, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
+        { transform: `translate(${dx}px, ${dy}px) scale(.18) rotate(${i % 2 ? 18 : -18}deg)`, opacity: 0, filter: 'blur(2px)', offset: 0 },
+        { opacity: 1, filter: 'blur(0px)', offset: .1 },
+        { transform: `translate(${drift}px, -14px) scale(1) rotate(${tilt}deg)`, opacity: 1, offset: .375 },
+        { transform: `translate(${drift}px, -14px) scale(1) rotate(${tilt}deg)`, opacity: 1, offset: .59375 },
+        { transform: 'scale(1.08) rotate(2deg)', opacity: 1, offset: .9 },
+        { transform: 'scale(.98) rotate(-1deg)', offset: .96 },
+        { transform: 'none', opacity: 1, filter: 'blur(0px)', offset: 1 }
+      ], { duration: 1600, delay: 550 + groupIndex * 110 + i * 32, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'backwards' });
       flights.set(logo, animation);
       animation.onfinish = function () { if (flights.get(logo) === animation) flights.delete(logo); };
     });
@@ -120,3 +126,4 @@
   schedule();
   });
 }());
+

@@ -53,7 +53,7 @@ test('each category launches once from the real emblem only when it reaches Skil
   assert.equal(app.stage.classes.has('is-awaiting'), false);
   assert.ok(app.logos.every(logo => logo.animation));
   assert.match(app.logos[0].keyframes[0].transform, /translate\(-87px, 93px\)/);
-  assert.equal(app.logos[8].options.delay, 720);
+  assert.equal(app.logos[8].options.delay, 806);
   assert.equal(app.window.handlers.scroll, undefined, 'emission stops listening after one launch');
 });
 
@@ -98,10 +98,16 @@ test('category groups emit independently as they enter view, with a bounce befor
   assert.ok(app.logos[0].animation);
   assert.equal(app.laterLogo.animation, undefined);
   assert.ok(app.laterStage.classes.has('is-awaiting'));
-  assert.equal(app.logos[0].keyframes[2].transform, 'scale(1.12) rotate(3deg)');
+  assert.equal(app.logos[0].keyframes[4].transform, 'scale(1.08) rotate(2deg)');
+  assert.equal(app.logos[0].options.delay, 550);
+  assert.equal(app.logos[1].options.delay - app.logos[0].options.delay, 32);
+  assert.equal(app.logos[0].options.duration, 1600);
+  assert.equal(app.logos[0].keyframes[2].transform, app.logos[0].keyframes[3].transform, 'airborne pause retains position without a layout mutation');
   app.laterStage.rect = { top: 300, bottom: 500 };
   app.window.handlers.scroll(); app.flush();
   assert.ok(app.laterLogo.animation);
+  assert.equal(app.laterLogo.options.delay, 660, 'later category has a 110ms beat');
   assert.equal(app.laterStage.classes.has('is-awaiting'), false);
   assert.equal(app.window.handlers.scroll, undefined);
 });
+
