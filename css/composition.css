@@ -1,56 +1,91 @@
-/* One continuous homepage. The document-origin dot grid in field-notes.css
-   remains the only background layer; neither sections nor the footer restart it. */
+/* Shared page geometry. Section files own their inner grids; this file owns
+   the canvas, reading scale and rhythm between those compositions. */
+.portfolio-home {
+  --container-max: 1440px;
+  --content-pad: clamp(48px, 7vw, 112px);
+  --layout-gap: clamp(2rem, 4vw, 4rem);
+  --section-gap: clamp(4rem, 7vw, 7rem);
+  --heading-size: clamp(2rem, 3.8vw, 3.5rem);
+}
+.portfolio-home #main-content > section > .container,
+.portfolio-home .footer > .container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--content-pad) var(--content-end, var(--content-pad));
+}
+.portfolio-home #hero {
+  padding-inline: max(var(--content-pad), calc((100% - var(--container-max)) / 2 + var(--content-pad)));
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+/* The single document-origin blue grid continues through every section. */
 .portfolio-home #main-content > section[id],
 .portfolio-home .footer {
   background: transparent;
   border-block: 0;
 }
-
-/* Two neighbouring sections share a measured gap instead of two screen-sized
-   bands. Keep space at the boundaries for the existing scroll-linked trace. */
 .portfolio-home #main-content > section.section {
-  padding-block: clamp(3rem, 5vw, 4.5rem);
+  padding-block: calc(var(--section-gap) / 2);
 }
-.portfolio-home #hero { padding-bottom: clamp(2.5rem, 5vw, 4rem); }
+/* Projects and the long timeline need more entrance space than short notes. */
+.portfolio-home #main-content > #exploring,
+.portfolio-home #main-content > #experience,
+.portfolio-home #main-content > #skills {
+  padding-top: calc(var(--section-gap) * .75);
+}
 .portfolio-home #main-content .section__header,
 .portfolio-home .work-header {
   text-align: left;
   margin-bottom: clamp(2rem, 3.5vw, 3rem);
 }
-.portfolio-home #main-content .section__subtitle { margin-inline: 0; }
+.portfolio-home #main-content .section__title {
+  font-size: var(--heading-size);
+  line-height: 1.12;
+  letter-spacing: -.04em;
+}
+.portfolio-home #main-content .section__subtitle {
+  margin-inline: 0;
+  max-width: 56ch;
+  font-size: 1rem;
+  line-height: 1.75;
+}
 .portfolio-home #main-content .section-line,
 .portfolio-home #main-content .divider { display: none; }
-
-/* Navigation already sets the shared content inset; extend it to the footer. */
-.portfolio-home .footer > .container { padding-inline: var(--content-pad); }
 .portfolio-home .hero-foot {
   border-top: 0;
   margin-top: 2rem;
-  padding-top: 1rem;
+  padding-top: 0;
 }
 .portfolio-home .section-label,
 .portfolio-home .learning-background-title,
 .portfolio-home .field-active,
-.portfolio-home .contact-learning .contact-learning__links {
-  border-block: 0;
-}
-.portfolio-home .learning-background-title { padding-top: 1.5rem; }
-.portfolio-home .learning-project-note { margin-bottom: 2.5rem; }
-.portfolio-home .field-contact-grid { margin-top: 2.5rem; }
-.portfolio-home .field-section .contact-learning__signoff { margin-top: 2.5rem; }
+.portfolio-home .contact-learning .contact-learning__links { border-block: 0; }
+.portfolio-home .learning-background-title { padding-top: 0; }
+.portfolio-home .education-grid { margin-bottom: 0; }
+.portfolio-home .github-card { max-width: none; margin-inline: 0; }
 .portfolio-home .footer { padding-block: 1.5rem 2.5rem; }
 
-/* These regions group real content, so keep their useful card boundaries and
-   hover treatments. The surrounding canvas stays open and uninterrupted. */
-.portfolio-home .github-card { max-width: none; margin-inline: 0; }
-.portfolio-home .field-timeline .learning-timeline__entry { padding-bottom: 3.5rem; }
-.portfolio-home .field-timeline .learning-timeline__entry:last-child { padding-bottom: 1.5rem; }
-
-@media (max-width: 760px) {
-  .portfolio-home #main-content > section.section { padding-block: 2.75rem; }
+@media (max-width: 1000px) {
+  .portfolio-home {
+    --content-pad: 48px;
+    --content-end: 32px;
+    --heading-size: clamp(2rem, 4.6vw, 2.75rem);
+  }
+}
+@media (max-width: 680px) {
+  .portfolio-home {
+    /* Leave the existing circuit a clear lane beside the reading column. */
+    --content-pad: 48px;
+    --content-end: 24px;
+    --section-gap: 4rem;
+    --heading-size: clamp(1.9rem, 7.5vw, 2.5rem);
+  }
+  .portfolio-home #hero { padding-inline: var(--content-pad) var(--content-end); }
+  .portfolio-home .hero-top { gap: .5rem; }
+  .portfolio-home .hero-eyebrow { font-size: .65rem; letter-spacing: .04em; }
+  .portfolio-home .hero-showcase { margin-top: 1.75rem; gap: 2.5rem; }
   .portfolio-home #main-content .section__header,
-  .portfolio-home .work-header { margin-bottom: 2rem; }
-  .portfolio-home .field-contact-grid { margin-top: 1.5rem; }
-  .portfolio-home .field-timeline .learning-timeline__entry { padding-bottom: 2.5rem; }
-  .portfolio-home .footer { padding-bottom: calc(2rem + env(safe-area-inset-bottom)); }
+  .portfolio-home .work-header { margin-bottom: 1.75rem; }
+  .portfolio-home .hero-foot { font-size: .55rem; letter-spacing: .02em; }
 }

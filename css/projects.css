@@ -2,16 +2,16 @@
 #exploring.work-section { padding-block: clamp(5rem, 10vw, 9rem); }
 .work-section > .container { padding-inline: clamp(2rem, 5vw, 4rem); }
 .work-header { margin-bottom: 4.5rem; }
-.work-header h2 { font: 600 clamp(3rem, 6.5vw, 5.8rem)/1.05 var(--font-display); letter-spacing: -.055em; color: var(--text-primary); margin-block: .5rem 1.25rem; }
+.work-header h2 { font: 600 var(--heading-size, 3.5rem)/1.12 var(--font-display); letter-spacing: -.055em; color: var(--text-primary); margin-block: .5rem 1.25rem; }
 .work-header__line { display: flex; align-items: baseline; gap: 1.5rem 3rem; flex-wrap: wrap; }
 .work-header__line p { color: var(--text-secondary); font-size: 1.05rem; }
 .work-header .field-annotation { font-size: .95rem; }
-.work-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4rem 5rem; list-style: none; padding: 0; margin: 0; }
+.work-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 3rem var(--layout-gap, 4rem); list-style: none; padding: 0; margin: 0; }
 .work-card { min-width: 0; }
-.work-card:nth-child(2) { padding-top: 4rem; }
+.work-card:nth-child(2) { padding-top: 2.5rem; }
 .work-pile { display: block; position: relative; margin: 0 8px 2.5rem; padding: 14px 14px 48px; background: #19232e; border: 1px solid #526071; border-radius: 5px; transform: rotate(-2deg); box-shadow: 0 14px 30px rgb(0 0 0 / .28); transition: transform 300ms cubic-bezier(.2,.8,.2,1), border-color 200ms; }
 .work-card:nth-child(2) .work-pile { transform: rotate(2deg); background: #1b252b; }
-.work-pile__image { display: block; width: 100%; height: clamp(210px, 25vw, 310px); object-fit: contain; background: #0d1117; border-radius: 2px; }
+.work-pile__image { display: block; width: 100%; height: clamp(210px, 23vw, 290px); object-fit: contain; background: #0d1117; border-radius: 2px; }
 .work-pile__label { position: absolute; bottom: 14px; left: 16px; font: .75rem var(--font-mono); color: var(--text-secondary); }
 .work-pile__count { position: absolute; top: -15px; right: 14px; padding: .5rem .8rem; border: 1px solid #5f7891; border-radius: 4px; font: .7rem var(--font-mono); background: #23344a; color: #d5e8fc; transform: rotate(4deg); }
 .work-pile__open { position: absolute; right: 16px; bottom: 10px; font-size: 1.25rem; color: #a9ccf1; }

@@ -26,8 +26,7 @@
 .hero-text-link { display: inline-flex; align-items: center; min-height: 44px; }
 .contact-learning__email { display: inline-flex; align-items: center; min-height: 44px; }
 @media (min-width: 901px) {
-  .hero-showcase { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
-  .hero-showcase h1 { font-size: clamp(5rem, 9vw, 8.5rem); }
+  .hero-showcase { align-items: center; }
 }
 .field-path, .field-path *, svg[aria-hidden="true"] { pointer-events: none; }
 .field-path__draw { stroke-linecap: round; stroke-linejoin: round; filter: drop-shadow(0 0 2px rgb(88 166 255 / .15)); }
@@ -64,7 +63,7 @@
   .nav__inner.container { gap: 8px; padding-inline: 12px; }
   .nav__brand { gap: 8px; }
   .nav__cta .btn { font-size: .68rem; padding-inline: 10px; }
-  .field-section .section__title, .work-header h2 { font-size: clamp(2.3rem, 10vw, 3.5rem); }
+  .field-section .section__title, .work-header h2 { font-size: var(--heading-size, 2.5rem); }
   .field-section, #exploring.work-section { padding-block: 64px; }
   .work-grid { gap: 48px; }
   .work-pile { margin-inline: 6px; padding: 10px 10px 44px; }
