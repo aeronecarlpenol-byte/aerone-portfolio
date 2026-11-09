@@ -221,7 +221,7 @@
     const mobile = window.innerWidth <= 900;
     const radius = (mobile ? 30 : 44) / 2;
     // The reactor's solid silhouette stays inside the viewport on narrow screens.
-    const left = mobile ? radius + 1 : Math.max(radius + 2, (width - 1200) / 2 + 20);
+    const left = mobile ? radius + 1 : Math.max(radius, (width - 1200) / 2 + 20);
     const right = width - left;
     const first = { x: right, y: portrait ? portrait.bottom - radius : hero ? hero.bottom - 100 : radius };
     const points = [first];
