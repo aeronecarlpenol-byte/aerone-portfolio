@@ -13,3 +13,13 @@ SVG geometry and colors are retained; logo files contain no external requests.
 
 Marks belong to their respective owners. Their inclusion does not imply
 affiliation, partnership or endorsement.
+
+Additional Skills & Tools symbols:
+
+- `html5.svg`, `java.svg`, `python.svg`: original-color Devicon SVGs from
+  https://github.com/devicons/devicon/tree/master/icons (individual brand marks).
+- `github.svg`: official Primer Octicons `mark-github-24.svg` from
+  https://github.com/primer/octicons; white fill for the dark background.
+- `codex.svg`: Codex symbol from https://devicons.io/devicons/icons/codex-icon.svg.
+- `antigravity.svg`: official full-color icon from
+  https://antigravity.google/assets/image/brand/antigravity-icon__full-color.svg.
