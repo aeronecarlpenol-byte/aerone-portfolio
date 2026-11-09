@@ -192,15 +192,15 @@ body .footer { background: transparent; }
 
 /* Compact electromagnetic reactor: geometry stays centered on the existing route. */
 .energy-core { --core-energy: 0; pointer-events: none; filter: drop-shadow(0 0 2px rgb(123 231 255 / .55)); }
-.energy-core__orbit { transform-box: view-box; transform-origin: 50% 50%; opacity: calc(.65 + var(--core-energy) * .35); }
+.energy-core__orbit { transform-box: view-box; transform-origin: 0px 0px; opacity: calc(.65 + var(--core-energy) * .35); }
 .energy-core__aura { opacity: calc(.55 + var(--core-energy) * .4); transform-box: fill-box; transform-origin: center; animation: reactor-field 5.7s ease-in-out infinite; }
-.energy-core__heart { transform-box: view-box; transform-origin: 50% 50%; animation: reactor-heart 3.9s ease-in-out infinite; }
+.energy-core__heart { transform-box: view-box; transform-origin: 0px 0px; animation: reactor-heart 3.9s ease-in-out infinite; }
 .energy-core__circuit { fill: none; stroke: #a9e9f3; stroke-width: .55; opacity: calc(.38 + var(--core-energy) * .4); }
 .energy-core__containment { fill: none; stroke: #d6faff; stroke-width: .45; stroke-dasharray: 3 2 9 3; opacity: .55; }
 .energy-core__arc { fill: none; stroke: #e7fdff; stroke-width: .75; stroke-linecap: round; stroke-linejoin: round; opacity: .1; animation: reactor-arc 4.7s ease-in-out infinite; }
 .energy-core__arc--1 { animation-duration: 6.1s; animation-delay: -2.1s; stroke: #6ee9e1; }
 .energy-core__arc--2 { animation-duration: 5.3s; animation-delay: -3.7s; }
-.energy-core__wave { fill: none; stroke: #81e8ff; stroke-width: .4; transform-box: view-box; transform-origin: 50% 50%; animation: reactor-wave 4.6s ease-out infinite; opacity: 0; }
+.energy-core__wave { fill: none; stroke: #81e8ff; stroke-width: .4; transform-box: view-box; transform-origin: 0px 0px; animation: reactor-wave 4.6s ease-out infinite; opacity: 0; }
 .energy-core__wave--two { animation-delay: -2.3s; }
 @keyframes reactor-heart { 0%, 100% { transform: scale(.94); opacity: .86; } 43% { transform: scale(1.06); opacity: 1; } 71% { transform: scale(.99); opacity: .95; } }
 @keyframes reactor-field { 0%, 100% { transform: scale(.94); } 57% { transform: scale(1.04); } }
