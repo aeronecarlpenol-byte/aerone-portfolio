@@ -19,4 +19,7 @@
   #skills .tech-logo__float { transition: none; transform: none !important; }
 }
 
+@media (max-width: 680px) {
+  #skills [aria-labelledby="skill-ai"].skills-constellation .tech-logo { flex-basis: 96px; }
+}
 
