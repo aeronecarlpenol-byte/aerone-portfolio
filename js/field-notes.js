@@ -35,6 +35,7 @@
   let samples = [];
   let experienceRange = null;
   let markerY = [];
+  let mainOrigin = 0, renderedDistance = null, renderTime = 0, rollAngle = 0, rollDistance = null, gliding = false;
   const terminal = element('g', { class: 'field-path__terminal' });
   const pad = document.createElementNS(ns, 'circle');
   pad.setAttribute('r', '7'); terminal.appendChild(pad);
@@ -131,7 +132,7 @@
     if (coreDistance !== null && !reduced.matches && !document.hidden) {
       const delta = Math.abs(distance - coreDistance), scrollDelta = Math.abs(window.scrollY - coreScroll);
       if (delta > 180 || scrollDelta > window.innerHeight * .7) { resetCore(); }
-      else if (delta > .01 && scrollDelta > 0) {
+      else if (delta > .01) {
         const dt = Math.max(16, now - coreTime);
         velocityTarget = Math.min(1, delta / dt / 2);
         lastCoreMovement = now;
@@ -165,11 +166,11 @@
     if (direction && direction !== lastDirection) travelSinceEmission = 0;
     if (direction) lastDirection = direction;
     travelSinceEmission += Math.abs(delta);
-    if (!scrollDelta || travelSinceEmission + .001 < (mobile ? 14 : 10) || now - lastEmission < (mobile ? 90 : 65) ||
+    if (!delta || travelSinceEmission + .001 < (mobile ? 14 : 10) || now - lastEmission < (mobile ? 90 : 65) ||
         particles.size >= (mobile ? 4 : 8) || distance <= 0 || distance >= length) return;
     const behind = draw.getPointAtLength(Math.max(0, Math.min(length, distance - Math.sign(delta) * (mobile ? 20 : 28))));
     const tip = draw.getPointAtLength(distance);
-    const screenY = behind.y + main.getBoundingClientRect().top;
+    const screenY = behind.y + mainOrigin - window.scrollY;
     if (screenY < 24 || screenY > window.innerHeight - 24) return;
     lastEmission = now; travelSinceEmission = 0;
     const shapes = ['M-2-4 1-4-1-1H2L-2 4 0 0h-2Z', 'M-3 2V-2H2V-4M-4 2h2', 'M-2 0a2 2 0 1 0 4 0a2 2 0 1 0-4 0', 'M-6 0h3l2-2h3', 'M-3 0h6M0-3v6'];
@@ -209,8 +210,6 @@
     const portrait = find('.hero-portrait__image');
     const about = find('#about');
     const projects = find('#exploring');
-    const research = find('#research');
-    const collage = find('.research-collage');
     const skills = find('#skills');
     const timeline = find('.field-timeline');
     markerY = entries.map(entry => {
@@ -219,63 +218,73 @@
     });
     const schematic = find('.field-schematic svg');
     const contactBox = box(contact);
-    // Match the CSS viewport breakpoint, not clientWidth (which excludes the
-    // scrollbar and can otherwise switch the route up to 15px too early).
     const mobile = window.innerWidth <= 900;
-    const left = mobile ? 12 : Math.max(20, (width - 1200) / 2 + 20);
+    const radius = (mobile ? 30 : 44) / 2;
+    // The reactor's solid silhouette stays inside the viewport on narrow screens.
+    const left = mobile ? radius + 1 : Math.max(radius + 2, (width - 1200) / 2 + 20);
     const right = width - left;
-    const first = { x: right, y: portrait ? portrait.bottom - 24 : hero ? hero.bottom - 100 : 160 };
-    // Terminate in the reserved outer gutter, clear of the schematic and buttons.
-    const finish = { x: right, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - 90 };
+    const first = { x: right, y: portrait ? portrait.bottom - radius : hero ? hero.bottom - 100 : radius };
     const points = [first];
-    const add = (x, y) => {
+    let side = right;
+    function add(x, y) {
       const previous = points[points.length - 1];
-      // Never reverse vertically, even if a section collapses while loading.
-      y = Math.max(previous.y, y);
-      if (x !== previous.x && y !== previous.y) points.push({ x: previous.x, y });
-      if (x !== previous.x || y !== previous.y) points.push({ x, y });
-    };
-    // Cross at section boundaries, inside reserved bottom padding. All crossings
-    // are level; the mobile route makes only two changes of side.
-    if (about) { add(right, about.bottom - 28); add(left, about.bottom - 28); }
-    if (!mobile && projects) { add(left, projects.bottom - 28); add(right, projects.bottom - 28); }
-    if (!mobile && research) { add(right, research.bottom - 28); add(left, research.bottom - 28); }
+      if (y > previous.y + .01) points.push({ x: x, y: y });
+    }
+    function insetContainer(selector) {
+      const el = main.querySelector(selector), b = box(el);
+      if (!b) return null;
+      const style = window.getComputedStyle(el);
+      return { x: b.x + (parseFloat(style.paddingLeft) || 0),
+        right: b.right - (parseFloat(style.paddingRight) || 0), y: b.y, bottom: b.bottom };
+    }
+    function crossing(fromSelector, toSelector, fromFallback, toFallback, nextSide) {
+      const from = insetContainer(fromSelector), to = insetContainer(toSelector);
+      const lower = from ? from.bottom : fromFallback, upper = to ? to.y : toFallback;
+      const currentPoint = points[points.length - 1];
+      if (upper - lower < radius * 2 + 4 || lower <= currentPoint.y || nextSide === side) return false;
+      // Try the widest curve first, then trim it only if the full reactor would
+      // clip either content block. All trials stay within measured whitespace.
+      for (let margin = radius * .25; margin <= radius + 8; margin += 2) {
+        const y0 = lower + margin, y1 = upper - margin;
+        if (y1 - y0 < radius) continue;
+        let safe = true;
+        for (let i = 0; i <= 80; i++) {
+          const t = i / 80, x = side + (nextSide - side) * t*t*(3-2*t);
+          const y = y0 + (y1 - y0) * (1.5*t - 1.5*t*t + t*t*t);
+          const intersects = b => b && x + radius + 3 > b.x && x - radius - 3 < b.right && y + radius + 3 > b.y && y - radius - 3 < b.bottom;
+          if (intersects(from) || intersects(to)) { safe = false; break; }
+        }
+        if (!safe) continue;
+        add(side, y0); add(nextSide, y1); side = nextSide; return true;
+      }
+      return false;
+    }
+    if (about && projects) crossing('#about > .container', '#exploring > .container', about.bottom, projects.y, left);
+    // Keep the journey in the outside lane through Projects, Research and
+    // Experience. The timeline's 32-45px gaps cannot safely fit a 44px reactor
+    // plus a broad lateral turn without changing the user's section layout.
     if (timeline && entries.length) {
-      // Join the real timeline rail through the gap above the grid. Do not
-      // create a second set of year markers beside the sticky year panel.
-      const rail = mobile ? left : timeline.x + .5;
-      const firstEntry = box(entries[0]);
-      const last = box(entries[entries.length - 1]);
+      const firstEntry = box(entries[0]), last = box(entries[entries.length - 1]);
       experienceRange = { start: firstEntry.y, end: last.bottom - 32 };
-      add(left, firstEntry.y - 32);
-      add(rail, firstEntry.y - 32);
-      add(rail, last.bottom + 16);
-      add(left, last.bottom + 16);
     }
-    if (skills) { add(left, skills.bottom - 28); add(right, skills.bottom - 28); }
+    const github = find('#github');
+    if (skills && github) crossing('#skills > .container', '#github > .container', skills.bottom, github.y, right);
+    const finish = { x: side, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - radius * 3 };
     add(finish.x, finish.y);
-    // Remove duplicate/collinear vertices before rounding. Each corner consumes
-    // at most half of either adjacent segment: no overlap, overshoot or curls.
-    for (let i = points.length - 2; i > 0; i--) {
-      const a = points[i - 1], b = points[i], c = points[i + 1];
-      if ((a.x === b.x && b.x === c.x) || (a.y === b.y && b.y === c.y)) points.splice(i, 1);
-    }
+    // Every segment has vertical endpoint tangents. Joining straight runs and
+    // lateral S-curves therefore has no angle discontinuity or horizontal plateau.
     let d = `M${first.x} ${first.y}`;
-    for (let i = 1; i < points.length - 1; i++) {
-      const a = points[i - 1], b = points[i], c = points[i + 1];
-      const before = Math.hypot(b.x - a.x, b.y - a.y), after = Math.hypot(c.x - b.x, c.y - b.y);
-      const r = Math.min(mobile ? 10 : 24, before / 2, after / 2);
-      const p = { x: b.x + (a.x - b.x) * r / (before || 1), y: b.y + (a.y - b.y) * r / (before || 1) };
-      const q = { x: b.x + (c.x - b.x) * r / (after || 1), y: b.y + (c.y - b.y) * r / (after || 1) };
-      d += ` L${p.x} ${p.y} Q${b.x} ${b.y} ${q.x} ${q.y}`;
+    for (let i = 1; i < points.length; i++) {
+      const a = points[i - 1], b = points[i], half = (b.y - a.y) / 2;
+      d += ` C${a.x} ${a.y + half} ${b.x} ${b.y - half} ${b.x} ${b.y}`;
     }
-    d += ` L${finish.x} ${finish.y}`;
+
     svg.setAttribute('viewBox', `0 0 ${width} ${main.offsetHeight}`);
     svg.setAttribute('height', main.offsetHeight);
     base.setAttribute('d', d); draw.setAttribute('d', d);
     length = draw.getTotalLength(); draw.style.strokeDasharray = String(length);
-    // Timeline dots are the existing CSS markers, on the same rail as the
-    // signal. Only the hero terminal needs a separate SVG node.
+    // Timeline dots remain semantic CSS markers inside the existing content.
+    // The continuous journey itself stays in the reserved outside lane.
     if (!nodes.length) nodes.push(element('circle', { class: 'field-path__node', r: '4' }));
     nodes[0].setAttribute('cx', first.x); nodes[0].setAttribute('cy', first.y);
     terminal.setAttribute('transform', `translate(${finish.x} ${finish.y}) scale(${mobile ? .65 : 1})`);
@@ -291,7 +300,7 @@
       samples.push({ y, actualY: p.y, distance });
     }
     if (experienceRange && experienceRange.end > experienceRange.start) {
-      // Keep the vertical Experience rail locked to the reader. The global
+      // Keep the core vertically locked to the reader during Experience. The global
       // distance weighting needed by horizontal connectors otherwise makes
       // the signal drift behind scrolling through this long section.
       function mappedY(y) {
@@ -312,6 +321,10 @@
     start = bounds.top + window.scrollY + first.y;
     end = bounds.top + window.scrollY + finish.y;
     svg.dataset.route = mobile ? 'mobile' : 'desktop';
+    mainOrigin = bounds.top + window.scrollY;
+    renderedDistance = null; rollDistance = null;
+    signal.setAttribute('x', -radius); signal.setAttribute('y', -radius);
+    signal.setAttribute('width', radius * 2); signal.setAttribute('height', radius * 2);
     dirty = false;
   }
   function setActive(index) {
@@ -341,7 +354,7 @@
   function update() {
     frame = 0;
     if (dirty) { clearTrail(); resetCore(); measure(); }
-    const targetY = window.scrollY + window.innerHeight * .65 - (main.getBoundingClientRect().top + window.scrollY);
+    const targetY = window.scrollY + window.innerHeight * .65 - mainOrigin;
     let low = 0, high = samples.length - 1;
     while (low < high) { const mid = (low + high) >> 1; if (samples[mid].y < targetY) low = mid + 1; else high = mid; }
     const a = samples[Math.max(0, low - 1)], b = samples[low];
@@ -349,25 +362,34 @@
     let progress = length ? (a.distance + (b.distance - a.distance) * blend) / length : 0;
     if (window.scrollY + window.innerHeight * .65 <= start) progress = 0;
     if (window.scrollY + window.innerHeight * .65 >= end) progress = 1;
-    svg.dataset.progress = progress.toFixed(4);
-    draw.style.strokeDashoffset = reduced.matches ? '0' : String(length * (1 - progress));
-    const p = draw.getPointAtLength(length * progress);
+    const targetDistance = length * progress, now = Date.now();
+    const dt = Math.min(64, Math.max(1, now - (renderTime || now - 16)));
+    renderTime = now;
+    if (renderedDistance === null || reduced.matches) renderedDistance = targetDistance;
+    else renderedDistance += (targetDistance - renderedDistance) * (1 - Math.exp(-dt / 45));
+    const pending = !reduced.matches && Math.abs(targetDistance - renderedDistance) > .02;
+    if (!pending) renderedDistance = targetDistance;
+    svg.dataset.targetProgress = progress.toFixed(4);
+    svg.dataset.progress = (length ? renderedDistance / length : 0).toFixed(4);
+    draw.style.strokeDashoffset = reduced.matches ? '0' : String(length - renderedDistance);
+    const p = draw.getPointAtLength(renderedDistance);
     let index = 0;
     markerY.forEach((y, i) => { if (p.y >= y) index = i; });
     setActive(index);
     const resting = reduced.matches ? draw.getPointAtLength(0) : p;
-    const ahead = draw.getPointAtLength(Math.min(length, length * progress + 8));
+    const ahead = draw.getPointAtLength(Math.min(length, renderedDistance + 8));
     const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));
-    const size = window.innerWidth <= 900 ? 30 : 44;
-    emitTrail(length * progress);
-    energizeCore(length * progress);
-    signal.setAttribute('x', -size / 2); signal.setAttribute('y', -size / 2);
-    signal.setAttribute('width', size); signal.setAttribute('height', size);
+    emitTrail(renderedDistance);
+    energizeCore(renderedDistance);
     position.setAttribute('transform', `translate(${resting.x} ${resting.y})`);
     tiltGroup.setAttribute('transform', `rotate(${tilt})`);
-    rollGroup.setAttribute('transform', `rotate(${reduced.matches ? 0 : length * progress / 250 * 360})`);
+    if (rollDistance !== null) rollAngle += (renderedDistance - rollDistance) / 250 * 360;
+    rollDistance = renderedDistance;
+    rollGroup.setAttribute('transform', `rotate(${reduced.matches ? 0 : Number(rollAngle.toFixed(5))})`);
+    gliding = pending;
+    if (pending && !document.hidden) schedule();
   }
-  function schedule() { if (!frame) frame = requestAnimationFrame(update); }
+  function schedule() { if (!frame) { if (!gliding) renderTime = Date.now() - 16; frame = requestAnimationFrame(update); } }
   function resize() { dirty = true; schedule(); }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', resize, { passive: true });
@@ -380,7 +402,7 @@
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); } else { coreIdle(); } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');

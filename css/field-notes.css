@@ -165,7 +165,7 @@
 .hero-intro p.hero-curiosity { margin: 0 0 20px; font-size: .9rem; line-height: 1.4; }
 .hero-curiosity__phrases { min-height: 0; font-size: clamp(1.15rem, 1.9vw, 1.4rem); line-height: 1.45; margin-top: .25rem; }
 .hero-curiosity__phrases > span { white-space: normal; }
-.field-path__tilt { transition: transform 100ms ease-out; }
+.field-path__tilt { transition: none; }
 .field-path__particle { stroke-width: 1; fill: #baddff; stroke: #baddff; filter: drop-shadow(0 0 2px rgb(88 166 255 / .55)); }
 .field-path__particle--1 { fill: none; stroke: #d9ecff; }
 .field-path__particle--2 { fill: #79baff; stroke: none; }

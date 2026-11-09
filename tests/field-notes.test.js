@@ -40,6 +40,11 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
     '#hero': geometry(0, 0, width, 300), '.hero-portrait__image': geometry(width * .55, 50, width * .3, 120),
     '#about': geometry(0, 300, width, 100), '#exploring': geometry(0, 400, width, 40),
     '#research': geometry(0, 440, width, 30), '.research-collage': geometry(60, 442, 200, 20),
+    '#about > .container': geometry(80, 300, width - 160, 40),
+    '#exploring > .container': geometry(80, 430, width - 160, 10),
+    '#skills > .container': geometry(80, 1820, width - 160, 700),
+    '#github': geometry(0, 2600, width, 400),
+    '#github > .container': geometry(80, 2630, width - 160, 300),
     '#skills': geometry(0, 1800, width, 800), '.field-timeline': geometry(width * .43, 500, width * .5, 1100),
     '.field-schematic svg': geometry(width - 300, 3200, 250, 250)
   };
@@ -56,7 +61,7 @@ function setup(reduced = false, width = 1280, clientWidth = width) {
   flush();
   return { frames, document, documentHandlers, window, media, main, digits, org, active, spark, flush, entries,
     tick(ms) { now += ms; }, resize() { handlers.resize(); flush(); },
-    scroll(y) { window.scrollY = y; handlers.scroll(); flush(); },
+    scroll(y, settle = true) { window.scrollY = y; handlers.scroll(); flush(); if (settle) { for (let i=0;i<40;i++){ now+=16; flush(); } } },
     svg: main.children[0] };
 }
 test('trail follows travel direction, stops emitting at rest, and cleans completed particles', () => {
@@ -65,11 +70,12 @@ test('trail follows travel direction, stops emitting at rest, and cleans complet
   app.scroll(20);
   assert.equal(trail.children.length, 1);
   const forward = trail.children[0];
-  assert.ok(forward.keyframes[0].transform.includes('512px'), 'forward particle starts 28px behind the core at y=540');
+  const forwardY=Number(forward.keyframes[0].transform.match(/, ([\d.]+)px/)[1]);
+  assert.ok(forwardY<540 && forwardY>492, 'forward particle is behind the gliding core');
   app.tick(150); app.scroll(10);
   assert.equal(trail.children.length, 2);
   const reverseY = Number(trail.children[1].keyframes[0].transform.match(/, ([\d.]+)px/)[1]);
-  assert.ok(Math.abs(reverseY - 558) < .01, 'reverse particle starts below the emblem at y=530');
+  assert.ok(reverseY>530 && reverseY<=568, 'reverse particle starts below the gliding core');
   app.tick(1000); app.scroll(10);
   assert.equal(trail.children.length, 2, 'no emission without movement');
   forward.animation.onfinish();
@@ -190,16 +196,16 @@ test('role and year switch exactly as the signal crosses a marker, including rep
 test('desktop route crosses gutters and follows timeline nodes; mobile simplifies it', () => {
   const app = setup();
   const path = app.svg.children[1].attrs.d;
-  assert.ok(path.includes('Q'), 'bends are rounded');
-  assert.ok(!path.includes(' C'), 'desktop has no decorative loops');
+  assert.ok(path.includes(' C'), 'every transition uses a cubic curve');
+  assert.ok(!path.includes(' Q') && !path.includes(' L'), 'no rigid horizontal/vertical corner chain remains');
   assert.equal(app.svg.dataset.route, 'desktop');
   assert.ok(!/NaN|undefined/.test(path));
   const circles = app.svg.children.filter(n => n.attrs.class === 'field-path__node');
   assert.equal(circles.length, 1, 'only the hero has an SVG marker; timeline dots are not duplicated');
-  assert.ok(path.includes('L550.9 '), 'desktop signal joins the actual timeline rail');
+  assert.ok(!path.includes('550.9 '), 'narrow timeline gaps are not crossed through text');
   const mobile = setup(false, 390);
   assert.equal(mobile.svg.dataset.route, 'mobile');
-  assert.ok(!mobile.svg.children[1].attrs.d.includes(' C'));
+  assert.ok(mobile.svg.children[1].attrs.d.includes(' C'));
   assert.equal(mobile.svg.children.filter(n => n.attrs.class === 'field-path__node').length, 1);
   assert.ok(!mobile.svg.children[1].attrs.d.includes('L168.2 '), 'mobile keeps one straight gutter rail without a tiny sideways detour');
   const old = mobile.svg.children[1].attrs.d;
@@ -227,7 +233,7 @@ test('reactor is procedural SVG with three independent counter-rotating electron
 test('scroll velocity increases reactor speed and smoothly decays without an idle JS frame loop', () => {
   const app=setup(),core=reactor(app),ring=core.children.find(n=>n.attrs.class==='energy-core__orbit');
   assert.equal(app.frames.size,0);
-  app.tick(16);app.scroll(40);app.tick(16);app.flush();
+  app.tick(16);app.scroll(40, false);app.tick(16);app.flush();
   const boosted=Number(core.style['--core-energy']); assert.ok(boosted>0); assert.ok(ring.animation.playbackRate>1);
   app.tick(64);app.flush();assert.ok(Number(core.style['--core-energy'])>0,'energy does not snap off');
   for(let i=0;i<60;i++){app.tick(64);app.flush();}
@@ -235,10 +241,45 @@ test('scroll velocity increases reactor speed and smoothly decays without an idl
 });
 test('reduced motion and hidden tabs stop reactor orbit activity and discard velocity', () => {
   const app=setup(),core=reactor(app),rings=core.children.filter(n=>n.attrs.class==='energy-core__orbit');
-  app.tick(16);app.scroll(40);app.document.hidden=true;app.documentHandlers.visibilitychange();
+  app.tick(16);app.scroll(40, false);app.document.hidden=true;app.documentHandlers.visibilitychange();
   assert.ok(rings.every(n=>n.animation.playState==='paused'));assert.equal(core.style['--core-energy'],'0');
   app.document.hidden=false;app.documentHandlers.visibilitychange();assert.ok(rings.every(n=>n.animation.playState==='running'));
   app.media.matches=true;app.media.change();app.flush();assert.ok(rings.every(n=>n.animation.playState==='paused'));
   const still=reactor(setup(true));assert.ok(still.children.filter(n=>n.attrs.class==='energy-core__orbit').every(n=>!n.animation));
+});
+
+test('cubic route joins have vertical tangent continuity, monotone height and no unnecessary zigzags', () => {
+  for(const width of [360,390,768,900,901,1280,1440]){
+    const app=setup(false,width),d=app.svg.children[1].attrs.d;
+    const values=d.match(/-?\d+(?:\.\d+)?(?:e[+-]?\d+)?/gi).map(Number);let previous={x:values[0],y:values[1]},changes=0;
+    assert.ok(!/[LQHVZ]/.test(d));
+    for(let i=2;i<values.length;i+=6){
+      const [x1,y1,x2,y2,x,y]=values.slice(i,i+6);
+      assert.equal(x1,previous.x);assert.equal(x2,x);assert.ok(y1>previous.y&&y2>=y1&&y>y2);
+      if(x!==previous.x)changes++;
+      const radius=(width<=900?30:44)/2;
+      assert.ok(Math.min(x,previous.x)>=radius);assert.ok(Math.max(x,previous.x)<=width-radius);
+      previous={x,y};
+    }
+    assert.equal(changes,2,'only the About and Skills gaps change sides');
+  }
+});
+test('scroll interpolation is monotone, reversible and synchronized to the drawn stroke', () => {
+  const app=setup(),position=app.svg.children.find(n=>n.attrs.class==='field-path__position'),draw=app.svg.children[1];
+  const y=()=>Number(position.attrs.transform.match(/translate\([^ ]+ ([^)]+)\)/)[1]);
+  const initial=y();app.tick(16);app.scroll(200,false);assert.ok(y()>initial&&y()<720);
+  let previous=y();
+  for(let i=0;i<30;i++){app.tick(16);app.flush();assert.ok(y()>=previous&&y()<=720);assert.ok(Math.abs(Number(draw.style.strokeDashoffset)-(2000-y()))<.001);previous=y();}
+  assert.ok(Math.abs(y()-720)<.02);
+  app.tick(16);app.scroll(100,false);assert.ok(y()>620&&y()<720);previous=y();
+  for(let i=0;i<30;i++){app.tick(16);app.flush();assert.ok(y()<=previous&&y()>=620);previous=y();}
+  assert.ok(Math.abs(y()-620)<.02);
+});
+test('rendering reuses cached layout, and a resize preserves the rolling angle', () => {
+  const app=setup();app.main.getBoundingClientRect=()=>{throw Error('unexpected layout read during glide');};
+  app.tick(16);app.scroll(80);
+  app.main.getBoundingClientRect=()=>({top:-app.window.scrollY});
+  const roll=app.svg.children.find(n=>n.attrs.class==='field-path__position').children[0].children[0];const angle=roll.attrs.transform;
+  app.main.clientWidth=1024;app.resize();assert.equal(roll.attrs.transform,angle);
 });
 
