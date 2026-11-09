@@ -1,37 +1,7 @@
-/* Engineering keepsakes and a Skills-only launch from the existing scroll emblem. */
+/* Skills-only distribution from the existing scroll energy core. */
 (function () {
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const hero = document.querySelector('#hero');
-  const stickers = Array.from(document.querySelectorAll('.hero-sticker'));
-  const fine = window.matchMedia('(hover: hover) and (pointer: fine)');
-  let parallaxFrame = 0;
-  function resetParallax() {
-    if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
-    parallaxFrame = 0;
-    stickers.forEach(function (sticker) { sticker.style.setProperty('--sticker-x', '0px'); sticker.style.setProperty('--sticker-y', '0px'); });
-  }
-  if (hero && stickers.length) {
-    hero.addEventListener('pointermove', function (event) {
-      if (reduced.matches || !fine.matches || event.pointerType === 'touch') return;
-      if (parallaxFrame) cancelAnimationFrame(parallaxFrame);
-      const x = event.clientX, y = event.clientY;
-      parallaxFrame = requestAnimationFrame(function () {
-        parallaxFrame = 0;
-        const box = hero.getBoundingClientRect();
-        const dx = Math.max(-1, Math.min(1, (x - box.left) / box.width * 2 - 1));
-        const dy = Math.max(-1, Math.min(1, (y - box.top) / box.height * 2 - 1));
-        stickers.forEach(function (sticker, i) {
-          const depth = (i % 2 ? -1 : 1) * (2 + i % 3);
-          sticker.style.setProperty('--sticker-x', dx * depth + 'px');
-          sticker.style.setProperty('--sticker-y', dy * depth + 'px');
-        });
-      });
-    }, { passive: true });
-    hero.addEventListener('pointerleave', resetParallax);
-    fine.addEventListener('change', resetParallax);
-  }
-
   const section = document.querySelector('#skills');
   if (!section) return;
   const heading = document.querySelector('#skills .section__header');
@@ -204,8 +174,8 @@
   stages.forEach(function (stage) { stage.classList.add('is-awaiting'); stage.addEventListener('focusin', finish); });
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', function () { if (started) finish(); else schedule(); });
-  reduced.addEventListener('change', function () { resetParallax(); if (reduced.matches) finish(); });
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { resetParallax(); finish(); } });
+  reduced.addEventListener('change', function () { if (reduced.matches) finish(); });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { finish(); } });
   schedule();
 }());
 

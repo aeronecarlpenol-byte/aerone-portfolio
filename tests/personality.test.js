@@ -86,9 +86,4 @@ test('scroll-away, resize, keyboard focus, hidden tabs and motion changes clean 
     assert.equal(app.frames.size,0,kind);
   }
 });
-test('hero parallax is still bounded and resets on pointer leave',()=>{
-  const app=setup();app.step(0);app.hero.handlers.pointermove({clientX:10000,clientY:10000,pointerType:'mouse'});app.step(16);
-  assert.ok(app.stickers.every(s=>Math.abs(parseFloat(s.values['--sticker-x']))<=4));app.hero.handlers.pointerleave();
-  assert.ok(app.stickers.every(s=>s.values['--sticker-x']==='0px'));
-});
 
