@@ -4,7 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs');
 const vm = require('node:vm');
 
-function setup(reduced = false, width = 1280, clientWidth = width, integratedTimeline = false) {
+function setup(reduced = false, width = 1280, clientWidth = width, integratedTimeline = false, editorialLayout = false) {
   const frames = new Map(), handlers = {}, documentHandlers = {}; let frameId = 0;
   let now = 1000;
   const media = { matches: reduced, addEventListener: (_, fn) => { media.change = fn; } };
@@ -57,6 +57,20 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     landmarks['.field-experience'] = geometry(80, 600, width - 160, 1200);
     landmarks['.learning-project-note'] = geometry(80, 1896, width - 160, 30);
   }
+  if (editorialLayout) {
+    const containerWidth = Math.min(1440, clientWidth), outer = (clientWidth - containerWidth) / 2;
+    const padding = width <= 1000 ? 48 : Math.max(48, Math.min(112, width * .07));
+    const endPadding = width <= 680 ? 24 : width <= 1000 ? 32 : padding;
+    const regions = { about: [300, 40], exploring: [430, 10], research: [460, 10],
+      skills: [1820, 700], github: [2630, 300], contact: [3000, 700] };
+    for (const [id, [y, height]] of Object.entries(regions)) {
+      const el = geometry(outer, y, containerWidth, height);
+      el.paddingLeft = padding; el.paddingRight = endPadding;
+      landmarks['#' + id + ' > .container'] = el;
+    }
+    window.getComputedStyle = el => ({ top: '28.8px', height: '13px',
+      paddingLeft: String(el.paddingLeft || 0), paddingRight: String(el.paddingRight || 0) });
+  }
   main.querySelector = s => landmarks[s];
   const document = {
     hidden: false, addEventListener(k, fn) { documentHandlers[k] = fn; },
@@ -68,7 +82,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
   });
   function flush() { const pending = [...frames.values()]; frames.clear(); pending.forEach(fn => fn()); }
   flush();
-  return { frames, document, documentHandlers, window, media, main, digits, org, active, spark, flush, entries,
+  return { frames, document, documentHandlers, window, media, main, digits, org, active, spark, flush, entries, landmarks,
     tick(ms) { now += ms; }, resize() { handlers.resize(); flush(); },
     scroll(y, settle = true) { window.scrollY = y; handlers.scroll(); flush(); if (settle) { for (let i=0;i<40;i++){ now+=16; flush(); } } },
     svg: main.children[0] };
@@ -218,7 +232,7 @@ test('desktop route crosses gutters and follows timeline nodes; mobile simplifie
   assert.equal(mobile.svg.children.filter(n => n.attrs.class === 'field-path__node').length, 1);
   assert.ok(!mobile.svg.children[1].attrs.d.includes('L168.2 '), 'mobile keeps one straight gutter rail without a tiny sideways detour');
   const old = mobile.svg.children[1].attrs.d;
-  mobile.main.clientWidth = 320;
+  mobile.landmarks['.hero-portrait__image'].offsetHeight += 40;
   mobile.main.load(); mobile.flush();
   assert.notEqual(mobile.svg.children[1].attrs.d, old, 'image loads remeasure geometry');
 });
@@ -270,7 +284,31 @@ test('cubic route joins have vertical tangent continuity, monotone height and no
       assert.ok(Math.min(x,previous.x)>=radius);assert.ok(Math.max(x,previous.x)<=width-radius);
       previous={x,y};
     }
-    assert.equal(changes,2,'only the About and Skills gaps change sides');
+    assert.equal(changes,width <= 900 ? 0 : 2,'mobile stays in its gutter; desktop crosses only in section gaps');
+  }
+});
+
+test('wire and reactor clear the actual editorial content bounds at narrow and wide viewport sizes', () => {
+  for (const width of [320, 390, 768, 900, 901, 1280, 1536, 1920, 2560]) {
+    const app = setup(false, width, width - 15, false, true);
+    const values = app.svg.children[1].attrs.d.match(/-?\d+(?:\.\d+)?/g).map(Number);
+    const clearance = (width <= 900 ? 15 : 22) + 3;
+    const obstacles = Object.entries(app.landmarks).filter(([key]) => key.endsWith(' > .container')).map(([, el]) => ({
+      left: el.offsetLeft + el.paddingLeft, right: el.offsetLeft + el.offsetWidth - el.paddingRight,
+      top: el.offsetTop, bottom: el.offsetTop + el.offsetHeight
+    }));
+    let [x0, y0] = values;
+    for (let i = 2; i < values.length; i += 6) {
+      const [x1, y1, x2, y2, x3, y3] = values.slice(i, i + 6);
+      for (let j = 0; j <= 300; j++) {
+        const t = j / 300, u = 1 - t;
+        const x = u*u*u*x0 + 3*u*u*t*x1 + 3*u*t*t*x2 + t*t*t*x3;
+        const y = u*u*u*y0 + 3*u*u*t*y1 + 3*u*t*t*y2 + t*t*t*y3;
+        assert.ok(!obstacles.some(b => x + clearance > b.left && x - clearance < b.right &&
+          y + clearance > b.top && y - clearance < b.bottom), 'content collision at viewport ' + width + ': ' + x + ', ' + y);
+      }
+      x0 = x3; y0 = y3;
+    }
   }
 });
 test('scroll interpolation is monotone, reversible and synchronized to the drawn stroke', () => {
@@ -307,4 +345,3 @@ test('Experience journey joins the measured timeline axis and exits before suppo
     assert.ok(exit.x + radius + 8 <= width * .1, 'reactor clears the wider Experience content, including large desktops');
   }
 });
-

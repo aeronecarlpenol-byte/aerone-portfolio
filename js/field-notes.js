@@ -220,9 +220,17 @@
     const contactBox = box(contact);
     const mobile = window.innerWidth <= 900;
     const radius = (mobile ? 30 : 44) / 2;
-    // The reactor's solid silhouette stays inside the viewport on narrow screens.
-    const left = mobile ? radius + 1 : Math.max(radius, (width - 1200) / 2 + 20);
-    const right = width - left;
+    // Follow the actual reading margins, including the 1440px editorial grid.
+    // A fixed canvas width would put the wire inside cards on wider displays.
+    const contentBounds = ['#about', '#exploring', '#research', '#experience', '#skills', '#github', '#contact']
+      .map(selector => insetContainer(selector + ' > .container')).filter(Boolean);
+    const contentLeft = contentBounds.length ? Math.min(...contentBounds.map(b => b.x)) : radius * 2 + 12;
+    const contentRight = contentBounds.length ? Math.max(...contentBounds.map(b => b.right)) : width - radius * 2 - 12;
+    const left = mobile ? radius + 1 : Math.max(radius + 1, contentLeft - radius - 12);
+    // Some tablet layouts have a narrower right inset. Use the left lane when
+    // that gutter cannot contain the whole reactor plus its breathing room.
+    const right = mobile || width - contentRight < radius * 2 + 12 ? left :
+      Math.min(width - radius - 1, contentRight + radius + 12);
     const first = { x: right, y: portrait ? portrait.bottom - radius : hero ? hero.bottom - 100 : radius };
     const points = [first];
     let side = right;
@@ -244,14 +252,14 @@
       if (upper - lower < radius * 2 + 4 || lower < currentPoint.y || nextSide === side) return false;
       // Try the widest curve first, then trim it only if the full reactor would
       // clip either content block. All trials stay within measured whitespace.
-      for (let margin = radius * .25; margin <= radius + 8; margin += 2) {
+      for (let margin = radius * .25; margin <= radius + 10; margin += 2) {
         const y0 = lower + margin, y1 = upper - margin;
         if (y1 - y0 < radius) continue;
         let safe = true;
-        for (let i = 0; i <= 80; i++) {
-          const t = i / 80, x = side + (nextSide - side) * t*t*(3-2*t);
+        for (let i = 0; i <= 200; i++) {
+          const t = i / 200, x = side + (nextSide - side) * t*t*(3-2*t);
           const y = y0 + (y1 - y0) * (1.5*t - 1.5*t*t + t*t*t);
-          const intersects = b => b && x + radius + 3 > b.x && x - radius - 3 < b.right && y + radius + 3 > b.y && y - radius - 3 < b.bottom;
+          const intersects = b => b && x + radius + 8 > b.x && x - radius - 8 < b.right && y + radius + 8 > b.y && y - radius - 8 < b.bottom;
           if (intersects(from) || intersects(to)) { safe = false; break; }
         }
         if (!safe) continue;
@@ -425,7 +433,6 @@
   });
   schedule();
 }());
-
 
 
 
