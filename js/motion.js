@@ -265,7 +265,7 @@
     window.addEventListener('resize', checkExits, { passive: true });
   }
 
-  const sectionItems = document.querySelectorAll('main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side, .github-card');
+  const sectionItems = document.querySelectorAll('.hero-quote .hero-statement, main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side, .github-card');
   if ('IntersectionObserver' in window && !reduced.matches) {
     const sectionObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {

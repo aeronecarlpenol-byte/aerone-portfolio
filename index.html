@@ -15,6 +15,7 @@
   <!-- Favicon -->
   <link rel="icon" type="image/jpeg" href="assets/brand/aerone-logo.jpg" />
 
+  <script src="js/theme.js"></script>
   <!-- Google Fonts – Space Grotesk + Plus Jakarta Sans + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,6 +36,7 @@
 <link rel="stylesheet" href="css/personality.css" />
 <link rel="stylesheet" href="css/experience.css" />
 <link rel="stylesheet" href="css/contact.css" />
+<link rel="stylesheet" href="css/theme.css" />
 </head>
 <body class="portfolio-home">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -51,26 +53,16 @@
       <span>Aerone Carl P. Peñol</span>
     </a>
 
-    <!-- Desktop links -->
     <nav class="nav__links" aria-label="Primary navigation">
-      <a href="#hero"        class="nav__link active" aria-current="page">Home</a>
-      <a href="#about"       class="nav__link">About</a>
-      <a href="#exploring"   class="nav__link">Projects</a>
-      <a href="/research"    class="nav__link">Research</a>
-      <a href="#experience"  class="nav__link">Experience</a>
-      <a href="#skills"      class="nav__link">Skills</a>      <a href="#github"      class="nav__link">GitHub</a>
+      <a href="#exploring" class="nav__link">Work</a>
+      <a href="#experience" class="nav__link">Experience</a>
+      <a href="#skills" class="nav__link">Skills</a>
       <a href="#contact" class="nav__link">Contact</a>
     </nav>
-
-    <!-- Desktop CTA -->
-    <div class="nav__cta">
-      <a href="#contact" class="btn btn--primary btn--sm">
-        <!-- Email icon -->
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
-        </svg>
-        Get in Touch
-      </a>
+    <div class="nav-actions" aria-label="Quick actions">
+      <button class="nav-action theme-toggle" type="button" aria-label="Switch to light theme" aria-pressed="false"><span aria-hidden="true">◐</span></button>
+      <a class="nav-action nav-action--cv" href="assets/cv/aerone-carl-penol-cv.pdf" download="Aerone-Carl-Penol-CV.pdf">CV</a>
+      <a class="nav-action nav-action--email" href="mailto:aeronecarlpenol@gmail.com">Email</a>
     </div>
 
     <!-- Mobile toggle -->
@@ -91,6 +83,10 @@
     <a href="#skills"      class="nav__drawer-link">Skills</a>    <a href="#github"      class="nav__drawer-link">GitHub</a>
     <div style="margin-top:.5rem">
       <a href="#contact" class="btn btn--primary" style="width:100%;justify-content:center;">Get in Touch</a>
+    </div>
+    <div class="nav-drawer-actions">
+      <a class="nav-action" href="assets/cv/aerone-carl-penol-cv.pdf" download="Aerone-Carl-Penol-CV.pdf">Download CV</a>
+      <a class="nav-action nav-action--email" href="mailto:aeronecarlpenol@gmail.com">Email me</a>
     </div>
   </nav>
 </header>
@@ -145,15 +141,15 @@
         <span>Aerone / Ronron</span>
       </span>
     </a>
-      <div class="hero-thought">
-      <p class="hero-statement">The obstacle<br>is the way<span class="hero-name-period">.</span></p>
-    </div>
+
     </div>
   </div>
 
 
 
 </section>
+
+<section id="hero-quote" class="hero-quote" aria-label="Personal motto"><div class="container"><p class="hero-statement">The obstacle<br>is the way<span class="hero-name-period">.</span></p></div></section>
 
 <!-- ───────────────────────────────────────────────────
      ABOUT

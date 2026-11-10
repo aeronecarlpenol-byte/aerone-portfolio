@@ -57,7 +57,7 @@
   border: 0;
 }
 .portfolio-home .hero-foot > span:last-child { display: block; text-align: right; }
-.portfolio-home .hero-visual { display: grid; align-content: start; gap: 1rem; width: 100%; max-width: none; justify-self: stretch; }
+.portfolio-home .hero-visual { display: grid; align-content: start; gap: 0; width: 100%; max-width: none; justify-self: stretch; }
 .portfolio-home .hero-portrait { width: 100%; max-width: none; }
 .portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1.14; mask-image: linear-gradient(#000 76%, transparent); }
 .portfolio-home .hero-portrait:hover .hero-portrait__image { box-shadow: none; }
@@ -152,3 +152,8 @@
   .portfolio-home .work-header { margin-bottom: 1.75rem; }
   .portfolio-home .hero-foot { font-size: .55rem; letter-spacing: .02em; }
 }
+
+.portfolio-home .hero-quote { padding-block: 1.5rem 2rem; }
+.portfolio-home .hero-quote .hero-statement { text-align: center; color: var(--text-primary); }
+.portfolio-home #main-content { padding-top: var(--nav-height); }
+.portfolio-home .hero-top { align-items: baseline; }

@@ -295,7 +295,7 @@
     // the timeline. Hero content has no shared container, so include it explicitly.
     const avoidance = ['#about', '#exploring', '#research', '#skills', '#github', '#contact']
       .map(selector => insetContainer(selector + ' > .container')).filter(Boolean).concat([
-      find('.hero-copy'), find('.hero-visual'),
+      find('.hero-copy'), find('.hero-visual'), insetContainer('#hero-quote > .container'),
       find('.field-experience > .section__header'),
       find('.learning-project-note'), find('.learning-background-title'), find('.education-grid')
     ]).filter(Boolean);
