@@ -17,7 +17,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = { cancelled: false, playState: 'running', playbackRate: 1, pause() { this.playState = 'paused'; }, play() { this.playState = 'running'; }, cancel() { this.cancelled = true; } }; },
     addEventListener(k, fn) { this[k] = fn; }
   });
-  const window = { innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
+  const window = { PortfolioPathRouting: require('../js/path-routing'), innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
     getComputedStyle: () => ({ top: '28.8px', height: '13px' }),
     addEventListener(k, fn) { handlers[k] = fn; } };
   const rect = top => () => ({ top: top - window.scrollY });
@@ -284,7 +284,7 @@ test('cubic route joins have vertical tangent continuity, monotone height and no
       assert.ok(Math.min(x,previous.x)>=radius);assert.ok(Math.max(x,previous.x)<=width-radius);
       previous={x,y};
     }
-    assert.equal(changes,width <= 900 ? 0 : 2,'mobile stays in its gutter; desktop crosses only in section gaps');
+    assert.ok(changes <= 8, 'curves remain sparse and continuous');
   }
 });
 
@@ -330,18 +330,17 @@ test('rendering reuses cached layout, and a resize preserves the rolling angle',
   app.main.clientWidth=1024;app.resize();assert.equal(roll.attrs.transform,angle);
 });
 
-test('Experience journey joins the measured timeline axis and exits before supporting education', () => {
-  for (const width of [390, 768, 1280, 1920]) {
-    const app = setup(false, width, width, true), d = app.svg.children[1].attrs.d;
-    const numbers = d.match(/-?\d+(?:\.\d+)?/g).map(Number);
-    const ends = [];
-    for (let i=2; i<numbers.length; i+=6) ends.push({x:numbers[i+4],y:numbers[i+5]});
-    const rail = width <= 759 ? 28 : width * .43 - 51.2;
-    assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y<600), 'joins ahead of the heading');
-    assert.ok(ends.some(p=>Math.abs(p.x-rail)<.01&&p.y===1800), 'continuous rail through the final entry');
-    const exit = ends.find(p=>Math.abs(p.x-rail)>.01&&p.y>1800&&p.y<1896);
-    assert.ok(exit, 'returns to the outer lane before education');
-    const radius = width <= 900 ? 15 : 22;
-    assert.ok(exit.x + radius + 8 <= width * .1, 'reactor clears the wider Experience content, including large desktops');
+test('failed timeline exits cannot leave the route running through Education', () => {
+  const routing = require('../js/path-routing');
+  for (const width of [320,390,768,900,901,1280,1920,2560]) {
+    const app=setup(false,width,width,true),d=app.svg.children[1].attrs.d;
+    const n=d.match(/-?\d+(?:\.\d+)?/g).map(Number), points=[{x:n[0],y:n[1]}];
+    for(let i=2;i<n.length;i+=6)points.push({x:n[i+4],y:n[i+5]});
+    const education=app.landmarks['#experience > .container'];
+    const zone={x:education.offsetLeft,right:education.offsetLeft+education.offsetWidth,y:education.offsetTop,bottom:education.offsetTop+education.offsetHeight};
+    assert.equal(app.svg.dataset.routing,'exterior');
+    assert.ok(routing.safe(points,[zone],Number(app.svg.dataset.clearance)), 'whole aura clears Education at '+width);
+    app.scroll(1700); app.scroll(200); app.resize();
+    assert.equal(app.svg.children[1].attrs.d,d,'scroll and stable resize do not alter safe geometry');
   }
 });

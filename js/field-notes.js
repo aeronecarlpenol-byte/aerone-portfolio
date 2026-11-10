@@ -219,7 +219,7 @@
     const schematic = find('.field-schematic svg');
     const contactBox = box(contact);
     const mobile = window.innerWidth <= 900;
-    const radius = (mobile ? 30 : 44) / 2;
+    let radius = (mobile ? 30 : 44) / 2;
     // Follow the actual reading margins, including the 1440px editorial grid.
     // A fixed canvas width would put the wire inside cards on wider displays.
     const contentBounds = ['#about', '#exploring', '#research', '#experience', '#skills', '#github', '#contact']
@@ -231,8 +231,8 @@
     // that gutter cannot contain the whole reactor plus its breathing room.
     const right = mobile || width - contentRight < radius * 2 + 12 ? left :
       Math.min(width - radius - 1, contentRight + radius + 12);
-    const first = { x: right, y: portrait ? portrait.bottom - radius : hero ? hero.bottom - 100 : radius };
-    const points = [first];
+    let first = { x: right, y: portrait ? portrait.bottom - radius : hero ? hero.bottom - 100 : radius };
+    let points = [first];
     let side = right;
     function add(x, y) {
       const previous = points[points.length - 1];
@@ -288,8 +288,22 @@
     }
     const github = find('#github');
     if (skills && github) crossing('#skills > .container', '#github > .container', skills.bottom, github.y, right);
-    const finish = { x: side, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - radius * 3 };
+    let finish = { x: side, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - radius * 3 };
     add(finish.x, finish.y);
+    // Validate the complete route, not just the two blocks at each crossing.
+    // Container interiors protect all descendants, including Education below
+    // the timeline. Hero content has no shared container, so include it explicitly.
+    const avoidance = contentBounds.concat([
+      insetContainer('#experience > .container'),
+      find('.hero-copy'), find('.hero-visual')
+    ]).filter(Boolean);
+    if (window.PortfolioPathRouting) {
+      const routed = window.PortfolioPathRouting.route(points, avoidance, width, radius);
+      points = routed.points; radius = routed.radius;
+      first = points[0]; finish = points[points.length - 1];
+      svg.dataset.routing = routed.fallback ? 'exterior' : 'interior';
+      svg.dataset.clearance = String(radius + 8);
+    }
     // Every segment has vertical endpoint tangents. Joining straight runs and
     // lateral S-curves therefore has no angle discontinuity or horizontal plateau.
     let d = `M${first.x} ${first.y}`;
@@ -422,6 +436,16 @@
   // Load doesn't bubble; capture catches lazy images anywhere in the journey.
   main.addEventListener('load', resize, true);
   window.addEventListener('pageshow', resize);
+  main.addEventListener('toggle', resize, true);
+  main.addEventListener('transitionend', function (event) {
+    if (['height', 'max-height', 'width', 'padding'].includes(event.propertyName)) resize();
+  }, true);
+  if ('MutationObserver' in window) new MutationObserver(function (records) {
+    if (records.some(function (record) {
+      const el = record.target.nodeType === 1 ? record.target : record.target.parentElement;
+      return el && !el.closest('.field-path');
+    })) resize();
+  }).observe(main, { childList: true, subtree: true, characterData: true });
   document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
