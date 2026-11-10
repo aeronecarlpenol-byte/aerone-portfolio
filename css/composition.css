@@ -63,6 +63,7 @@
 .portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1.14; mask-image: linear-gradient(#000 76%, transparent); }
 .portfolio-home .hero-portrait:hover .hero-portrait__image { box-shadow: none; }
 .portfolio-home .hero-portrait__caption { width: 100%; margin: 0; padding: 0; box-sizing: border-box; color: var(--text-muted); font: inherit; letter-spacing: inherit; }
+.portfolio-home .hero-portrait__caption > span:last-child { display: block; }
 .portfolio-home .hero-thought { padding: 0; }
 .portfolio-home .hero-statement { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.3; text-align: left; }
 .portfolio-home .hero-statement br { display: initial; }
