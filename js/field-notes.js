@@ -293,13 +293,55 @@
     // Validate the complete route, not just the two blocks at each crossing.
     // Container interiors protect all descendants, including Education below
     // the timeline. Hero content has no shared container, so include it explicitly.
-    const avoidance = contentBounds.concat([
-      insetContainer('#experience > .container'),
-      find('.hero-copy'), find('.hero-visual')
+    const avoidance = ['#about', '#exploring', '#research', '#skills', '#github', '#contact']
+      .map(selector => insetContainer(selector + ' > .container')).filter(Boolean).concat([
+      find('.hero-copy'), find('.hero-visual'),
+      find('.field-experience > .section__header'),
+      find('.learning-project-note'), find('.learning-background-title'), find('.education-grid')
     ]).filter(Boolean);
+    // Experience has an intentional whitespace corridor between the sticky
+    // year and timeline content. Protect those actual blocks, not their parent
+    // container, which would incorrectly classify the corridor as content.
+    entries.forEach(function (entry) {
+      ['.learning-timeline__body', '.learning-timeline__label'].forEach(function (selector) {
+        const zone = box(entry.querySelector(selector));
+        if (zone) avoidance.push(zone);
+      });
+    });
+    const stickyZone = find('.field-sticky'), experienceGroup = find('.field-experience');
+    if (stickyZone && experienceGroup) {
+      // The sticky panel can occupy any vertical position in its parent.
+      avoidance.push({ x: stickyZone.x, right: stickyZone.right,
+        y: experienceGroup.y, bottom: experienceGroup.bottom });
+    }
     if (window.PortfolioPathRouting) {
       const routed = window.PortfolioPathRouting.route(points, avoidance, width, radius);
       points = routed.points; radius = routed.radius;
+      if (routed.fallback && timeline && entries.length && experienceGroup) {
+        const entryBox = box(entries[0]), dot = window.getComputedStyle(entries[0], '::before');
+        const dotLeft = parseFloat(dot.left);
+        const rail = Number.isFinite(dotLeft) ? entryBox.x + dotLeft + parseFloat(dot.width || dot.height) / 2 : null;
+        const note = find('.learning-project-note');
+        const outerRadius = radius;
+        if (rail !== null) avoidance.forEach(function (zone) {
+          if (zone.bottom <= experienceGroup.y || zone.y >= experienceGroup.bottom) return;
+          const distance = rail <= zone.x ? zone.x - rail : rail >= zone.right ? rail - zone.right : 0;
+          radius = Math.min(radius, Math.max(0, distance - 9));
+        });
+        const clearance = radius + 8;
+        const enter = experienceGroup.y - clearance - 2;
+        const leave = experienceGroup.bottom + clearance + 2;
+        const exit = note ? note.y - clearance - 2 : leave + 40;
+        const lane = points[0].x;
+        const candidate = points.filter(p => p.y < enter - 48).concat([
+          { x: lane, y: enter - 48 }, { x: rail, y: enter },
+          { x: rail, y: leave }, { x: lane, y: exit }
+        ], points.filter(p => p.y > exit));
+        if (rail !== null && radius >= 6 && exit > leave &&
+            window.PortfolioPathRouting.safe(candidate, avoidance, clearance)) {
+          points = candidate; svg.dataset.timelineConnected = 'true';
+        } else { radius = outerRadius; svg.dataset.timelineConnected = 'false'; }
+      } else svg.dataset.timelineConnected = 'true';
       first = points[0]; finish = points[points.length - 1];
       svg.dataset.routing = routed.fallback ? 'exterior' : 'interior';
       svg.dataset.clearance = String(radius + 8);

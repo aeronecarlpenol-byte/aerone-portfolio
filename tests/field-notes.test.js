@@ -15,7 +15,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     remove() { if (this.parent) this.parent.children = this.parent.children.filter(c => c !== this); },
     getTotalLength() { return 2000; }, getPointAtLength(n) { return { x: 20, y: n }; },
     animate(keyframes, options) { this.animations = (this.animations || 0) + 1; this.keyframes = keyframes; this.animationOptions = options; return this.animation = { cancelled: false, playState: 'running', playbackRate: 1, pause() { this.playState = 'paused'; }, play() { this.playState = 'running'; }, cancel() { this.cancelled = true; } }; },
-    addEventListener(k, fn) { this[k] = fn; }
+    querySelector() { return null; }, addEventListener(k, fn) { this[k] = fn; }
   });
   const window = { PortfolioPathRouting: require('../js/path-routing'), innerWidth: width, innerHeight: 800, scrollY: 0, matchMedia: () => media,
     getComputedStyle: () => ({ top: '28.8px', height: '13px' }),
@@ -34,6 +34,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
   const schematic = node(), spark = node(); spark.attrs['aria-pressed'] = 'false'; spark.closest = () => schematic;
   const geometry = (x, y, w, h) => Object.assign(node(), { offsetLeft: x, offsetTop: y, offsetWidth: w, offsetHeight: h, offsetParent: main });
   Object.assign(experience, geometry(0, 400, width, 1300));
+  experience.querySelector = s => ({ '.field-active': active, '.field-active__org': org, '.field-active__role': role })[s];
   Object.assign(contact, geometry(0, 3000, width, 700));
   entries.forEach((entry, i) => Object.assign(entry, { offsetLeft: width * .43, offsetTop: 500 + i * 600, offsetWidth: width * .5, offsetHeight: 500, offsetParent: main }));
   const landmarks = {
@@ -56,6 +57,9 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     landmarks['#research > .container'] = geometry(80, 440, width - 160, 30);
     landmarks['.field-experience'] = geometry(80, 600, width - 160, 1200);
     landmarks['.learning-project-note'] = geometry(80, 1896, width - 160, 30);
+    landmarks['.education-grid'] = geometry(width * .1, 2000, width * .8, 200);
+    landmarks['#skills > .container'] = geometry(80, 2300, width - 160, 600);
+    landmarks['#github > .container'] = geometry(80, 3000, width - 160, 200);
   }
   if (editorialLayout) {
     const containerWidth = Math.min(1440, clientWidth), outer = (clientWidth - containerWidth) / 2;
@@ -336,11 +340,12 @@ test('failed timeline exits cannot leave the route running through Education', (
     const app=setup(false,width,width,true),d=app.svg.children[1].attrs.d;
     const n=d.match(/-?\d+(?:\.\d+)?/g).map(Number), points=[{x:n[0],y:n[1]}];
     for(let i=2;i<n.length;i+=6)points.push({x:n[i+4],y:n[i+5]});
-    const education=app.landmarks['#experience > .container'];
+    const education=app.landmarks['.education-grid'];
     const zone={x:education.offsetLeft,right:education.offsetLeft+education.offsetWidth,y:education.offsetTop,bottom:education.offsetTop+education.offsetHeight};
-    assert.equal(app.svg.dataset.routing,'exterior');
+    assert.equal(app.svg.dataset.timelineConnected,'true', 'wire retains its timeline connection at '+width);
     assert.ok(routing.safe(points,[zone],Number(app.svg.dataset.clearance)), 'whole aura clears Education at '+width);
     app.scroll(1700); app.scroll(200); app.resize();
     assert.equal(app.svg.children[1].attrs.d,d,'scroll and stable resize do not alter safe geometry');
   }
 });
+
