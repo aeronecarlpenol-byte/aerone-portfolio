@@ -60,7 +60,8 @@
 .portfolio-home .hero-metadata__group > span:last-child { flex-shrink: 0; text-align: right; }
 .portfolio-home .hero-visual { display: grid; align-content: start; gap: 0; width: 100%; max-width: none; justify-self: stretch; }
 .portfolio-home .hero-portrait { width: 100%; max-width: none; }
-.portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1.14; mask-image: linear-gradient(#000 76%, transparent); }
+.portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1; mask-image: linear-gradient(#000 76%, transparent); }
+.portfolio-home .hero-portrait__image img { left: 0; width: 100%; height: 100%; object-fit: cover; }
 .portfolio-home .hero-portrait:hover .hero-portrait__image { box-shadow: none; }
 .portfolio-home .hero-portrait__caption { width: 100%; margin: 0; padding: 0; box-sizing: border-box; color: var(--text-muted); font: inherit; letter-spacing: inherit; }
 .portfolio-home .hero-portrait__caption > span:last-child { display: block; }
