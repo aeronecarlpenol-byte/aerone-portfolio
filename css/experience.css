@@ -39,3 +39,7 @@
 
 #experience .experience-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; margin-bottom: 14px; }
 #experience .experience-meta .learning-timeline__year, #experience .experience-meta .learning-timeline__label { margin: 0; }
+/* Keep the degree name readable inside a narrow Education card. */
+@media (max-width: 380px) {
+  #experience .education-main h2 { font-size: clamp(1.35rem, 6vw, 1.65rem); line-height: 1.25; }
+}
