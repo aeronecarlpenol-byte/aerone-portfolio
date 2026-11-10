@@ -128,9 +128,9 @@
 }
 #experience .field-year { font-size: clamp(5.5rem, 8vw, 7.25rem); letter-spacing: -.055em; }
 #experience .field-annotation { color: #9cdaff; }
-#experience .learning-timeline__body > .learning-timeline__summary {
-  grid-column: 1 / -1; max-width: 62ch; padding: 0; border: 0;
-  background: none; color: var(--text-secondary); font-size: 1rem; line-height: 1.65;
+#experience .field-timeline .learning-timeline__entry .learning-timeline__body > p.learning-timeline__summary {
+  grid-column: 1 / -1; width: auto; max-width: 62ch; padding: 0; border: 0;
+  background: none; box-shadow: none; color: var(--text-secondary); font-size: 1rem; line-height: 1.65;
 }
 #experience .experience-highlights {
   grid-column: 1 / -1; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
