@@ -153,7 +153,7 @@
   .portfolio-home .hero-foot { font-size: .55rem; letter-spacing: .02em; }
 }
 
-.portfolio-home .hero-quote { padding-block: 1.5rem 2rem; }
-.portfolio-home .hero-quote .hero-statement { text-align: center; color: var(--text-primary); }
+.portfolio-home .hero-quote { padding-block: clamp(1.25rem, 2vw, 2rem); }
+.portfolio-home .hero-quote .hero-statement { max-width: 20ch; margin-inline: auto; font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1.08; letter-spacing: -.035em; text-align: center; color: var(--text-primary); }
 .portfolio-home #main-content { padding-top: var(--nav-height); }
 .portfolio-home .hero-top { align-items: baseline; }
