@@ -53,13 +53,13 @@
 }
 #experience .experience-meta { gap: 10px 12px; align-items: center; }
 #experience .experience-meta .learning-timeline__label { display: inline-block; padding: 6px 10px; border: 1px solid rgb(88 166 255 / .28); border-radius: 999px; background: rgb(88 166 255 / .06); font-size: .72rem; line-height: 1.5; letter-spacing: .025em; }
-#experience .learning-timeline__body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; min-width: 0; }
+#experience .learning-timeline__body { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; align-items: start; min-width: 0; }
 #experience .learning-timeline__body > h3,
 #experience .learning-timeline__body > .learning-timeline__org,
 #experience .learning-timeline__body > .learning-tags { grid-column: 1 / -1; }
-#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 20px; border: 1px solid rgb(var(--signal-rgb) / .48); border-radius: 18px; background: linear-gradient(135deg, rgb(var(--signal-rgb) / .1), transparent 75%), var(--signal-surface); box-shadow: none; color: #e0edf9; font-size: .95rem; line-height: 1.7; min-width: 0; }
+#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 16px 18px; border: 1px solid rgb(var(--signal-rgb) / .48); border-radius: 18px; background: linear-gradient(135deg, rgb(var(--signal-rgb) / .1), transparent 75%), var(--signal-surface); box-shadow: none; color: #e0edf9; font-size: .9rem; line-height: 1.6; min-width: 0; }
 #experience .learning-timeline__body > p:not(.learning-timeline__org):last-of-type:first-of-type,
-#experience .learning-timeline__body > p:not(.learning-timeline__org):last-child { grid-column: 1 / -1; }
+#experience .learning-timeline__body > p:not(.learning-timeline__org):last-child { grid-column: 1 / -1; width: 100%; max-width: 420px; }
 #experience .learning-timeline__body > .learning-timeline__org { margin: 0 0 4px; font-weight: 600; color: var(--text-secondary); }
 #experience .field-timeline .learning-tags { margin-top: 2px; }
 #experience .learning-timeline__entry.is-reached::before { border-color: var(--blue-highlight); background: var(--blue-primary); }
