@@ -16,3 +16,5 @@
 [data-theme="light"] #experience .learning-timeline__org { color: var(--text-secondary); }
 [data-theme="light"] .contact-invitation, [data-theme="light"] .contact-dear, [data-theme="light"] .contact-thanks { color: var(--text-secondary); }
 [data-theme="light"] .hero-portrait__image::after { background: linear-gradient(0deg, var(--bg-main), transparent 28%); }
+[data-theme="light"] .hero-action--primary { color: #fff; }
+[data-theme="light"] .hero-action img[src$="github.svg"] { filter: invert(1); }
