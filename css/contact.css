@@ -1,8 +1,10 @@
 /* Contact keeps the existing email and social actions in a simpler shared grid. */
 .portfolio-home #main-content > #contact.section { padding-block: var(--section-gap, 5rem); }
 .contact-composition { display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, .65fr); gap: clamp(2rem, 5vw, 5rem); align-items: center; }
-.contact-letter { min-width: 0; }
-#contact h2 { font: 600 var(--heading-size, 3.5rem)/1.12 var(--font-display); letter-spacing: -.055em; margin: 0 0 1rem; }
+.contact-letter { min-width: 0; padding: clamp(28px, 3.5vw, 48px); border: 1px solid rgb(88 166 255 / .3); border-radius: 18px; background: linear-gradient(150deg, rgb(88 166 255 / .08), transparent 75%), var(--bg-card); }
+.contact-eyebrow { margin: 0 0 1.25rem; color: var(--blue-highlight); font: 600 .72rem/1.5 var(--font-mono); letter-spacing: .16em; }
+#contact { font-family: 'Nunito', var(--font-sans); }
+#contact h2 { font: 700 clamp(2.5rem, 4vw, 4rem)/1.08 'Bricolage Grotesque', var(--font-display); letter-spacing: -.05em; margin: 0 0 1rem; }
 #contact h2 span { color: var(--blue-highlight); }
 .contact-invitation { max-width: 42ch; font-size: 1rem; line-height: 1.65; color: var(--text-secondary); margin: 0 0 1.25rem; }
 .contact-mail { display: inline-block; max-width: 100%; font: 600 clamp(1rem, 1.8vw, 1.5rem)/1.35 var(--font-display); color: var(--blue-highlight); text-decoration: underline; text-underline-offset: 5px; overflow-wrap: anywhere; margin-bottom: 1.25rem; }
@@ -13,7 +15,8 @@
 #contact .copy-email:hover { color: var(--blue-highlight); }
 #contact .contact-action-status:empty, #contact .copy-email-status:empty { display: none; }
 #contact .contact-action-status { font-size: .75rem; margin-top: 8px; color: var(--text-muted); }
-.contact-closing { display: grid; place-items: center; min-width: 0; }
+.contact-closing { display: grid; place-items: center; min-width: 0; position: relative; }
+.contact-closing::after { content: ''; position: absolute; bottom: 4%; width: min(62%, 200px); height: 18px; border: 1px solid rgb(88 166 255 / .35); border-radius: 50%; box-shadow: 0 0 28px rgb(88 166 255 / .2); pointer-events: none; }
 .contact-sticker { display: block; width: min(100%, 330px); height: auto; object-fit: contain; filter: drop-shadow(0 18px 24px rgb(31 100 212 / .16)); animation: contact-float 5s ease-in-out infinite; }
 @keyframes contact-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-9px); } }
 .portfolio-home .contact-footer .footer__inner { width: 100%; padding-inline: 0; gap: 10px 24px; }
@@ -22,6 +25,7 @@
 .contact-motion-ready .contact-enter.is-visible, .contact-motion-ready .contact-actions > a.is-visible { opacity: 1; translate: 0 0; }
 @media (max-width: 759px) {
   .contact-composition { grid-template-columns: minmax(0, 1fr); gap: 1.5rem; text-align: center; }
+  .contact-letter { padding: 26px 20px; }
   .contact-invitation { margin-inline: auto; }
   #contact .contact-actions, .contact-copy-row { justify-content: center; }
   .contact-sticker { width: min(68vw, 260px); }

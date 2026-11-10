@@ -19,7 +19,7 @@
   <!-- Google Fonts – Space Grotesk + Plus Jakarta Sans + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,600;12..96,700&family=Nunito:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet" />
 
   <!-- Stylesheets -->
   <link rel="stylesheet" href="css/variables.css" />
@@ -132,6 +132,10 @@
       <div class="hero-portrait__image">
         <img src="assets/brand/aerone-logo.jpg" alt="Aerone Carl P. Peñol" width="600" height="600" fetchpriority="high" />
       </div>
+      <span class="hero-portrait__caption">
+        <span>THE PERSON BEHIND THE PROJECTS</span>
+        <span>Aerone / Ronron</span>
+      </span>
     </a>
 
     </div>
@@ -139,7 +143,6 @@
 
   <div class="hero-metadata" aria-label="Hero details">
     <div class="hero-metadata__group"><span>ELECTRONICS / PROGRAMMING / RESEARCH</span><span>SCROLL TO DISCOVER</span></div>
-    <div class="hero-metadata__group"><span>THE PERSON BEHIND THE PROJECTS</span><span>Aerone / Ronron</span></div>
   </div>
 
 
@@ -356,7 +359,7 @@
       <p class="section__subtitle">Personal projects, publication work, and student leadership.</p>
     </div>
       <aside class="field-sticky" aria-hidden="true">
-        <span class="field-annotation">a little further along ↴</span>
+        <span class="field-annotation">the year was ↴</span>
         <div class="field-year"><span class="year-digit"><span class="year-digit__strip" style="--digit:2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="year-digit"><span class="year-digit__strip" style="--digit:0"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="year-digit"><span class="year-digit__strip" style="--digit:2"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span><span class="year-digit"><span class="year-digit__strip" style="--digit:6"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span></span></span></div>
         <div class="field-active"><p class="field-active__org">Learning Through Building</p><p class="field-active__role">Personal projects</p></div>
 
@@ -366,7 +369,26 @@
         <div class="experience-meta"><time datetime="2026" class="learning-timeline__year">2026</time><span class="learning-timeline__label">Personal projects</span></div>
         <article class="learning-timeline__body" aria-labelledby="building-role">
           <h3 id="building-role">Learning Through Building</h3>
-          <p>Exploring electronics, web development, and design through personal projects.</p>
+          <p class="learning-timeline__summary">Explored Java, HTML, SketchUp, EasyEDA, GitHub, Vercel, Supabase, Claude, and Codex while developing Axiom Studia.</p>
+          <ul class="experience-highlights" aria-label="2026 learning highlights">
+            <li><h4>Programming &amp; Web Development</h4><p>Explored Java, HTML, CSS, and JavaScript through learning and personal projects.</p></li>
+            <li><h4>Axiom Studia</h4><p>Developed a personal workspace for subjects, tasks, grades, and study resources.</p></li>
+            <li><h4>Development &amp; Deployment</h4><p>Explored GitHub, Vercel, and Supabase for version control, deployment, and backend work.</p></li>
+            <li><h4>Engineering &amp; Design</h4><p>Practiced technical modeling and design with SketchUp and EasyEDA.</p></li>
+            <li><h4>AI-Assisted Development</h4><p>Experimented with Claude and Codex while learning development workflows.</p></li>
+          </ul>
+        </article>
+      </li>
+      <li class="learning-timeline__entry" data-year="2025" data-role="Learning fundamentals" data-org="First Steps">
+        <div class="experience-meta"><time datetime="2025" class="learning-timeline__year">2025</time><span class="learning-timeline__label">Learning fundamentals</span></div>
+        <article class="learning-timeline__body" aria-labelledby="first-steps-role">
+          <h3 id="first-steps-role">First Steps</h3>
+          <p class="learning-timeline__summary">Started learning Python and AutoCAD, exploring programming and technical design.</p>
+          <ul class="experience-highlights" aria-label="2025 learning highlights">
+            <li><h4>Python Fundamentals</h4><p>Began learning programming concepts and basic Python.</p></li>
+            <li><h4>AutoCAD Fundamentals</h4><p>Explored technical drawing and computer-aided design.</p></li>
+            <li><h4>Early Exploration</h4><p>Started building a foundation in programming and engineering tools.</p></li>
+          </ul>
         </article>
       </li>
       <li class="learning-timeline__entry" data-year="2025" data-role="Junior Layout Artist" data-org="The Philippine Artisan – Visayas">
@@ -565,11 +587,13 @@
   <div class="container">
     <div class="contact-composition">
       <div class="contact-letter">
+        <p class="contact-eyebrow contact-enter">A LITTLE HELLO</p>
         <h2 id="contact-title" class="contact-enter">Let's connect<span>.</span></h2>
         <p class="contact-invitation contact-enter">Have an idea or a question? I’d love to hear from you.</p>
         <a id="contact-email" class="contact-mail contact-enter" href="mailto:aeronecarlpenol@gmail.com">aeronecarlpenol@gmail.com</a>
         <div class="hero-actions contact-actions" role="group" aria-label="Contact actions">
         <a class="hero-action hero-action--primary" href="mailto:aeronecarlpenol@gmail.com"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg><span>Email me</span></a>
+        <a class="hero-action" href="assets/cv/aerone-carl-penol-cv.pdf" download="Aerone-Carl-Penol-CV.pdf"><span>Download CV</span></a>
         <a class="hero-action" href="https://github.com/aeronecarlpenol-byte" target="_blank" rel="noopener noreferrer"><img src="assets/brand/github.svg" width="18" height="18" alt="" aria-hidden="true" /><span>GitHub</span></a>
       </div>
         <div class="contact-copy-row"><button class="copy-email" type="button" aria-describedby="copy-email-status" hidden>Copy email</button><span id="copy-email-status" class="copy-email-status" role="status" aria-live="polite" aria-atomic="true"></span></div>
