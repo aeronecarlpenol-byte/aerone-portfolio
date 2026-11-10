@@ -56,6 +56,17 @@
   padding: 0;
   border: 0;
 }
+.portfolio-home .hero-metadata {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: var(--hero-gap);
+  margin-top: 1rem;
+  font: 500 .625rem/1.5 var(--font-mono);
+  letter-spacing: .13em;
+  color: var(--text-muted);
+}
+.portfolio-home .hero-metadata__group { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 1rem; align-items: baseline; }
+.portfolio-home .hero-metadata__group > span:last-child { text-align: right; }
 .portfolio-home .hero-foot > span:last-child { display: block; text-align: right; }
 .portfolio-home .hero-visual { display: grid; align-content: start; gap: 0; width: 100%; max-width: none; justify-self: stretch; }
 .portfolio-home .hero-portrait { width: 100%; max-width: none; }
@@ -71,6 +82,7 @@
   .portfolio-home .hero-copy { align-content: start; }
   .portfolio-home .hero-visual { width: min(100%, 520px); justify-self: start; }
   .portfolio-home .hero-copy h1 { font-size: clamp(2.7rem, 8vw, 4.4rem); }
+  .portfolio-home .hero-metadata { grid-template-columns: minmax(0, 1fr); gap: .75rem; max-width: 520px; }
 }
 @media (max-width: 680px) {
   .portfolio-home .hero-greeting { font-size: .875rem; }
@@ -78,6 +90,8 @@
 @media (max-width: 420px) {
   .portfolio-home .hero-copy .hero-foot { grid-template-columns: minmax(0, 1fr); }
   .portfolio-home .hero-foot > span:last-child { text-align: left; }
+  .portfolio-home .hero-metadata__group { grid-template-columns: minmax(0, 1fr); gap: .25rem; }
+  .portfolio-home .hero-metadata__group > span:last-child { text-align: left; }
 }
 .portfolio-home #main-content > section > .container,
 .portfolio-home .footer > .container {
@@ -153,7 +167,7 @@
   .portfolio-home .hero-foot { font-size: .55rem; letter-spacing: .02em; }
 }
 
-.portfolio-home .hero-quote { padding-block: clamp(1.25rem, 2vw, 2rem); }
-.portfolio-home .hero-quote .hero-statement { max-width: 20ch; margin-inline: auto; font-size: clamp(2.25rem, 5vw, 5rem); line-height: 1.08; letter-spacing: -.035em; text-align: center; color: var(--text-primary); }
+.portfolio-home .hero-quote { padding-block: clamp(1.5rem, 3vw, 2.75rem); }
+.portfolio-home .hero-quote .hero-statement { max-width: none; margin-inline: auto; font-size: clamp(1.75rem, 3.1vw, 3.25rem); line-height: 1.16; letter-spacing: -.04em; text-align: center; text-wrap: balance; color: var(--text-primary); }
 .portfolio-home #main-content { padding-top: var(--nav-height); }
 .portfolio-home .hero-top { align-items: baseline; }
