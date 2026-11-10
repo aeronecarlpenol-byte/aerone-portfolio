@@ -333,11 +333,13 @@
         const leave = experienceGroup.bottom + clearance + 2;
         const exit = note ? note.y - clearance - 2 : leave + 40;
         const lane = points[0].x;
-        const candidate = points.filter(p => p.y < enter - 48).concat([
-          { x: lane, y: enter - 48 }, { x: rail, y: enter },
+        const researchZone = insetContainer('#research > .container');
+        const approach = Math.max(enter - 48, researchZone ? researchZone.bottom + clearance + 2 : enter - 48);
+        const candidate = points.filter(p => p.y < approach).concat([
+          { x: lane, y: approach }, { x: rail, y: enter },
           { x: rail, y: leave }, { x: lane, y: exit }
         ], points.filter(p => p.y > exit));
-        if (rail !== null && radius >= 6 && exit > leave &&
+        if (rail !== null && radius >= 6 && approach < enter && exit > leave &&
             window.PortfolioPathRouting.safe(candidate, avoidance, clearance)) {
           points = candidate; svg.dataset.timelineConnected = 'true';
         } else { radius = outerRadius; svg.dataset.timelineConnected = 'false'; }
