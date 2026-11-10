@@ -1,8 +1,8 @@
 /* Circular technology badges with keyboard focus and hover feedback. */
 #skills .tech-logo { position: relative; flex: 0 0 84px; min-width: 0; text-align: center; list-style: none; cursor: default; }
-#skills .tech-logo__float { display: grid; place-items: center; width: 60px; height: 60px; margin: 0 auto; border: 1px solid rgb(201 209 217 / .2); border-radius: 50%; background: var(--bg-main); transition: transform 220ms ease, border-color 220ms ease; }
-#skills .tech-logo img { display: block; width: 28px; height: 28px; object-fit: contain; color-scheme: dark; filter: none; user-select: none; -webkit-user-drag: none; }
-#skills .tech-logo__name { display: block; margin-top: 10px; color: var(--text-secondary); font-size: .73rem; line-height: 1.4; overflow-wrap: anywhere; }
+#skills .tech-logo__float { display: grid; place-items: center; width: 70px; height: 70px; margin: 0 auto; border: 1px solid rgb(201 209 217 / .2); border-radius: 50%; background: var(--bg-main); transition: transform 220ms ease, border-color 220ms ease; }
+#skills .tech-logo img { display: block; width: 32px; height: 32px; object-fit: contain; color-scheme: dark; filter: none; user-select: none; -webkit-user-drag: none; }
+#skills .tech-logo__name { display: block; margin-top: 10px; color: var(--text-secondary); font-size: .78rem; line-height: 1.4; overflow-wrap: anywhere; }
 #skills .tech-logo:focus-visible { outline: none; }
 #skills .tech-logo:focus-visible .tech-logo__float { outline: 2px solid var(--blue-highlight); outline-offset: 4px; }
 @media (hover: hover) and (pointer: fine) {
@@ -11,8 +11,8 @@
 }
 @media (max-width: 480px) {
   #skills .tech-logo { flex-basis: 72px; }
-  #skills .tech-logo__float { width: 54px; height: 54px; }
-  #skills .tech-logo img { width: 26px; height: 26px; }
+  #skills .tech-logo__float { width: 70px; height: 70px; }
+  #skills .tech-logo img { width: 32px; height: 32px; }
 }
 @media (prefers-reduced-motion: reduce) {
   #skills .tech-logo__float { transition: none; transform: none !important; }
