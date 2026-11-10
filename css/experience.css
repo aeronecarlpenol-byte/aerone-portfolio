@@ -57,7 +57,7 @@
 #experience .learning-timeline__body > h3,
 #experience .learning-timeline__body > .learning-timeline__org,
 #experience .learning-timeline__body > .learning-tags { grid-column: 1 / -1; }
-#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 20px; border: 1px solid rgb(var(--signal-rgb) / .48); border-radius: 16px; background: linear-gradient(135deg, rgb(var(--signal-rgb) / .1), transparent 75%), var(--signal-surface); box-shadow: inset 3px 0 0 rgb(var(--signal-rgb) / .8); color: #e0edf9; font-size: .95rem; line-height: 1.7; min-width: 0; }
+#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 20px; border: 1px solid rgb(var(--signal-rgb) / .48); border-radius: 18px; background: linear-gradient(135deg, rgb(var(--signal-rgb) / .1), transparent 75%), var(--signal-surface); box-shadow: none; color: #e0edf9; font-size: .95rem; line-height: 1.7; min-width: 0; }
 #experience .learning-timeline__body > p:not(.learning-timeline__org):last-of-type:first-of-type,
 #experience .learning-timeline__body > p:not(.learning-timeline__org):last-child { grid-column: 1 / -1; }
 #experience .learning-timeline__body > .learning-timeline__org { margin: 0 0 4px; font-weight: 600; color: var(--text-secondary); }
@@ -99,13 +99,13 @@
   border-radius: inherit;
 }
 #experience .experience-meta .learning-timeline__year::before {
-  inset: -3px 1px 1px -3px;
+  inset: -2px 1px 1px -2px;
   border-color: rgb(var(--signal-rgb) / .8);
   transform: rotate(.8deg);
 }
 #experience .experience-meta .learning-timeline__year::after {
-  inset: 2px -3px -3px 2px;
-  border-color: rgb(var(--signal-rgb) / .5);
+  inset: 1px -2px -2px 1px;
+  border-color: rgb(var(--signal-rgb) / .25);
   transform: rotate(-.6deg);
 }
 #experience .experience-meta .learning-timeline__label {
