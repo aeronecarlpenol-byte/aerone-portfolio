@@ -8,44 +8,76 @@
   --heading-size: clamp(2rem, 3.8vw, 3.5rem);
 }
 
-/* Hero shares the full editorial grid, with no forced eight-character wrap. */
-.portfolio-home .hero-showcase {
-  grid-template-columns: minmax(0, 1.18fr) minmax(0, .9fr);
-  gap: clamp(2rem, 4vw, 4rem);
-  margin-top: 1.5rem;
-  align-items: start;
+/* One shared hero grid: group rhythm and full-composition centering. */
+.portfolio-home #hero {
+  --hero-gap: clamp(2rem, 4vw, 4rem);
+  --hero-space: 1.5rem;
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding: .75rem var(--content-pad) 2rem;
 }
+.portfolio-home .hero-showcase {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
+  gap: var(--hero-gap);
+  margin: var(--hero-space) 0 0;
+  align-items: stretch;
+}
+.portfolio-home .hero-copy {
+  display: grid;
+  align-content: center;
+  gap: var(--hero-space);
+  min-width: 0;
+}
+.portfolio-home .hero-heading { display: grid; gap: .5rem; }
+.portfolio-home .hero-greeting { margin: 0; font-size: 1rem; color: var(--text-secondary); }
 .portfolio-home .hero-copy h1 {
   max-width: none;
+  margin: 0;
   font-size: clamp(3.25rem, 5.3vw, 5.5rem);
   line-height: 1.04;
   letter-spacing: -.055em;
 }
-.hero-greeting { margin: 0 0 .75rem; font-size: 1rem; color: var(--text-secondary); }
-.portfolio-home .hero-bottom { max-width: 44ch; margin-top: 1.25rem; }
-.portfolio-home .hero-intro > p:not(.hero-curiosity) { max-width: 42ch; margin: 0; line-height: 1.7; text-wrap: pretty; }
-.portfolio-home .hero-intro p.hero-curiosity { margin: 0 0 .875rem; line-height: 1.35; }
+.portfolio-home .hero-bottom { display: block; max-width: none; margin: 0; }
+.portfolio-home .hero-intro { display: grid; gap: var(--hero-space); text-align: left; }
+.portfolio-home .hero-description { display: grid; gap: 1rem; }
+.portfolio-home .hero-intro p.hero-curiosity { margin: 0; line-height: 1.35; }
 .portfolio-home .hero-curiosity__phrases { margin-top: .125rem; line-height: 1.35; }
-.portfolio-home .hero-copy .hero-actions { margin-top: 1.25rem; gap: 12px; justify-content: flex-start; }
-.portfolio-home .hero-visual { max-width: 490px; justify-self: center; }
+.portfolio-home .hero-description > p:not(.hero-curiosity) { max-width: 42ch; margin: 0; line-height: 1.7; text-wrap: pretty; }
+.portfolio-home .hero-controls { display: grid; gap: var(--hero-space); }
+.portfolio-home .hero-copy .hero-actions { margin: 0; gap: 12px; justify-content: flex-start; }
+.portfolio-home .hero-copy .hero-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: baseline;
+  gap: .75rem 1.5rem;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.portfolio-home .hero-foot > span:last-child { display: block; text-align: right; }
+.portfolio-home .hero-visual { display: grid; align-content: start; gap: 1rem; width: 100%; max-width: none; justify-self: stretch; }
+.portfolio-home .hero-portrait { width: 100%; max-width: none; }
 .portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1.14; mask-image: linear-gradient(#000 76%, transparent); }
 .portfolio-home .hero-portrait:hover .hero-portrait__image { box-shadow: none; }
-.portfolio-home .hero-portrait__caption { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; gap: .35rem 1rem; font-size: .625rem; line-height: 1.5; }
+.portfolio-home .hero-portrait__caption { display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: baseline; gap: .35rem 1rem; margin-top: .75rem; font-size: .625rem; line-height: 1.5; }
 .portfolio-home .hero-portrait__caption > span:last-child { display: block; text-align: right; }
-.portfolio-home .hero-thought { padding-top: 1.125rem; }
-.portfolio-home .hero-statement { font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.3; text-align: left; }
-/* Keep the authored quote break so its words never run together. */
+.portfolio-home .hero-thought { padding: 0; }
+.portfolio-home .hero-statement { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.3; text-align: left; }
 .portfolio-home .hero-statement br { display: initial; }
-.portfolio-home .hero-foot { margin-top: 1.5rem; }
 @media (max-width: 900px) {
-  .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 1.5rem; }
-  .portfolio-home .hero-copy h1 { font-size: clamp(2.8rem, 6vw, 4rem); }
+  .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
+  .portfolio-home .hero-copy { align-content: start; }
+  .portfolio-home .hero-visual { width: min(100%, 520px); justify-self: start; }
+  .portfolio-home .hero-copy h1 { font-size: clamp(2.7rem, 8vw, 4.4rem); }
 }
 @media (max-width: 680px) {
-  .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1fr); }
-  .portfolio-home .hero-copy h1 { font-size: clamp(2.7rem, 10.5vw, 4.4rem); }
-  .portfolio-home .hero-visual { width: min(100%, 370px); }
-  .hero-greeting { font-size: .875rem; }
+  .portfolio-home .hero-greeting { font-size: .875rem; }
+}
+@media (max-width: 420px) {
+  .portfolio-home .hero-copy .hero-foot { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-home .hero-foot > span:last-child { text-align: left; }
 }
 .portfolio-home #main-content > section > .container,
 .portfolio-home .footer > .container {
@@ -54,11 +86,7 @@
   margin-inline: auto;
   padding-inline: var(--content-pad) var(--content-end, var(--content-pad));
 }
-.portfolio-home #hero {
-  padding-inline: max(var(--content-pad), calc((100% - var(--container-max)) / 2 + var(--content-pad)));
-  padding-top: .75rem;
-  padding-bottom: 2rem;
-}
+
 /* The single document-origin blue grid continues through every section. */
 .portfolio-home #main-content > section[id],
 .portfolio-home .footer {
@@ -92,14 +120,7 @@
 }
 .portfolio-home #main-content .section-line,
 .portfolio-home #main-content .divider { display: none; }
-.portfolio-home .hero-foot {
-  border-top: 0;
-  margin: 2rem 0 0;
-  padding: 0;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  gap: .75rem 1.5rem;
-}
+
 .portfolio-home .section-label,
 .portfolio-home .learning-background-title,
 .portfolio-home .field-active,
@@ -127,7 +148,6 @@
   .portfolio-home #hero { padding-inline: var(--content-pad) var(--content-end); }
   .portfolio-home .hero-top { gap: .5rem; }
   .portfolio-home .hero-eyebrow { font-size: .65rem; letter-spacing: .04em; }
-  .portfolio-home .hero-showcase { margin-top: 1.75rem; gap: 2.5rem; }
   .portfolio-home #main-content .section__header,
   .portfolio-home .work-header { margin-bottom: 1.75rem; }
   .portfolio-home .hero-foot { font-size: .55rem; letter-spacing: .02em; }
