@@ -73,3 +73,37 @@
   #experience .learning-timeline__body > p:not(.learning-timeline__org) { padding: 16px; }
   #experience .experience-meta .learning-timeline__label { font-size: .66rem; }
 }
+/* Layered date frames: crisp circuit-blue outlines with a slight offset. */
+#experience .experience-meta .learning-timeline__year {
+  position: relative;
+  isolation: isolate;
+  border-color: var(--blue-highlight);
+  border-radius: 4px 6px 3px 5px;
+  background: var(--bg-main);
+  color: var(--blue-highlight);
+  font-weight: 600;
+  letter-spacing: .035em;
+  transform: rotate(-2deg);
+}
+#experience .experience-meta .learning-timeline__year::before,
+#experience .experience-meta .learning-timeline__year::after {
+  content: '';
+  position: absolute;
+  pointer-events: none;
+  border: 1px solid;
+  border-radius: inherit;
+}
+#experience .experience-meta .learning-timeline__year::before {
+  inset: -3px 1px 1px -3px;
+  border-color: rgb(139 161 211 / .65);
+  transform: rotate(.8deg);
+}
+#experience .experience-meta .learning-timeline__year::after {
+  inset: 2px -3px -3px 2px;
+  border-color: rgb(88 166 255 / .35);
+  transform: rotate(-.6deg);
+}
+#experience .experience-meta .learning-timeline__label {
+  border-color: rgb(88 166 255 / .55);
+  box-shadow: inset 0 0 0 1px rgb(88 166 255 / .04);
+}
