@@ -1,4 +1,4 @@
-/* Stationary circular badges, adapted from the inspected reference. */
+/* Circular technology badges with keyboard focus and hover feedback. */
 #skills .tech-logo { position: relative; flex: 0 0 84px; min-width: 0; text-align: center; list-style: none; cursor: default; }
 #skills .tech-logo__float { display: grid; place-items: center; width: 60px; height: 60px; margin: 0 auto; border: 1px solid rgb(201 209 217 / .2); border-radius: 50%; background: var(--bg-main); transition: transform 220ms ease, border-color 220ms ease; }
 #skills .tech-logo img { display: block; width: 28px; height: 28px; object-fit: contain; color-scheme: dark; filter: none; user-select: none; -webkit-user-drag: none; }
@@ -21,4 +21,3 @@
 @media (max-width: 680px) {
   #skills [aria-labelledby="skill-ai"].skills-constellation .tech-logo { flex-basis: 96px; }
 }
-

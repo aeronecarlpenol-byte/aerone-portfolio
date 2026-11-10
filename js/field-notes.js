@@ -487,7 +487,7 @@
   if ('MutationObserver' in window) new MutationObserver(function (records) {
     if (records.some(function (record) {
       const el = record.target.nodeType === 1 ? record.target : record.target.parentElement;
-      return el && !el.closest('.field-path');
+      return el && !el.closest('.field-path, .field-active, .field-year');
     })) resize();
   }).observe(main, { childList: true, subtree: true, characterData: true });
   document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });

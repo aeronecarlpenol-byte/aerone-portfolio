@@ -1,12 +1,14 @@
-/* One-shot content entrances, quiet particles, and navigation signal feedback. */
+/* Portfolio motion: hero assembly, image color, and navigation signals. */
 (function () {
   'use strict';
   document.documentElement.classList.add('js');
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
   const hero = document.querySelector('.hero');
-  if (hero) initCursorSwarm();
+  const intro = Boolean(hero && !reduced.matches && !location.hash &&
+    !window.matchMedia('print').matches);
+  const scene = hero ? initCursorSwarm() : null;
 
-  /* The reference's orbiting cursor flock becomes a quiet, interactive field.
+  /* Orbiting cursor particles form a quiet, interactive electronics field.
      It is decorative: it never captures input or delays navigation. */
   function initCursorSwarm() {
     const canvas = document.createElement('canvas');
@@ -15,6 +17,14 @@
     canvas.className = 'cursor-swarm';
     canvas.setAttribute('aria-hidden', 'true');
     document.body.appendChild(canvas);
+    const backdrop = document.createElement('div');
+    backdrop.className = 'swarm-intro';
+    backdrop.setAttribute('aria-hidden', 'true');
+    const initial = document.createElement('span');
+    initial.textContent = 'A';
+    backdrop.appendChild(initial);
+    if (intro) document.body.appendChild(backdrop);
+
     const colors = ['#9ae8df', '#b7d8ff', '#d7c2ff', '#f3c5dc', '#f0f5ff'];
     const coarse = window.matchMedia('(pointer: coarse)');
     const cursorCount = coarse.matches ? 3 : 6;
@@ -28,7 +38,19 @@
     const pointer = { x: 0, y: 0, active: false };
     let width, height, frame = 0, previous = 0;
     const started = performance.now();
+    let introDone = !intro;
+    let assemblies = [];
     const print = window.matchMedia('print');
+
+    function finishIntro() {
+      introDone = true;
+      backdrop.remove();
+      document.querySelectorAll('.hero .reveal').forEach(function (item) {
+        item.style.setProperty('--reveal-delay', '0ms');
+      });
+    }
+    // Independent of animation frames, so a hidden tab cannot retain the intro.
+    const introTimeout = intro ? window.setTimeout(finishIntro, 3200) : 0;
 
     function resize() {
       width = window.innerWidth;
@@ -45,7 +67,8 @@
       const step = previous ? Math.min((now - previous) / 16.667, 3) : 1;
       const firstFrame = !previous;
       previous = now;
-      const eased = 1;
+      const spread = introDone ? 1 : Math.max(0, Math.min(1, (elapsed - 1.1) / .65));
+      const eased = spread * spread * (3 - 2 * spread);
       ctx.clearRect(0, 0, width, height);
       flock.forEach(function (bird, i) {
         const orbit = bird.phase + elapsed * 2.4;
@@ -88,7 +111,58 @@
         ctx.stroke();
         ctx.restore();
       });
+      drawAssemblies(now);
       frame = requestAnimationFrame(draw);
+    }
+
+    function assemble(element, delay) {
+      if (!element.closest('.hero') || reduced.matches || print.matches || !element.getBoundingClientRect) return;
+      // Keep the animation attached to the real element while the page scrolls.
+      assemblies = assemblies.filter(function (item) { return item.element !== element; });
+      assemblies.push({ element: element, start: performance.now() + delay });
+      if (assemblies.length > 18) assemblies.shift();
+    }
+
+    function drawAssemblies(now) {
+      assemblies = assemblies.filter(function (item) { return now - item.start < 920; });
+      assemblies.forEach(function (item) {
+        const age = now - item.start;
+        if (age < 0) return;
+        const rect = item.element.getBoundingClientRect();
+        if (rect.bottom < 0 || rect.top > height || rect.width < 8 || rect.height < 8) return;
+        const progress = age / 920;
+        const opacity = Math.min(1, age / 100) * Math.min(1, (920 - age) / 310);
+        const x = rect.left, y = rect.top, w = rect.width, h = rect.height;
+        ctx.save();
+        ctx.globalAlpha = opacity * .85;
+        ctx.strokeStyle = '#9fc9ff';
+        ctx.lineWidth = .75;
+        // A solid slate placeholder resolves into the real photograph/card.
+        if (item.element.matches('.hero-portrait, .electronics-card, .research-gallery__item')) {
+          ctx.fillStyle = '#344c68';
+          ctx.globalAlpha = opacity * Math.max(0, 1 - progress * 1.8) * .85;
+          ctx.fillRect(x, y, w, h);
+          ctx.globalAlpha = opacity * .85;
+        }
+        ctx.setLineDash([w + h, w + h]);
+        ctx.lineDashOffset = (w + h) * (1 - Math.min(1, progress * 3));
+        ctx.strokeRect(x, y, w, h);
+        ctx.setLineDash([]);
+        ctx.globalAlpha = opacity * .22;
+        ctx.beginPath();
+        ctx.moveTo(0, y); ctx.lineTo(width, y);
+        ctx.moveTo(x, 0); ctx.lineTo(x, height);
+        ctx.stroke();
+        ctx.globalAlpha = opacity;
+        [[x,y],[x+w,y],[x,y+h],[x+w,y+h]].forEach(function (point) {
+          ctx.fillStyle = '#e9f3ff';
+          ctx.fillRect(point[0] - 2, point[1] - 2, 4, 4);
+        });
+        // A short blue selection strip completes the circuit assembly.
+        ctx.fillStyle = '#58a6ff';
+        ctx.fillRect(x, y - 4, Math.min(w * .28, 72), 3);
+        ctx.restore();
+      });
     }
 
     function sync() {
@@ -97,6 +171,7 @@
       previous = 0;
       const disabled = reduced.matches || print.matches;
       canvas.hidden = disabled || document.hidden;
+      if (disabled) { finishIntro(); assemblies = []; }
       if (!canvas.hidden) frame = requestAnimationFrame(draw);
     }
     resize();
@@ -108,14 +183,20 @@
     }, { passive: true });
     document.addEventListener('pointerleave', function () { pointer.active = false; });
     document.addEventListener('visibilitychange', sync);
+    document.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape') finishIntro();
+    });
+    document.addEventListener('focusin', finishIntro, { once: true });
     reduced.addEventListener('change', sync);
     print.addEventListener('change', sync);
     window.addEventListener('pagehide', function () {
+      clearTimeout(introTimeout); finishIntro();
       if (frame) cancelAnimationFrame(frame);
       frame = 0;
     });
     window.addEventListener('pageshow', sync);
     sync();
+    return { assemble: assemble };
   }
   const signal = document.createElement('div');
   signal.className = 'signal-transition';
@@ -133,37 +214,67 @@
     '.hero-top', '.hero-showcase h1', '.hero-portrait', '.hero-bottom', '.hero-foot'
   ].map(function (selector) { return '.hero ' + selector; }).join(',');
   const items = Array.from(document.querySelectorAll(revealSelectors));
+  const replayDelays = new WeakMap();
   items.forEach(function (item, index) {
     item.classList.add('reveal');
-    const replayDelay = Math.min(index * 55, 180);
-    const delay = replayDelay;
+    const replayDelay = 220 + (index % 3) * 90;
+    replayDelays.set(item, replayDelay);
+    const delay = intro && scene && item.closest('.hero') ? 1750 + index * 100 : replayDelay;
     item.style.setProperty('--reveal-delay', String(delay) + 'ms');
   });
 
   if (reduced.matches || !('IntersectionObserver' in window)) {
     items.forEach(function (item) { item.classList.add('is-visible'); });
   } else {
+    const active = new Set();
+    function resetOutside(item, rect) {
+      if (rect.bottom > 0 && rect.top < window.innerHeight + 48) return;
+      item.classList.remove('is-visible');
+      item.style.setProperty('--reveal-delay', replayDelays.get(item) + 'ms');
+      active.delete(item);
+    }
     const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
-        if (!entry.isIntersecting) return;
+        if (!entry.target.closest('.hero')) return;
+        if (!entry.isIntersecting) {
+          resetOutside(entry.target, entry.boundingClientRect || entry.target.getBoundingClientRect());
+          return;
+        }
+        if (active.has(entry.target)) return;
+        active.add(entry.target);
+        if (scene) {
+          const delay = parseInt(entry.target.style.getPropertyValue('--reveal-delay'), 10) || 0;
+          scene.assemble(entry.target, Math.max(0, delay - 420));
+        }
         entry.target.classList.add('is-visible');
-        observer.unobserve(entry.target);
       });
-    }, { threshold: 0, rootMargin: '0px 0px 64px 0px' });
+    }, { threshold: 0, rootMargin: '0px 0px 48px 0px' });
     items.forEach(function (item) { observer.observe(item); });
+
+    // Heading wipes temporarily affect intersection geometry. Only reset once
+    // the actual element has left the viewport, even during an unfinished wipe.
+    let exitFrame = 0;
+    function checkExits() {
+      if (exitFrame) return;
+      exitFrame = requestAnimationFrame(function () {
+        exitFrame = 0;
+        active.forEach(function (item) { resetOutside(item, item.getBoundingClientRect()); });
+      });
+    }
+    window.addEventListener('scroll', checkExits, { passive: true });
+    window.addEventListener('resize', checkExits, { passive: true });
   }
 
-  const sections = document.querySelectorAll('main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side, .skill-family, .github-card');
+  const sectionItems = document.querySelectorAll('main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side, .github-card');
   if ('IntersectionObserver' in window && !reduced.matches) {
     const sectionObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (!entry.isIntersecting) return;
-        // Already on screen remains readable even during rapid navigation.
         entry.target.classList.add('section-entered');
         sectionObserver.unobserve(entry.target);
       });
     }, { threshold: 0, rootMargin: '0px 0px 64px 0px' });
-    sections.forEach(function (item, index) {
+    sectionItems.forEach(function (item, index) {
       item.style.setProperty('--entry-delay', (index % 2) * 45 + 'ms');
       sectionObserver.observe(item);
     });

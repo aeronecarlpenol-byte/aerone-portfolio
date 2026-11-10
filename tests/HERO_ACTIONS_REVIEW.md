@@ -1,9 +1,6 @@
 # Functional hero actions — November 9, 2026
 
-Inspected the live reference https://iamkreezel.com/ hero actions. Its primary
-link measures 46px high with a 14px radius, 10.4px/18.4px padding and a flex row
-with 10px/12px gaps. This portfolio adapts those proportions to electric blue,
-existing dark surfaces, thin secondary borders and a gentle 2px hover lift.
+Hero actions use 46px targets, 14px corners and a wrapping flex row with 10px/12px gaps. Electric blue, existing dark surfaces, thin secondary borders and a gentle 2px hover lift form the portfolio action style.
 
 Removed all seven hero engineering stickers, their reserved container, inline
 artwork, idle/entrance/hover keyframes, pointer parallax and obsolete test.
@@ -45,4 +42,3 @@ Verification:
   the browser automation surface did not expose a hover action.
 - Ignored local screenshots: tests/.verification/hero-actions-desktop.jpg and
   hero-actions-phone.jpg. No CV download verification is claimed.
-

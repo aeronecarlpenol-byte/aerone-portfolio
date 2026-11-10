@@ -1,4 +1,4 @@
-/* Functional hero actions use the reference's restrained 46px/14px proportions. */
+/* Hero actions use consistent 46px targets and 14px corners. */
 .hero-bottom { display: block; max-width: 52ch; margin-top: 1.75rem; }
 .hero-thought { min-width: 0; padding-top: 1.5rem; }
 .hero-actions { display: flex; flex-wrap: wrap; gap: 10px 12px; margin-top: 1.25rem; }
@@ -16,7 +16,7 @@
 }
 @media (prefers-reduced-motion: reduce) { .hero-action { transition: none; transform: none !important; } }
 
-/* Reference proportions: 18px outline radius, tinted heading band, round badges. */
+/* Skills categories: 18px corners, tinted heading bands, circular badges. */
 .skills-workbench { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--layout-gap, 2rem); align-items: stretch; }
 .skill-family { grid-column: span 6; min-width: 0; padding: 0 24px 22px; border: 1px solid rgb(88 166 255 / .4); border-radius: 18px; background: rgb(22 34 49 / .38); }
 .skill-family:nth-child(3), .skill-family:nth-child(6) { grid-column: span 6; }

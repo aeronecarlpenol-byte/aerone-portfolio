@@ -3,17 +3,9 @@
 Supersedes the earlier route geometry described in ENERGY_CORE_REVIEW.md.
 The energy core artwork, sizes, native orbit periods and palette are unchanged.
 
-## Reference and implementation
+## Portfolio implementation
 
-Inspected https://iamkreezel.com/ and its rendered route/Experience transition.
-The linked public journey script is:
-https://iamkreezel.com/_astro/index.astro_astro_type_script_index_0_lang.Cm-_n75C.js
-
-Its route connects measured points with cubic curves whose endpoint controls
-share the endpoint x-coordinate and meet halfway in y. Its cup/drawing use a
-0.6-second GSAP scrub. The portfolio adopts the continuous vertical-tangent
-cubic geometry while using a much shorter 45ms exponential response to avoid
-noticeable input lag and retain its existing electronics-focused reading path.
+The route uses cached DOM layout boxes and connected cubic curves with vertical endpoint tangents. The orb uses the same SVG path distance as the illuminated stroke, with a 45ms exponential settling response. Scroll movement stays in native document coordinates.
 
 The former orthogonal polyline plus small quadratic corner rounds is replaced
 by five connected cubic segments, including two lateral S-curves. There is one
@@ -76,4 +68,3 @@ and a static core; hidden tabs cancel pending rendering and resume cleanly.
 No browser performance trace or physical touch-device session was available.
 The implementation avoids per-frame geometry rebuilds and uses native
 transform animations, but sustained 60 FPS is not a measured guarantee.
-

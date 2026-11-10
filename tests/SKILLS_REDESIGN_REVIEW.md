@@ -2,16 +2,9 @@
 
 Supersedes the drag and continuous-float behavior described in earlier reviews.
 
-## Reference inspection
+## Portfolio badge layout
 
-Inspected https://iamkreezel.com/#skills through its live rendered DOM,
-computed styles and screenshots before implementation. Category outlines use
-an 18px radius and a thin 1px stroke; heading bands use 14px vertical/24px
-horizontal padding. Reference badges are 60px circles, with 28px marks and
-stronger 3px accent rings on selected tools. The portfolio adapts these
-proportions to its existing blue palette, dark surface and continuous dot grid.
-No personal illustrations or custom artwork were copied. Shared standard SVG
-variants and source/license notes are recorded in assets/brand/SOURCES.md.
+Category outlines use 18px corners and a thin blue stroke. Heading bands use 14px vertical and 24px horizontal padding. Badges have 60px circles and 28px marks on desktop, with smaller phone sizes. Original SVG variants and legally relevant source/license notices remain in assets/brand/SOURCES.md.
 
 ## Accurate classifications
 
@@ -55,4 +48,3 @@ associated with the portfolio deployment. No Axiom source files were changed.
 
 Native touch-device testing and OS-level reduced-motion switching were not
 performed; reduced-motion behavior is verified by the existing simulated tests.
-

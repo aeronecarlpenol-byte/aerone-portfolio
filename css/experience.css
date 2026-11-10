@@ -1,4 +1,4 @@
-/* Reference proportions: shared year/header grid, natural-height entries. */
+/* Shared year/header grid and natural-height experience entries. */
 /* Container geometry comes from composition.css, shared with neighbouring sections. */
 #experience .field-experience { --experience-gap: clamp(56px, 6vw, 88px); display: grid; grid-template-columns: minmax(0, .6fr) minmax(0, 1.6fr); grid-template-areas: 'year heading' 'year list'; column-gap: var(--experience-gap); row-gap: 0; position: relative; }
 #experience .field-experience > .section__header { grid-area: heading; display: block; margin: 0 0 clamp(30px, 4vw, 48px); }

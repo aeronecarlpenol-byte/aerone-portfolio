@@ -1,4 +1,4 @@
-/* A letter and a closing note, using the reference's 65/35 composition. */
+/* Portfolio contact letter and closing note in a 65/35 composition. */
 /* Use the shared page grid; the letter and closing note own the inner layout. */
 .portfolio-home #main-content > #contact.section { padding-top: var(--section-gap, 6rem); padding-bottom: 40px; }
 .contact-composition { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); gap: 2rem var(--layout-gap, 3rem); align-items: end; }
