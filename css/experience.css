@@ -57,7 +57,7 @@
 #experience .learning-timeline__body > h3,
 #experience .learning-timeline__body > .learning-timeline__org,
 #experience .learning-timeline__body > .learning-tags { grid-column: 1 / -1; }
-#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 20px; border: 1px solid var(--border); border-radius: 16px; background: rgb(22 27 34 / .8); font-size: .95rem; line-height: 1.7; min-width: 0; }
+#experience .learning-timeline__body > p:not(.learning-timeline__org) { margin: 0; padding: 20px; border: 1px solid rgb(var(--signal-rgb) / .48); border-radius: 16px; background: linear-gradient(135deg, rgb(var(--signal-rgb) / .1), transparent 75%), var(--signal-surface); box-shadow: inset 3px 0 0 rgb(var(--signal-rgb) / .8); color: #e0edf9; font-size: .95rem; line-height: 1.7; min-width: 0; }
 #experience .learning-timeline__body > p:not(.learning-timeline__org):last-of-type:first-of-type,
 #experience .learning-timeline__body > p:not(.learning-timeline__org):last-child { grid-column: 1 / -1; }
 #experience .learning-timeline__body > .learning-timeline__org { margin: 0 0 4px; font-weight: 600; color: var(--text-secondary); }
@@ -73,14 +73,19 @@
   #experience .learning-timeline__body > p:not(.learning-timeline__org) { padding: 16px; }
   #experience .experience-meta .learning-timeline__label { font-size: .66rem; }
 }
-/* Layered date frames: crisp circuit-blue outlines with a slight offset. */
+/* Signal colors identify milestones like illuminated circuit channels. */
+#experience .learning-timeline__entry { --signal-rgb: 75 183 255; --signal-ink: #9cdaff; --signal-surface: #102844; }
+#experience .learning-timeline__entry:nth-child(4n + 2) { --signal-rgb: 166 123 255; --signal-ink: #d6baff; --signal-surface: #241943; }
+#experience .learning-timeline__entry:nth-child(4n + 3) { --signal-rgb: 51 218 235; --signal-ink: #93f2fa; --signal-surface: #0c303d; }
+#experience .learning-timeline__entry:nth-child(4n + 4) { --signal-rgb: 64 218 178; --signal-ink: #9af2d8; --signal-surface: #10342f; }
+/* Layered date frames retain their offset circuit outlines. */
 #experience .experience-meta .learning-timeline__year {
   position: relative;
   isolation: isolate;
-  border-color: var(--blue-highlight);
+  border-color: rgb(var(--signal-rgb));
   border-radius: 4px 6px 3px 5px;
-  background: var(--bg-main);
-  color: var(--blue-highlight);
+  background: var(--signal-surface);
+  color: var(--signal-ink);
   font-weight: 600;
   letter-spacing: .035em;
   transform: rotate(-2deg);
@@ -95,15 +100,22 @@
 }
 #experience .experience-meta .learning-timeline__year::before {
   inset: -3px 1px 1px -3px;
-  border-color: rgb(139 161 211 / .65);
+  border-color: rgb(var(--signal-rgb) / .8);
   transform: rotate(.8deg);
 }
 #experience .experience-meta .learning-timeline__year::after {
   inset: 2px -3px -3px 2px;
-  border-color: rgb(88 166 255 / .35);
+  border-color: rgb(var(--signal-rgb) / .5);
   transform: rotate(-.6deg);
 }
 #experience .experience-meta .learning-timeline__label {
-  border-color: rgb(88 166 255 / .55);
-  box-shadow: inset 0 0 0 1px rgb(88 166 255 / .04);
+  border-color: rgb(var(--signal-rgb) / .65);
+  background: rgb(var(--signal-rgb) / .13);
+  color: var(--signal-ink);
+  box-shadow: inset 0 0 0 1px rgb(var(--signal-rgb) / .08);
 }
+
+#experience .learning-timeline__entry .learning-tags li { background: var(--signal-surface); border: 1px solid rgb(var(--signal-rgb) / .35); color: var(--signal-ink); }
+#experience .learning-timeline__entry .learning-timeline__org { color: var(--signal-ink); }
+#main-content #experience .learning-timeline__entry.is-reached::before { background: rgb(var(--signal-rgb)); border-color: var(--signal-ink); }
+#main-content #experience .learning-timeline__entry.is-current::before { box-shadow: 0 0 16px rgb(var(--signal-rgb) / .6); }
