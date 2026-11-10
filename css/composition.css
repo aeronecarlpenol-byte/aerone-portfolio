@@ -1,11 +1,46 @@
 /* Shared page geometry. Section files own their inner grids; this file owns
    the canvas, reading scale and rhythm between those compositions. */
 .portfolio-home {
-  --container-max: 1440px;
-  --content-pad: clamp(48px, 7vw, 112px);
+  --container-max: 1560px;
+  --content-pad: clamp(56px, 4.5vw, 80px);
   --layout-gap: clamp(2rem, 4vw, 4rem);
-  --section-gap: clamp(4rem, 7vw, 7rem);
+  --section-gap: clamp(3.5rem, 5.5vw, 5.5rem);
   --heading-size: clamp(2rem, 3.8vw, 3.5rem);
+}
+
+/* Hero shares the full editorial grid, with no forced eight-character wrap. */
+.portfolio-home .hero-showcase {
+  grid-template-columns: minmax(0, 1.18fr) minmax(0, .9fr);
+  gap: clamp(2rem, 4vw, 4rem);
+  margin-top: 1.5rem;
+  align-items: center;
+}
+.portfolio-home .hero-copy h1 {
+  max-width: none;
+  font-size: clamp(3.25rem, 5.3vw, 5.5rem);
+  line-height: 1.04;
+  letter-spacing: -.055em;
+}
+.hero-greeting { margin-bottom: .75rem; font-size: 1rem; color: var(--text-secondary); }
+.portfolio-home .hero-bottom { max-width: 58ch; margin-top: 1.25rem; }
+.portfolio-home .hero-intro p.hero-curiosity { margin-bottom: 1rem; }
+.portfolio-home .hero-visual { max-width: 490px; justify-self: center; }
+.portfolio-home .hero-portrait__image { border: 0; border-radius: 0; background: transparent; aspect-ratio: 1.14; mask-image: linear-gradient(#000 76%, transparent); }
+.portfolio-home .hero-portrait:hover .hero-portrait__image { box-shadow: none; }
+.portfolio-home .hero-portrait__caption { display: none; }
+.portfolio-home .hero-thought { padding-top: .5rem; }
+.portfolio-home .hero-statement { font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.3; text-align: center; }
+.portfolio-home .hero-statement br { display: none; }
+.portfolio-home .hero-foot { margin-top: 1.5rem; }
+@media (max-width: 900px) {
+  .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1.15fr) minmax(0, .85fr); gap: 1.5rem; }
+  .portfolio-home .hero-copy h1 { font-size: clamp(2.8rem, 6vw, 4rem); }
+}
+@media (max-width: 680px) {
+  .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1fr); }
+  .portfolio-home .hero-copy h1 { font-size: clamp(2.7rem, 10.5vw, 4.4rem); }
+  .portfolio-home .hero-visual { width: min(100%, 370px); }
+  .hero-greeting { font-size: .875rem; }
 }
 .portfolio-home #main-content > section > .container,
 .portfolio-home .footer > .container {
@@ -16,7 +51,7 @@
 }
 .portfolio-home #hero {
   padding-inline: max(var(--content-pad), calc((100% - var(--container-max)) / 2 + var(--content-pad)));
-  padding-top: 1.5rem;
+  padding-top: .75rem;
   padding-bottom: 2rem;
 }
 /* The single document-origin blue grid continues through every section. */

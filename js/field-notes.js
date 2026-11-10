@@ -60,10 +60,10 @@
   }
   const coreDefs = corePart(signal, 'defs', {});
   const coreGradient = corePart(coreDefs, 'radialGradient', { id: 'scroll-reactor-light' });
-  [['0%', '#ffffff', '1'], ['28%', '#e9fcff', '1'], ['60%', '#79e7ff', '.95'], ['100%', '#218bdd', '.15']]
+  [['0%', '#ffffff', '1'], ['28%', '#e9fcff', '1'], ['60%', '#b18aff', '.95'], ['100%', '#6055ef', '.15']]
     .forEach(([offset, color, opacity]) => corePart(coreGradient, 'stop', { offset: offset, 'stop-color': color, 'stop-opacity': opacity }));
   const auraGradient = corePart(coreDefs, 'radialGradient', { id: 'scroll-reactor-aura' });
-  [['0%', '#b5f5ff', '.45'], ['35%', '#48dcf5', '.22'], ['100%', '#26c6d1', '0']]
+  [['0%', '#b5f5ff', '.45'], ['35%', '#9770ff', '.26'], ['100%', '#466cf5', '0']]
     .forEach(([offset, color, opacity]) => corePart(auraGradient, 'stop', { offset: offset, 'stop-color': color, 'stop-opacity': opacity }));
   corePart(signal, 'circle', { class: 'energy-core__aura', r: '24', fill: 'url(#scroll-reactor-aura)' });
   corePart(signal, 'circle', { class: 'energy-core__wave energy-core__wave--one', r: '13' });
@@ -72,7 +72,7 @@
   const orbits = [
     { angle: -24, rx: 20, ry: 7.5, color: '#8aeaff', duration: 6800, direction: 1 },
     { angle: 48, rx: 18.5, ry: 8, color: '#d0f5ff', duration: 9100, direction: -1 },
-    { angle: 108, rx: 20, ry: 9, color: '#54d9ca', duration: 11300, direction: 1 }
+    { angle: 108, rx: 20, ry: 9, color: '#b18aff', duration: 11300, direction: 1 }
   ];
   orbits.forEach(function (orbit, i) {
     const spin = corePart(signal, 'g', { class: 'energy-core__orbit' });
@@ -104,7 +104,7 @@
       if (paused && item.animation.playState !== 'paused' && typeof item.animation.pause === 'function') item.animation.pause();
       if (!paused && item.animation.playState !== 'running' && typeof item.animation.play === 'function') item.animation.play();
       const rate = paused ? 1 : 1 + energy * 3;
-      if (Math.abs((item.animation.playbackRate || 1) - rate) > .005) item.animation.playbackRate = rate;
+      if (Math.abs((item.animation.playbackRate || 1) - rate) > .005) typeof item.animation.updatePlaybackRate === 'function' ? item.animation.updatePlaybackRate(rate) : item.animation.playbackRate = rate;
     });
     signal.classList.toggle('is-energy-paused', Boolean(document.hidden));
   }

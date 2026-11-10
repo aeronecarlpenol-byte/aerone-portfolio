@@ -176,7 +176,7 @@
    Keep the same geometry on mobile so resizing never changes the density. */
 body {
   background-color: var(--bg-main);
-  background-image: radial-gradient(circle, rgb(88 166 255 / .30) 0 1.1px, transparent 1.6px);
+  background-image: radial-gradient(circle, rgb(88 166 255 / .37) 0 1.1px, transparent 1.6px);
   background-size: 24px 24px;
   background-position: 12px 12px;
   background-repeat: repeat;
@@ -214,4 +214,3 @@ body .footer { background: transparent; }
   .energy-core__wave { display: none; }
   .energy-core__arc { opacity: .25; }
 }
-

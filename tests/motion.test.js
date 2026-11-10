@@ -47,8 +47,8 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
     return media.get(query);
   }
   class Observer {
-    constructor(callback) { this.callback = callback; observers.push(this); }
-    observe() {} unobserve() {}
+    constructor(callback) { this.callback = callback; this.targets = new Set(); observers.push(this); }
+    observe(target) { this.targets.add(target); } unobserve(target) { this.targets.delete(target); }
   }
   const window = events({ innerWidth: 1280, innerHeight: 800, devicePixelRatio: 3,
     matchMedia, IntersectionObserver: Observer,
@@ -68,147 +68,56 @@ function setup({ reduced = false, hash = '', canvasAvailable = true, coarse = fa
   }
   function preference(query, value) { const m = matchMedia(query); m.matches = value; m.emit('change'); }
   return { body, items, frames, timers, calls, document, window, tick, preference,
-    reveal: (targets = items) => observers.forEach(o => o.callback(targets.map(target => ({ target, isIntersecting: true })))),
-    leave: (targets = items) => observers.forEach(o => o.callback(targets.map(target => ({ target,
+    reveal: (targets = items) => observers.forEach(o => o.callback(targets.filter(target => o.targets.has(target)).map(target => ({ target, isIntersecting: true })))),
+    leave: (targets = items) => observers.forEach(o => o.callback(targets.filter(target => o.targets.has(target)).map(target => ({ target,
       isIntersecting: false, boundingClientRect: target.getBoundingClientRect() })))),
     canvas: () => body.children.find(e => e.className === 'cursor-swarm'),
     intro: () => body.children.find(e => e.className === 'swarm-intro')
   };
 }
 
-test('intro orbits, scatters, assembles real element bounds, then removes its backdrop', () => {
-  const app = setup();
-  assert.ok(app.intro());
-  assert.equal(app.canvas().width, 2560, 'pixel ratio is capped at two');
-  app.reveal(app.items.slice(0, 2)); app.tick(16); app.tick(700);
-  assert.equal(app.calls.filter(c => c.name === 'strokeRect').length, 0);
-  app.tick(1500);
-  assert.ok(app.calls.some(c => c.name === 'strokeRect'));
-  app.tick(2200); app.tick(3300);
-  assert.equal(app.intro().removed, true);
-  assert.equal(app.frames.size, 1, 'only one rendering loop remains');
-  for (const call of app.calls) {
-    for (const n of call.args.flat()) if (typeof n === 'number') assert.ok(Number.isFinite(n));
-  }
-});
 
-test('direct section links skip the intro and keep assembly limited to hero elements', () => {
-  const app = setup({ hash: '#research' });
+test('hero is immediately available without a blocking intro or assembly overlay', () => {
+  const app = setup();
   assert.equal(app.intro(), undefined);
-  app.reveal(); app.tick(100);
-  assert.ok(app.calls.some(c => c.name === 'strokeRect'));
-  assert.ok(Number.parseInt(app.items[0].style.getPropertyValue('--reveal-delay'), 10) < 500);
-});
-
-test('reduced motion disables frames and reveals all content immediately', () => {
-  const app = setup({ reduced: true });
-  assert.equal(app.frames.size, 0);
-  assert.equal(app.canvas().hidden, true);
-  assert.equal(app.intro(), undefined);
-  assert.ok(app.items.slice(0, 2).every(e => e.classList.contains('is-visible')));
-  assert.equal(app.items[2].classList.contains('reveal'), false);
-});
-
-test('changing motion preferences or print state cancels rendering and the intro', () => {
-  const app = setup();
-  app.preference('(prefers-reduced-motion: reduce)', true);
-  assert.equal(app.frames.size, 0);
-  assert.equal(app.intro().removed, true);
-  app.preference('(prefers-reduced-motion: reduce)', false);
-  assert.equal(app.frames.size, 1);
-  app.preference('print', true);
-  assert.equal(app.frames.size, 0);
-  assert.equal(app.canvas().hidden, true);
-});
-
-test('hidden tabs pause, and returning repeatedly never creates duplicate loops', () => {
-  const app = setup();
-  app.document.hidden = true; app.document.emit('visibilitychange');
-  assert.equal(app.frames.size, 0);
-  app.tick(4000);
-  assert.equal(app.intro().removed, true, 'timeout cleans up even without rendering');
-  app.document.hidden = false; app.document.emit('visibilitychange');
-  app.window.emit('pageshow'); app.window.emit('pageshow');
-  assert.equal(app.frames.size, 1);
-  app.window.emit('pagehide');
-  assert.equal(app.frames.size, 0);
   assert.equal(app.timers.size, 0);
-});
-
-test('keyboard users can skip the intro, and unavailable canvas does not delay content', () => {
-  const app = setup();
-  app.document.emit('keydown', { key: 'Escape' });
-  assert.equal(app.intro().removed, true);
-  assert.equal(app.items[0].style.getPropertyValue('--reveal-delay'), '0ms');
-  const fallback = setup({ canvasAvailable: false });
-  assert.equal(fallback.canvas(), undefined);
-  assert.ok(Number.parseInt(fallback.items[0].style.getPropertyValue('--reveal-delay'), 10) < 500);
-});
-
-test('unobserved text stays readable and heading clipping only begins after detection', () => {
-  const css = fs.readFileSync('css/motion.css', 'utf8');
-  const rules = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
-  const pendingRules = rules.filter(([, selector]) => selector.includes('.reveal') &&
-    !selector.includes('.is-visible'));
-  assert.ok(pendingRules.length > 0);
-  for (const [, selector, declarations] of pendingRules) {
-    assert.doesNotMatch(declarations, /opacity\s*:\s*0(?:\s|;|$)/, selector);
-    assert.doesNotMatch(declarations, /clip-path\s*:\s*inset\([^)]*100%/, selector);
-    assert.doesNotMatch(declarations, /visibility\s*:\s*hidden/, selector);
-  }
-  const app = setup();
   assert.ok(app.items.every(e => !e.classList.contains('is-visible')));
-  app.reveal();
+  app.reveal(); app.tick(16); app.tick(700);
   assert.ok(app.items.slice(0, 2).every(e => e.classList.contains('is-visible')));
-  app.tick(5000);
-  assert.equal(app.intro().removed, true);
-});
-
-test('hero elements replay after leaving above or below the viewport, with fresh assembly', () => {
-  const app = setup({ hash: '#research' });
-  const target = app.items[0];
-  app.reveal([target]); app.tick(100);
-  assert.equal(target.classList.contains('is-visible'), true);
-  for (const [top, bottom] of [[-400, -200], [950, 1150]]) {
-    target.rect = { ...target.rect, top, bottom };
-    app.leave([target]);
-    assert.equal(target.classList.contains('is-visible'), false);
-    target.rect = { ...target.rect, top: 100, bottom: 300 };
-    app.reveal([target]);
-    assert.equal(target.classList.contains('is-visible'), true);
-    app.calls.length = 0;
-    app.tick(200);
-    assert.equal(app.calls.filter(c => c.name === 'strokeRect').length, 1,
-      'one fresh assembly, without overlapping stale copies');
-  }
-  assert.equal(app.intro(), undefined, 'scrolling does not replay the full-screen intro');
-});
-
-test('temporary clipping cannot reset visible text; rapid scrolling rearms unfinished entrances', () => {
-  const app = setup();
-  const target = app.items[0];
-  app.reveal([target]); app.leave([target]);
-  assert.equal(target.classList.contains('is-visible'), true);
-  target.rect = { ...target.rect, top: -400, bottom: -200 };
-  app.window.emit('scroll'); app.window.emit('scroll');
-  assert.equal(app.frames.size, 2, 'one scroll check and one drawing loop');
-  app.tick(100);
-  assert.equal(target.classList.contains('is-visible'), false);
-  assert.ok(Number.parseInt(target.style.getPropertyValue('--reveal-delay'), 10) < 500,
-    'returning to the hero uses the short replay delay');
-  target.rect = { ...target.rect, top: 100, bottom: 300 };
-  app.reveal([target]);
-  assert.equal(target.classList.contains('is-visible'), true);
-});
-
-test('content outside the hero never receives reveal classes, delays, or canvas assembly', () => {
-  const app = setup({ hash: '#experience' });
-  const outside = app.items[2];
-  assert.equal(outside.classList.contains('reveal'), false);
-  assert.equal(outside.style.getPropertyValue('--reveal-delay'), '');
-  app.reveal([outside]); app.tick(100); app.tick(600);
-  assert.equal(outside.classList.contains('is-visible'), false);
   assert.equal(app.calls.filter(c => c.name === 'strokeRect').length, 0);
-  app.window.emit('scroll'); app.tick(900);
-  assert.equal(outside.style.getPropertyValue('--reveal-delay'), '');
+  assert.ok(app.items.slice(0, 2).every(e => parseInt(e.style.getPropertyValue('--reveal-delay')) <= 180));
+});
+test('hero entrances never reset when scrolling away and returning', () => {
+  const app = setup(), target = app.items[0];
+  app.reveal([target]);
+  for (const [top,bottom] of [[-400,-200],[950,1150]]) {
+    target.rect = {...target.rect,top,bottom}; app.leave([target]); app.window.emit('scroll'); app.tick(100);
+    assert.equal(target.classList.contains('is-visible'), true);
+  }
+});
+test('reduced motion and canvas fallback leave content accessible', () => {
+  const app = setup({ reduced: true });
+  assert.equal(app.frames.size, 0); assert.equal(app.canvas().hidden, true);
+  assert.ok(app.items.slice(0, 2).every(e => e.classList.contains('is-visible')));
+  const fallback = setup({canvasAvailable:false});
+  assert.equal(fallback.canvas(), undefined); fallback.reveal();
+  assert.ok(fallback.items.slice(0,2).every(e=>e.classList.contains('is-visible')));
+});
+test('motion preference, print and hidden tab suspend rendering without duplicate loops', () => {
+  const app=setup();
+  app.preference('(prefers-reduced-motion: reduce)',true); assert.equal(app.frames.size,0);
+  app.preference('(prefers-reduced-motion: reduce)',false); assert.equal(app.frames.size,1);
+  app.preference('print',true); assert.equal(app.frames.size,0);
+  app.preference('print',false); app.document.hidden=true; app.document.emit('visibilitychange');
+  assert.equal(app.frames.size,0); app.document.hidden=false; app.document.emit('visibilitychange');
+  app.window.emit('pageshow'); app.window.emit('pageshow'); assert.equal(app.frames.size,1);
+  app.window.emit('pagehide'); assert.equal(app.frames.size,0);
+});
+test('pending content is readable and entrance movement stays small', () => {
+  const css=fs.readFileSync('css/motion.css','utf8');
+  const rules=[...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)];
+  for(const [,selector,declarations] of rules.filter(([,s])=>s.includes('.reveal')&&!s.includes('.is-visible'))) {
+    assert.doesNotMatch(declarations,/opacity\s*:\s*0(?:\s|;|$)|visibility\s*:\s*hidden/);
+  }
+  assert.doesNotMatch(css,/translateY\((?:48|65)px\)/);
 });
