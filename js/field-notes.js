@@ -358,7 +358,7 @@
         const laneRight = contactSticker.x - clearance;
         const stopY = Math.min(contactCard.bottom - clearance,
           contactSticker.y + contactSticker.height * .55);
-        if (crossEnd - crossStart > radius * 2 && laneRight - laneLeft > 12 &&
+        if (crossEnd - crossStart > 8 && laneRight - laneLeft > 12 &&
             stopY - crossEnd > radius * 2) {
           const prefix = points.filter(point => point.y < crossStart);
           const origin = prefix[prefix.length - 1];
@@ -533,6 +533,7 @@
   });
   schedule();
 }());
+
 
 
 
