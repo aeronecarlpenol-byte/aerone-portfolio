@@ -352,8 +352,9 @@
       svg.dataset.contactRouted = 'false';
       if (!mobile && github && contactCard && contactSticker) {
         const clearance = radius + 8;
-        const crossStart = github.bottom + clearance + 8;
-        const crossEnd = contactCard.y - clearance - 8;
+        const githubContent = insetContainer('#github > .container');
+        const crossStart = (githubContent || github).bottom + clearance + 4;
+        const crossEnd = contactCard.y - clearance - 4;
         const laneLeft = contactCard.right + clearance;
         const laneRight = contactSticker.x - clearance;
         const stopY = Math.min(contactCard.bottom - clearance,
