@@ -1,4 +1,4 @@
-﻿/* ============================================================
+/* ============================================================
    Sections — Per-section specific styles
    ============================================================ */
 
@@ -1736,7 +1736,7 @@ body.lightbox-open { overflow: hidden; }
 .github-card {
   max-width: 1080px;
   margin-inline: auto;
-  padding: var(--space-6);
+  padding: var(--space-5);
   border: 1px solid var(--border);
   border-radius: var(--radius-lg);
   background: var(--bg-card);
@@ -1746,8 +1746,8 @@ body.lightbox-open { overflow: hidden; }
   display: flex;
   justify-content: space-between;
   align-items: flex-start;
-  gap: var(--space-6);
-  margin-bottom: var(--space-6);
+  gap: var(--space-4);
+  margin-bottom: var(--space-4);
 }
 
 .github-card__eyebrow {
@@ -1775,7 +1775,7 @@ body.lightbox-open { overflow: hidden; }
 
 .github-card__chart-link {
   display: block;
-  padding: var(--space-6);
+  padding: var(--space-4);
   border: 1px solid var(--border-subtle);
   border-radius: var(--radius-md);
   background: var(--bg-main);
@@ -1804,13 +1804,13 @@ body.lightbox-open { overflow: hidden; }
 .github-card__insights[hidden],
 .github-card__insights-error[hidden] { display: none; }
 
-.github-card__insights { margin-top: var(--space-5); }
+.github-card__insights { margin-top: var(--space-4); }
 
 .github-card__metrics {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--space-3);
-  margin-bottom: var(--space-5);
+  margin-bottom: var(--space-4);
 }
 
 .github-card__metric,
@@ -1824,7 +1824,7 @@ body.lightbox-open { overflow: hidden; }
   display: flex;
   flex-direction: column;
   gap: var(--space-1);
-  padding: var(--space-4);
+  padding: var(--space-3);
 }
 
 .github-card__metric strong {
@@ -1839,10 +1839,10 @@ body.lightbox-open { overflow: hidden; }
   font-size: var(--text-xs);
 }
 
-.github-card__languages-panel { padding: var(--space-5); }
-.github-card__languages-heading { margin-bottom: var(--space-5); }
+.github-card__languages-panel { padding: var(--space-4); }
+.github-card__languages-heading { margin-bottom: var(--space-3); }
 .github-card__languages-heading h3 { font-size: var(--text-base); color: var(--text-primary); }
-.github-card__languages { display: grid; gap: var(--space-4); }
+.github-card__languages { display: grid; gap: var(--space-3); }
 .github-card__language-label {
   display: flex;
   justify-content: space-between;
@@ -1852,7 +1852,7 @@ body.lightbox-open { overflow: hidden; }
   font-size: var(--text-sm);
 }
 .github-card__language-track {
-  height: 9px;
+  height: 7px;
   overflow: hidden;
   border-radius: 999px;
   background: var(--bg-card-hover);
@@ -1870,12 +1870,58 @@ body.lightbox-open { overflow: hidden; }
 }
 .github-card__insights-error a { color: var(--blue-highlight); }
 
+/* Live GitHub panels share the existing card, typography and blue palette. */
+.github-data { padding-block: var(--space-5); border-top: 1px solid var(--border-subtle); min-width: 0; }
+.github-data h3 { margin-bottom: var(--space-2); font-size: var(--text-base); }
+.github-data__status, .github-list__meta, .github-card__footer {
+  color: var(--text-muted); font-size: var(--text-xs); overflow-wrap: anywhere;
+}
+.github-data__status { margin-bottom: var(--space-4); }
+.github-data__content[hidden] { display: none; }
+.github-profile { display: flex; flex-wrap: wrap; gap: var(--space-3); align-items: baseline; }
+.github-profile > a { font-size: var(--text-lg); font-weight: var(--weight-semibold); }
+.github-profile > span { color: var(--text-muted); font-family: var(--font-mono); font-size: var(--text-xs); overflow-wrap: anywhere; }
+.github-data a { color: var(--blue-highlight); overflow-wrap: anywhere; }
+.github-data a:hover { text-decoration: underline; }
+.github-data .github-card__metrics { margin-block: var(--space-4); }
+.github-list { list-style: none; margin: 0; padding: 0; }
+.github-list > li { padding-block: var(--space-3); border-bottom: 1px solid var(--border-subtle); overflow-wrap: anywhere; }
+.github-list > li:first-child { padding-top: 0; }
+.github-list > li:last-child { border-bottom: 0; }
+.github-list time { display: block; margin-top: var(--space-1); }
+.github-data .github-card__languages-panel { margin-top: var(--space-4); }
+.github-data .github-card__languages { margin-top: var(--space-4); }
+.github-calendar__summary { margin-bottom: var(--space-4); font-size: var(--text-sm); }
+.github-calendar__scroll { max-width: 100%; overflow-x: auto; padding: 4px 3px 10px; scrollbar-color: var(--border) transparent; }
+.github-calendar { display: grid; grid-template-rows: 20px repeat(7, 11px); gap: 4px; min-width: 740px; }
+.github-calendar__label { color: var(--text-muted); font-size: 10px; line-height: 11px; }
+.github-calendar__day {
+  display: block; min-width: 0; width: 100%; height: 11px; padding: 0;
+  border: 1px solid rgba(139, 165, 194, .12); border-radius: 2px; background: #161f2c;
+}
+button.github-calendar__day { cursor: pointer; }
+.github-calendar__day[data-level="1"] { background: #143b64; }
+.github-calendar__day[data-level="2"] { background: #1e609e; }
+.github-calendar__day[data-level="3"] { background: #3189d3; }
+.github-calendar__day[data-level="4"] { background: #58a6ff; }
+button.github-calendar__day:hover, button.github-calendar__day:focus-visible { outline: 2px solid var(--text-primary); outline-offset: 1px; }
+.github-calendar__detail { margin-top: var(--space-2); min-height: 2.5em; font-size: var(--text-xs); color: var(--text-muted); }
+.github-calendar__legend { display: flex; justify-content: flex-end; align-items: center; gap: 4px; margin-bottom: var(--space-3); color: var(--text-muted); font-size: var(--text-xs); }
+.github-calendar__legend .github-calendar__day { width: 11px; }
+.github-card__footer { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: var(--space-3); border-top: 1px solid var(--border-subtle); padding-top: var(--space-4); }
+.github-card__footer p { flex: 1 1 280px; }
+.github-refresh { padding: var(--space-2) var(--space-3); border: 1px solid var(--border); border-radius: var(--radius-md); background: var(--bg-main); color: var(--blue-highlight); font: inherit; cursor: pointer; }
+.github-refresh:hover { border-color: var(--blue-highlight); }
+.github-refresh:disabled { opacity: .5; cursor: wait; }
+
 @media (max-width: 640px) {
-  .github-card { padding: var(--space-5); }
+  .github-card { padding: var(--space-4); }
   .github-card__heading { flex-direction: column; gap: var(--space-3); }
-  .github-card__chart-link { padding: var(--space-4); overflow-x: auto; }
+  .github-card__chart-link { padding: var(--space-3); overflow-x: auto; }
   .github-card__chart { width: 700px; max-width: none; }
-  .github-card__metrics { grid-template-columns: 1fr; }
+  .github-card__metrics { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-2); }
+  .github-card__metric { min-width: 0; padding: var(--space-2); }
+  .github-card__metric span { overflow-wrap: anywhere; }
 }
 
 /* ============================
@@ -2165,6 +2211,61 @@ body.lightbox-open { overflow: hidden; }
   color: var(--text-primary);
 }
 
+/* Learning, practice, and an open invitation — using the existing palette. */
+.learning-timeline { list-style: none; padding: 0; margin: 0; }
+.learning-timeline__entry { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: var(--space-8); }
+.learning-timeline__year { padding-top: var(--space-8); color: var(--blue-highlight); font: 500 var(--text-xl) var(--font-mono); }
+.learning-timeline__body { position: relative; border-left: 1px solid var(--border); padding: var(--space-8) 0 var(--space-10) var(--space-10); }
+.learning-timeline__body::before { content: ''; position: absolute; left: -5px; top: 2.5rem; width: 9px; height: 9px; border: 2px solid var(--blue-highlight); border-radius: 50%; background: var(--bg-main); }
+.learning-timeline__body h3 { margin: var(--space-2) 0; font: 600 clamp(1.4rem, 3vw, 1.9rem) var(--font-display); }
+.learning-timeline__label, .learning-panel__index { color: var(--text-muted); font: var(--text-xs) var(--font-mono); }
+.learning-timeline__org { color: var(--blue-highlight); margin-bottom: var(--space-4); }
+.learning-timeline__body > p:last-of-type { max-width: 65ch; color: var(--text-secondary); line-height: 1.8; }
+.learning-tags { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: var(--space-5) 0 0; }
+.learning-tags li { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .35rem .65rem; font-size: var(--text-xs); color: var(--text-secondary); }
+.learning-project-note { margin: var(--space-8) 0 var(--space-16); color: var(--text-muted); line-height: 1.8; }
+.learning-project-note a { color: var(--blue-highlight); text-decoration: underline; text-underline-offset: 4px; }
+.learning-background-title { padding-top: var(--space-10); border-top: 1px solid var(--border); margin-bottom: var(--space-8); font: 500 var(--text-2xl) var(--font-display); }
+#experience .lp__grid { grid-template-columns: 1fr; }
+.learning-skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
+.learning-panel { min-width: 0; position: relative; padding: var(--space-8); background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: border-color var(--transition-normal), background-color var(--transition-normal); }
+.learning-panel::after { content: ''; position: absolute; top: -1px; right: 24px; width: 24px; height: 3px; background: var(--border); transition: background-color var(--transition-normal); }
+.learning-panel h3 { margin: var(--space-5) 0 var(--space-2); font: 600 var(--text-lg) var(--font-display); }
+.learning-panel__level { color: var(--blue-highlight); font-size: var(--text-xs); margin-bottom: var(--space-4); }
+.learning-panel__description { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.7; }
+.learning-panel:hover, .learning-panel:focus-within { border-color: var(--blue-highlight); background-color: var(--bg-card-hover); }
+.learning-panel:hover::after, .learning-panel:focus-within::after { background: var(--blue-highlight); }
+.contact-learning__intro { max-width: 760px; padding: var(--space-12) 0 var(--space-10); }
+.contact-learning__note { color: var(--text-muted); margin-bottom: var(--space-5); font: var(--text-xs) var(--font-mono); }
+.contact-learning__intro h2 { font: 600 clamp(2.5rem, 7vw, 5.5rem)/1.08 var(--font-display); letter-spacing: -.045em; }
+.contact-learning__intro h2 span { color: var(--blue-highlight); }
+.contact-learning__copy { color: var(--text-secondary); max-width: 52ch; line-height: 1.9; margin: var(--space-8) 0; }
+.contact-learning__hello { min-height: 48px; gap: var(--space-8); }
+.contact-learning__email-row { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; padding-bottom: var(--space-6); }
+.contact-learning__email { overflow-wrap: anywhere; color: var(--text-secondary); text-decoration: underline; text-underline-offset: 5px; }
+.copy-email { min-height: 44px; padding: .5rem .8rem; border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-card); font: inherit; font-size: var(--text-xs); cursor: pointer; transition: border-color var(--transition-normal); }
+.copy-email:hover { border-color: var(--blue-highlight); }
+.copy-email[hidden] { display: none; }
+.copy-email:disabled { cursor: wait; }
+.copy-email-status { color: var(--text-muted); font-size: var(--text-xs); min-height: 1.6em; }
+.contact-learning .contact-learning__links { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: var(--space-2) var(--space-6); border-top: 1px solid var(--border); padding-top: var(--space-5); }
+.contact-learning__links a { display: inline-flex; align-items: center; min-height: 44px; }
+.contact-learning__signoff { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.8; margin-top: var(--space-12); }
+.contact-learning a:focus-visible, .copy-email:focus-visible, .learning-project-note a:focus-visible { outline: 2px solid var(--blue-highlight); outline-offset: 5px; border-radius: 2px; }
+@media (max-width: 1000px) { .learning-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (max-width: 640px) {
+  .learning-skills { grid-template-columns: 1fr; }
+  .learning-panel { padding: var(--space-6); }
+  .learning-timeline__entry { grid-template-columns: 1fr; gap: 0; }
+  .learning-timeline__year { padding-top: var(--space-6); }
+  .learning-timeline__body { margin-left: 4px; padding: var(--space-5) 0 var(--space-8) var(--space-6); }
+  .learning-timeline__body::before { top: 1.6rem; }
+  .contact-learning .section-label { flex-wrap: wrap; gap: var(--space-3); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .learning-panel, .learning-panel::after, .copy-email { transition: none; }
+}
+
 /* Images begin in monochrome and reveal their original color with intentional hover or keyboard focus. */
 main img:not(.github-card__chart) {
   filter: grayscale(100%);
@@ -2233,59 +2334,4 @@ main img:not(.github-card__chart) {
   }
 }
 
-
-/* Learning, practice, and an open invitation — using the existing palette. */
-.learning-timeline { list-style: none; padding: 0; margin: 0; }
-.learning-timeline__entry { display: grid; grid-template-columns: 130px minmax(0, 1fr); gap: var(--space-8); }
-.learning-timeline__year { padding-top: var(--space-8); color: var(--blue-highlight); font: 500 var(--text-xl) var(--font-mono); }
-.learning-timeline__body { position: relative; border-left: 1px solid var(--border); padding: var(--space-8) 0 var(--space-10) var(--space-10); }
-.learning-timeline__body::before { content: ''; position: absolute; left: -5px; top: 2.5rem; width: 9px; height: 9px; border: 2px solid var(--blue-highlight); border-radius: 50%; background: var(--bg-main); }
-.learning-timeline__body h3 { margin: var(--space-2) 0; font: 600 clamp(1.4rem, 3vw, 1.9rem) var(--font-display); }
-.learning-timeline__label, .learning-panel__index { color: var(--text-muted); font: var(--text-xs) var(--font-mono); }
-.learning-timeline__org { color: var(--blue-highlight); margin-bottom: var(--space-4); }
-.learning-timeline__body > p:last-of-type { max-width: 65ch; color: var(--text-secondary); line-height: 1.8; }
-.learning-tags { display: flex; flex-wrap: wrap; gap: .5rem; list-style: none; padding: 0; margin: var(--space-5) 0 0; }
-.learning-tags li { border: 1px solid var(--border); border-radius: var(--radius-sm); padding: .35rem .65rem; font-size: var(--text-xs); color: var(--text-secondary); }
-.learning-project-note { margin: var(--space-8) 0 var(--space-16); color: var(--text-muted); line-height: 1.8; }
-.learning-project-note a { color: var(--blue-highlight); text-decoration: underline; text-underline-offset: 4px; }
-.learning-background-title { padding-top: var(--space-10); border-top: 1px solid var(--border); margin-bottom: var(--space-8); font: 500 var(--text-2xl) var(--font-display); }
-#experience .lp__grid { grid-template-columns: 1fr; }
-.learning-skills { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-5); }
-.learning-panel { min-width: 0; position: relative; padding: var(--space-8); background: var(--bg-card); border: 1px solid var(--border); border-radius: var(--radius-lg); transition: border-color var(--transition-normal), background-color var(--transition-normal); }
-.learning-panel::after { content: ''; position: absolute; top: -1px; right: 24px; width: 24px; height: 3px; background: var(--border); transition: background-color var(--transition-normal); }
-.learning-panel h3 { margin: var(--space-5) 0 var(--space-2); font: 600 var(--text-lg) var(--font-display); }
-.learning-panel__level { color: var(--blue-highlight); font-size: var(--text-xs); margin-bottom: var(--space-4); }
-.learning-panel__description { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.7; }
-.learning-panel:hover, .learning-panel:focus-within { border-color: var(--blue-highlight); background-color: var(--bg-card-hover); }
-.learning-panel:hover::after, .learning-panel:focus-within::after { background: var(--blue-highlight); }
-.contact-learning__intro { max-width: 760px; padding: var(--space-12) 0 var(--space-10); }
-.contact-learning__note { color: var(--text-muted); margin-bottom: var(--space-5); font: var(--text-xs) var(--font-mono); }
-.contact-learning__intro h2 { font: 600 clamp(2.5rem, 7vw, 5.5rem)/1.08 var(--font-display); letter-spacing: -.045em; }
-.contact-learning__intro h2 span { color: var(--blue-highlight); }
-.contact-learning__copy { color: var(--text-secondary); max-width: 52ch; line-height: 1.9; margin: var(--space-8) 0; }
-.contact-learning__hello { min-height: 48px; gap: var(--space-8); }
-.contact-learning__email-row { display: flex; align-items: center; gap: var(--space-4); flex-wrap: wrap; padding-bottom: var(--space-6); }
-.contact-learning__email { overflow-wrap: anywhere; color: var(--text-secondary); text-decoration: underline; text-underline-offset: 5px; }
-.copy-email { min-height: 44px; padding: .5rem .8rem; border: 1px solid var(--border); border-radius: var(--radius-md); color: var(--text-secondary); background: var(--bg-card); font: inherit; font-size: var(--text-xs); cursor: pointer; transition: border-color var(--transition-normal); }
-.copy-email:hover { border-color: var(--blue-highlight); }
-.copy-email[hidden] { display: none; }
-.copy-email:disabled { cursor: wait; }
-.copy-email-status { color: var(--text-muted); font-size: var(--text-xs); min-height: 1.6em; }
-.contact-learning .contact-learning__links { display: flex; flex-direction: row; flex-wrap: wrap; align-items: center; justify-content: flex-start; gap: var(--space-2) var(--space-6); border-top: 1px solid var(--border); padding-top: var(--space-5); }
-.contact-learning__links a { display: inline-flex; align-items: center; min-height: 44px; }
-.contact-learning__signoff { color: var(--text-muted); font-size: var(--text-sm); line-height: 1.8; margin-top: var(--space-12); }
-.contact-learning a:focus-visible, .copy-email:focus-visible, .learning-project-note a:focus-visible { outline: 2px solid var(--blue-highlight); outline-offset: 5px; border-radius: 2px; }
-@media (max-width: 1000px) { .learning-skills { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-@media (max-width: 640px) {
-  .learning-skills { grid-template-columns: 1fr; }
-  .learning-panel { padding: var(--space-6); }
-  .learning-timeline__entry { grid-template-columns: 1fr; gap: 0; }
-  .learning-timeline__year { padding-top: var(--space-6); }
-  .learning-timeline__body { margin-left: 4px; padding: var(--space-5) 0 var(--space-8) var(--space-6); }
-  .learning-timeline__body::before { top: 1.6rem; }
-  .contact-learning .section-label { flex-wrap: wrap; gap: var(--space-3); }
-}
-@media (prefers-reduced-motion: reduce) {
-  .learning-panel, .learning-panel::after, .copy-email { transition: none; }
-}
 
