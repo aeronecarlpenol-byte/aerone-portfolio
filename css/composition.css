@@ -131,7 +131,7 @@
 .portfolio-home .contact-learning .contact-learning__links { border-block: 0; }
 .portfolio-home .learning-background-title { padding-top: 0; }
 .portfolio-home .education-grid { margin-bottom: 0; }
-.portfolio-home #main-content > #github > .container { max-width: 1250px; }
+.portfolio-home #main-content > #github > .container { max-width: 1050px; }
 .portfolio-home .github-card { max-width: none; margin-inline: 0; }
 .portfolio-home .footer { padding-block: 1.5rem 2.5rem; }
 
