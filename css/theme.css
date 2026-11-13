@@ -1,19 +1,49 @@
-/* Light mode keeps the same blue circuitry and artwork, with readable surfaces. */
+/* Light mode uses the same blue circuitry with clearer hierarchy and contrast. */
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg-main: #eaf2fc; --bg-card: #f8fbff; --bg-card-hover: #e0edff;
-  --text-primary: #10233e; --text-secondary: #294361; --text-muted: #4e637d;
-  --border: #a7bfdb; --border-subtle: #ceddf0;
-  --blue-highlight: #145cba; --blue-primary: #1f6feb; --blue-dim: #1855b0;
+  --bg-main: #edf3fb; --bg-card: #fbfdff; --bg-card-hover: #e9f3ff;
+  --text-primary: #112640; --text-secondary: #334b68; --text-muted: #536b86;
+  --border: #b4c9e1; --border-subtle: #d0ddec;
+  --blue-highlight: #1764bd; --blue-primary: #1769d2; --blue-dim: #1153a8;
+  --shadow-sm: 0 2px 7px rgb(25 58 100 / .09);
+  --shadow-md: 0 12px 30px rgb(25 58 100 / .13);
+  --shadow-card: 0 0 0 1px var(--border);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
-[data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(248 251 255 / .96); }
+[data-theme="light"] body { background-image: radial-gradient(circle, rgb(48 112 188 / .35) 0 1.1px, transparent 1.6px); }
+[data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(251 253 255 / .95); border-color: #b6cae0; box-shadow: 0 10px 32px rgb(31 68 112 / .14); }
+[data-theme="light"] .nav-indicator { background: rgb(23 105 210 / .1); border-color: rgb(23 105 210 / .36); }
+[data-theme="light"] .nav__link:hover, [data-theme="light"] .nav__dock-link:hover { background: rgb(23 105 210 / .07); }
 [data-theme="light"] .skill-family, [data-theme="light"] .about__info-card,
 [data-theme="light"] .education-main, [data-theme="light"] .education-side > div,
-[data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: #f8fbff; color: var(--text-secondary); }
-[data-theme="light"] #experience .learning-timeline__body > p:not(.learning-timeline__org) { background: #f8fbff; color: var(--text-secondary); border-color: rgb(var(--signal-rgb) / .7); }
+[data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: var(--bg-card); color: var(--text-secondary); }
+[data-theme="light"] .about__info-card { padding: 15px 17px; border: 1px solid var(--border-subtle); border-radius: 15px; box-shadow: var(--shadow-sm); }
+[data-theme="light"] .skill-family { border-color: #bbd2eb; box-shadow: var(--shadow-sm); }
+[data-theme="light"] .skill-family h3 { background: #e7f1fc; border-bottom: 1px solid #d0dfef; }
+[data-theme="light"] #skills .tech-logo__float { background: #edf5ff; border-color: #c8d8e9; }
+[data-theme="light"] #skills .tech-logo--github .tech-logo__float,
+[data-theme="light"] #skills .tech-logo--vercel .tech-logo__float,
+[data-theme="light"] #skills .tech-logo--chatgpt .tech-logo__float { background: #17324f; border-color: #355c85; }
+[data-theme="light"] #skills .tech-logo:hover .tech-logo__float { border-color: var(--blue-primary); }
+[data-theme="light"] .work-pile, [data-theme="light"] .work-card:nth-child(2) .work-pile { background: linear-gradient(145deg, #fbfdff, #e3eefb); border-color: #9db9d8; box-shadow: 0 14px 30px rgb(33 68 111 / .16); }
+[data-theme="light"] .work-pile__label { color: #3d5876; }
+[data-theme="light"] .work-pile__open { color: var(--blue-highlight); }
+[data-theme="light"] .work-pile__count { background: #e7f2ff; border-color: #8fb2d8; color: #254d77; }
+[data-theme="light"] .work-card__status { background: #e9f5ed; border-color: #a4ceb2; color: #285e3b; }
+[data-theme="light"] .work-story__top { background: #edf5ff; }
+[data-theme="light"] .work-story__close, [data-theme="light"] .work-gallery__arrows button { background: #fff; border-color: var(--border); color: var(--text-primary); }
+[data-theme="light"] .work-story__copy h3, [data-theme="light"] .work-gallery__count { color: #275d90; }
+[data-theme="light"] #experience .learning-timeline__entry { --signal-ink: #225c8f; --signal-surface: #edf5fe; }
+[data-theme="light"] #experience .learning-timeline__entry[data-kind="learning"] { --signal-ink: #6745a6; --signal-surface: #f3edfc; }
+[data-theme="light"] #experience .learning-timeline__entry[data-kind="publication"] { --signal-ink: #146f7d; --signal-surface: #eaf8fa; }
+[data-theme="light"] #experience .learning-timeline__entry[data-kind="leadership"] { --signal-ink: #1d609e; --signal-surface: #edf5fe; }
+[data-theme="light"] #experience .experience-meta .learning-timeline__label { background: var(--signal-surface); border-color: rgb(var(--signal-rgb) / .65); }
+[data-theme="light"] #experience .field-annotation { color: #397fbb; }
+[data-theme="light"] #experience .experience-highlights li { background: linear-gradient(135deg, rgb(var(--signal-rgb) / .09), #fff 70%); box-shadow: var(--shadow-sm); }
+[data-theme="light"] #experience .learning-timeline__body > p:not(.learning-timeline__org) { background: var(--signal-surface); color: var(--text-secondary); border-color: rgb(var(--signal-rgb) / .55); }
 [data-theme="light"] #experience .learning-timeline__org { color: var(--text-secondary); }
-[data-theme="light"] .contact-invitation, [data-theme="light"] .contact-dear, [data-theme="light"] .contact-thanks { color: var(--text-secondary); }
+[data-theme="light"] .education-main, [data-theme="light"] .education-side { box-shadow: var(--shadow-sm); }
+[data-theme="light"] .coursework-item { background: #f1f7fe; }
 [data-theme="light"] .hero-portrait__image::after { background: linear-gradient(0deg, var(--bg-main), transparent 28%); }
 [data-theme="light"] .hero-action--primary { color: #fff; }
 [data-theme="light"] .hero-action img[src$="github.svg"] { filter: invert(1); }
