@@ -44,8 +44,6 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     '#about > .container': geometry(80, 300, width - 160, 40),
     '#exploring > .container': geometry(80, 430, width - 160, 10),
     '#skills > .container': geometry(80, 1820, width - 160, 700),
-    '#github': geometry(0, 2600, width, 400),
-    '#github > .container': geometry(80, 2630, width - 160, 300),
     '#skills': geometry(0, 1800, width, 800), '.field-timeline': geometry(width * .43, 500, width * .5, 1100),
     '.field-schematic svg': geometry(width - 300, 3200, 250, 250)
   };
@@ -59,14 +57,13 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
     landmarks['.learning-project-note'] = geometry(80, 1896, width - 160, 30);
     landmarks['.education-grid'] = geometry(width * .1, 2000, width * .8, 200);
     landmarks['#skills > .container'] = geometry(80, 2300, width - 160, 600);
-    landmarks['#github > .container'] = geometry(80, 3000, width - 160, 200);
   }
   if (editorialLayout) {
     const containerWidth = Math.min(1440, clientWidth), outer = (clientWidth - containerWidth) / 2;
     const padding = width <= 1000 ? 48 : Math.max(48, Math.min(112, width * .07));
     const endPadding = width <= 680 ? 24 : width <= 1000 ? 32 : padding;
     const regions = { about: [300, 40], exploring: [430, 10], research: [460, 10],
-      skills: [1820, 700], github: [2630, 300], contact: [3000, 700] };
+      skills: [1820, 700], contact: [3000, 700] };
     for (const [id, [y, height]] of Object.entries(regions)) {
       const el = geometry(outer, y, containerWidth, height);
       el.paddingLeft = padding; el.paddingRight = endPadding;

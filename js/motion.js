@@ -265,7 +265,7 @@
     window.addEventListener('resize', checkExits, { passive: true });
   }
 
-  const sectionItems = document.querySelectorAll('.hero-quote .hero-statement, main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side, .github-card');
+  const sectionItems = document.querySelectorAll('.hero-quote .hero-statement, main > section:not(.hero) .section__header, .work-header, .about__grid, .work-card, .research-preview__grid, .learning-timeline__entry, .education-main, .education-side');
   if ('IntersectionObserver' in window && !reduced.matches) {
     const sectionObserver = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
@@ -283,7 +283,7 @@
   /* Touchscreens reveal image color on entry; there is no hover gesture. */
   const touchScreen = window.matchMedia('(hover: none), (pointer: coarse)');
   if (touchScreen.matches) {
-    const images = document.querySelectorAll('main img:not(.github-card__chart)');
+    const images = document.querySelectorAll('main img');
     if (!('IntersectionObserver' in window)) {
       images.forEach(function (img) { img.classList.add('is-color-visible'); });
     } else {

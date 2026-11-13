@@ -224,7 +224,7 @@
     let radius = (mobile ? 30 : 44) / 2;
     // Follow the actual reading margins, including the 1440px editorial grid.
     // A fixed canvas width would put the wire inside cards on wider displays.
-    const contentBounds = ['#about', '#exploring', '#research', '#experience', '#skills', '#github', '#contact']
+    const contentBounds = ['#about', '#exploring', '#research', '#experience', '#skills', '#contact']
       .map(selector => insetContainer(selector + ' > .container')).filter(Boolean);
     const contentLeft = contentBounds.length ? Math.min(...contentBounds.map(b => b.x)) : radius * 2 + 12;
     const contentRight = contentBounds.length ? Math.max(...contentBounds.map(b => b.right)) : width - radius * 2 - 12;
@@ -288,14 +288,12 @@
       }
       experienceRange = { start: firstEntry.y, end: last.bottom - 32 };
     }
-    const github = find('#github');
-    if (skills && github) crossing('#skills > .container', '#github > .container', skills.bottom, github.y, right);
     let finish = { x: side, y: schematic ? schematic.y + schematic.height * .53 : contactBox.bottom - radius * 3 };
     add(finish.x, finish.y);
     // Validate the complete route, not just the two blocks at each crossing.
     // Container interiors protect all descendants, including Education below
     // the timeline. Hero content has no shared container, so include it explicitly.
-    const avoidance = ['#about', '#exploring', '#research', '#skills', '#github', ...(contactCard && contactSticker ? [] : ['#contact'])]
+    const avoidance = ['#about', '#exploring', '#research', '#skills', ...(contactCard && contactSticker ? [] : ['#contact'])]
       .map(selector => insetContainer(selector + ' > .container')).filter(Boolean).concat([
       find('.hero-copy'), find('.hero-visual'), insetContainer('#hero-quote > .container'),
       find('.field-experience > .section__header'),
@@ -350,10 +348,10 @@
       // The contact card and sticker leave a measured corridor. Curve across
       // the whitespace above the card, then settle beside the sticker.
       svg.dataset.contactRouted = 'false';
-      if (!mobile && github && contactCard && contactSticker) {
+      if (!mobile && skills && contactCard && contactSticker) {
         const clearance = radius + 8;
-        const githubContent = insetContainer('#github > .container');
-        const crossStart = (githubContent || github).bottom + clearance + 4;
+        const skillsContent = insetContainer('#skills > .container');
+        const crossStart = (skillsContent || skills).bottom + clearance + 4;
         const crossEnd = contactCard.y - clearance - 4;
         const laneLeft = contactCard.right + clearance;
         const laneRight = contactSticker.x - clearance;
@@ -534,7 +532,6 @@
   });
   schedule();
 }());
-
 
 
 

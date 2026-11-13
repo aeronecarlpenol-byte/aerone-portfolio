@@ -10,7 +10,6 @@
 [data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(248 251 255 / .96); }
 [data-theme="light"] .skill-family, [data-theme="light"] .about__info-card,
 [data-theme="light"] .education-main, [data-theme="light"] .education-side > div,
-[data-theme="light"] .contact-letter, [data-theme="light"] .github-card,
 [data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: #f8fbff; color: var(--text-secondary); }
 [data-theme="light"] #experience .learning-timeline__body > p:not(.learning-timeline__org) { background: #f8fbff; color: var(--text-secondary); border-color: rgb(var(--signal-rgb) / .7); }
 [data-theme="light"] #experience .learning-timeline__org { color: var(--text-secondary); }

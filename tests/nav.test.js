@@ -10,7 +10,7 @@ function setup(researchPage=false){
     setAttribute(k,v){this.attrs[k]=v;},getAttribute(k){return this.attrs[k]??null;},removeAttribute(k){delete this.attrs[k];},
     addEventListener(k,fn){this.events[k]=fn;},focus(){this.focused=true;}};}
   const win={scrollY:0,innerHeight:800,innerWidth:1440,addEventListener(k,fn){handlers[k]=fn;}};
-  const ids=['hero','about','exploring','research','experience','skills','github','contact'];
+  const ids=['hero','about','exploring','research','experience','skills','contact'];
   const sections=Object.fromEntries(ids.map((id,i)=>[id,{id,offsetTop:i*1000+96,getBoundingClientRect:()=>({top:i*1000+96-win.scrollY}),setAttribute(){},focus(){this.focused=true;}}]));
   const links=ids.map((id,i)=>{const href=id==='research'?'/research':(researchPage?'/':'')+'#'+id;const link=node(href);link.offsetLeft=i*70;if(researchPage&&id==='research'){link.classList.toggle('active',true);link.setAttribute('aria-current','page');}return link;});
   let indicator;
