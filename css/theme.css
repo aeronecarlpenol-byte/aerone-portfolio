@@ -19,7 +19,7 @@
 [data-theme="light"] .education-main, [data-theme="light"] .education-side > div,
 [data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: var(--bg-card); color: var(--text-secondary); }
 [data-theme="light"] .about__info-card { padding: 15px 17px; border: 1px solid var(--border-subtle); border-radius: 15px; box-shadow: var(--shadow-sm); }
-[data-theme="light"] .skill-family { border-color: #7fa6cf; box-shadow: var(--shadow-sm); }
+[data-theme="light"] .skill-family { --skill-border: #7fa6cf; border-color: var(--skill-border); box-shadow: var(--shadow-sm); }
 [data-theme="light"] .skill-family h3 { background: #e7f1fc; border-bottom: 1px solid #a8c3df; }
 [data-theme="light"] #skills .tech-logo__float { background: #edf5ff; border-color: #9bb8d6; }
 [data-theme="light"] #skills .tech-logo--github .tech-logo__float,

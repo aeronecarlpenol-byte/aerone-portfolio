@@ -18,7 +18,7 @@
 
 /* Skills categories: 18px corners, tinted heading bands, circular badges. */
 .skills-workbench { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: stretch; }
-.skill-family { grid-column: auto; min-width: 0; display: grid; grid-template-rows: auto 1fr; padding: 0 24px 24px; border: 1px solid rgb(88 166 255 / .4); border-radius: 18px; background: rgb(22 34 49 / .38); }
+.skill-family { --skill-border: rgb(88 166 255 / .4); grid-column: auto; min-width: 0; display: grid; grid-template-rows: auto 1fr; padding: 0 24px 24px; border: 1px solid var(--skill-border); border-radius: 18px; background: rgb(22 34 49 / .38); }
 .skill-family:nth-child(3), .skill-family:nth-child(6) { grid-column: auto; }
 .skill-family:nth-child(4), .skill-family:nth-child(5) { grid-column: auto; }
 .skill-family h3 { margin: 0 -24px; padding: 18px 24px; border-radius: 17px 17px 0 0; background: rgb(88 166 255 / .13); font-size: 1rem; line-height: 1.4; }
@@ -28,7 +28,7 @@
 .skills-constellation.is-awaiting .tech-logo { opacity: 0; visibility: hidden; }
 .skill-family.is-arriving { animation: skill-border-arrive 450ms cubic-bezier(.16,1,.3,1) both; }
 #skills .section__header.is-arriving { animation: skill-heading-arrive 500ms ease both; }
-@keyframes skill-border-arrive { from { border-color: transparent; } to { border-color: rgb(88 166 255 / .4); } }
+@keyframes skill-border-arrive { from { border-color: transparent; } to { border-color: var(--skill-border); } }
 @keyframes skill-heading-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
 @media (min-width: 1101px) {
   #skills .skills-workbench { grid-auto-rows: minmax(220px, auto); }
