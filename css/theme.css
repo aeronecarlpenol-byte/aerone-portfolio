@@ -14,6 +14,7 @@
 [data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(251 253 255 / .95); border-color: #b6cae0; box-shadow: 0 10px 32px rgb(31 68 112 / .14); }
 [data-theme="light"] .nav-indicator { background: rgb(23 105 210 / .1); border-color: rgb(23 105 210 / .36); }
 [data-theme="light"] .nav__link:hover, [data-theme="light"] .nav__dock-link:hover { background: rgb(23 105 210 / .07); }
+[data-theme="light"] .field-annotation { color: #2c737d; }
 [data-theme="light"] .skill-family, [data-theme="light"] .about__info-card,
 [data-theme="light"] .education-main, [data-theme="light"] .education-side > div,
 [data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: var(--bg-card); color: var(--text-secondary); }
@@ -31,6 +32,7 @@
 [data-theme="light"] .work-pile__count { background: #e7f2ff; border-color: #8fb2d8; color: #254d77; }
 [data-theme="light"] .work-card__status { background: #e9f5ed; border-color: #a4ceb2; color: #285e3b; }
 [data-theme="light"] .work-story__top { background: #edf5ff; }
+[data-theme="light"] .work-gallery__stage figcaption { color: #c5d6e8; }
 [data-theme="light"] .work-story__close, [data-theme="light"] .work-gallery__arrows button { background: #fff; border-color: var(--border); color: var(--text-primary); }
 [data-theme="light"] .work-story__copy h3, [data-theme="light"] .work-gallery__count { color: #275d90; }
 [data-theme="light"] #experience .learning-timeline__entry { --signal-ink: #225c8f; --signal-surface: #edf5fe; }
