@@ -1,32 +1,32 @@
 /* Light mode uses the same blue circuitry with clearer hierarchy and contrast. */
 :root[data-theme="light"] {
   color-scheme: light;
-  --bg-main: #edf3fb; --bg-card: #fbfdff; --bg-card-hover: #e9f3ff;
+  --bg-main: #e8f1fb; --bg-card: #fbfdff; --bg-card-hover: #e4f0ff;
   --text-primary: #071a30; --text-secondary: #1b3552; --text-muted: #2e4d6b;
-  --border: #b4c9e1; --border-subtle: #d0ddec;
+  --border: #829fbe; --border-subtle: #aec4dc;
   --blue-highlight: #0c4e9e; --blue-primary: #115cbe; --blue-dim: #0a458f;
   --shadow-sm: 0 2px 7px rgb(25 58 100 / .09);
   --shadow-md: 0 12px 30px rgb(25 58 100 / .13);
   --shadow-card: 0 0 0 1px var(--border);
 }
 :root[data-theme="dark"] { color-scheme: dark; }
-[data-theme="light"] body { background-image: radial-gradient(circle, rgb(48 112 188 / .35) 0 1.1px, transparent 1.6px); }
-[data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(251 253 255 / .95); border-color: #b6cae0; box-shadow: 0 10px 32px rgb(31 68 112 / .14); }
-[data-theme="light"] .nav-indicator { background: rgb(23 105 210 / .1); border-color: rgb(23 105 210 / .36); }
+[data-theme="light"] body { background-image: radial-gradient(circle, rgb(28 87 159 / .48) 0 1.25px, transparent 1.8px); }
+[data-theme="light"] .nav, [data-theme="light"] .nav__drawer, [data-theme="light"] .section-dock { background: rgb(251 253 255 / .95); border-color: #819fbe; box-shadow: 0 10px 32px rgb(31 68 112 / .16); }
+[data-theme="light"] .nav-indicator { background: rgb(23 105 210 / .12); border-color: rgb(23 105 210 / .52); }
 [data-theme="light"] .nav__link:hover, [data-theme="light"] .nav__dock-link:hover { background: rgb(23 105 210 / .07); }
 [data-theme="light"] .field-annotation { color: #175560; }
 [data-theme="light"] .skill-family, [data-theme="light"] .about__info-card,
 [data-theme="light"] .education-main, [data-theme="light"] .education-side > div,
 [data-theme="light"] .work-story, [data-theme="light"] .learning-panel { background: var(--bg-card); color: var(--text-secondary); }
 [data-theme="light"] .about__info-card { padding: 15px 17px; border: 1px solid var(--border-subtle); border-radius: 15px; box-shadow: var(--shadow-sm); }
-[data-theme="light"] .skill-family { border-color: #bbd2eb; box-shadow: var(--shadow-sm); }
-[data-theme="light"] .skill-family h3 { background: #e7f1fc; border-bottom: 1px solid #d0dfef; }
-[data-theme="light"] #skills .tech-logo__float { background: #edf5ff; border-color: #c8d8e9; }
+[data-theme="light"] .skill-family { border-color: #7fa6cf; box-shadow: var(--shadow-sm); }
+[data-theme="light"] .skill-family h3 { background: #e7f1fc; border-bottom: 1px solid #a8c3df; }
+[data-theme="light"] #skills .tech-logo__float { background: #edf5ff; border-color: #9bb8d6; }
 [data-theme="light"] #skills .tech-logo--github .tech-logo__float,
 [data-theme="light"] #skills .tech-logo--vercel .tech-logo__float,
 [data-theme="light"] #skills .tech-logo--chatgpt .tech-logo__float { background: #17324f; border-color: #355c85; }
 [data-theme="light"] #skills .tech-logo:hover .tech-logo__float { border-color: var(--blue-primary); }
-[data-theme="light"] .work-pile, [data-theme="light"] .work-card:nth-child(2) .work-pile { background: linear-gradient(145deg, #fbfdff, #e3eefb); border-color: #9db9d8; box-shadow: 0 14px 30px rgb(33 68 111 / .16); }
+[data-theme="light"] .work-pile, [data-theme="light"] .work-card:nth-child(2) .work-pile { background: linear-gradient(145deg, #fbfdff, #e3eefb); border-color: #799ec5; box-shadow: 0 14px 30px rgb(33 68 111 / .16); }
 [data-theme="light"] .work-pile__label { color: #1b3552; }
 [data-theme="light"] .work-pile__open { color: var(--blue-highlight); }
 [data-theme="light"] .work-pile__count { background: #e7f2ff; border-color: #8fb2d8; color: #1b426b; }
@@ -39,12 +39,14 @@
 [data-theme="light"] #experience .learning-timeline__entry[data-kind="learning"] { --signal-ink: #573180; --signal-surface: #f3edfc; }
 [data-theme="light"] #experience .learning-timeline__entry[data-kind="publication"] { --signal-ink: #0d5963; --signal-surface: #eaf8fa; }
 [data-theme="light"] #experience .learning-timeline__entry[data-kind="leadership"] { --signal-ink: #174f87; --signal-surface: #edf5fe; }
-[data-theme="light"] #experience .experience-meta .learning-timeline__label { background: var(--signal-surface); border-color: rgb(var(--signal-rgb) / .65); }
+[data-theme="light"] #experience .experience-meta .learning-timeline__label { background: var(--signal-surface); border-color: color-mix(in srgb, var(--signal-ink) 55%, white); }
 [data-theme="light"] #experience .field-annotation { color: #1c5789; }
-[data-theme="light"] #experience .experience-highlights li { background: linear-gradient(135deg, rgb(var(--signal-rgb) / .09), #fff 70%); box-shadow: var(--shadow-sm); }
-[data-theme="light"] #experience .learning-timeline__body > p:not(.learning-timeline__org) { background: var(--signal-surface); color: var(--text-secondary); border-color: rgb(var(--signal-rgb) / .55); }
+[data-theme="light"] #experience .experience-highlights li { background: linear-gradient(135deg, rgb(var(--signal-rgb) / .09), #fff 70%); border-color: color-mix(in srgb, var(--signal-ink) 48%, white); box-shadow: var(--shadow-sm); }
+[data-theme="light"] #experience .learning-timeline__body > p:not(.learning-timeline__org) { background: var(--signal-surface); color: var(--text-secondary); border-color: color-mix(in srgb, var(--signal-ink) 48%, white); }
 [data-theme="light"] #experience .learning-timeline__org { color: var(--text-secondary); }
 [data-theme="light"] .education-main, [data-theme="light"] .education-side { box-shadow: var(--shadow-sm); }
+[data-theme="light"] .contact-letter { border-color: #5e94c9; }
+[data-theme="light"] .contact-letter::before { border-color: rgb(40 110 180 / .32); }
 [data-theme="light"] .coursework-item { background: #f1f7fe; }
 [data-theme="light"] .field-section .learning-panel__description { color: var(--text-secondary); }
 [data-theme="light"] .field-section .learning-panel__level { color: var(--blue-highlight); }
