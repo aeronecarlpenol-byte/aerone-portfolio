@@ -57,7 +57,7 @@
 [data-theme="light"] .copy-email-status { color: var(--blue-highlight); }
 [data-theme="light"] .hero-portrait__image::after { background: linear-gradient(0deg, var(--bg-main), transparent 28%); }
 [data-theme="light"] .hero-action--primary { color: #fff; }
-[data-theme="light"] .hero-action img[src$="github.svg"] { filter: invert(1); }
+[data-theme="light"] .hero-action img:is([src$="github.svg"], [src$="facebook.svg"], [src$="instagram.svg"]) { filter: invert(1); }
 
 /* Give the main content cards a consistent, readable surface in light mode. */
 [data-theme="light"] :is(.about__info-card, .skill-family, .learning-panel) {

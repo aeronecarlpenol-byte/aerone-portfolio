@@ -20,6 +20,9 @@ Additional Skills & Tools symbols:
   https://github.com/devicons/devicon/tree/master/icons (individual brand marks).
 - `github.svg`: official Primer Octicons `mark-github-24.svg` from
   https://github.com/primer/octicons; white fill for the dark background.
+- `facebook.svg`, `instagram.svg`: Simple Icons brand marks from
+  https://github.com/simple-icons/simple-icons/tree/develop/icons; off-white fill
+  matches the existing GitHub action icon in dark mode.
 - `codex.svg`: Codex symbol from https://devicons.io/devicons/icons/codex-icon.svg.
 - `antigravity.svg`: official full-color icon from
   https://antigravity.google/assets/image/brand/antigravity-icon__full-color.svg.
@@ -45,3 +48,4 @@ source notes for those eight files. CSS3, Java, AutoCAD, SketchUp and EasyEDA
 retain their documented standard marks; ChatGPT and Antigravity retain official
 assets. The supplied AutoCAD image is a visual reference, not a site background
 or a raster replacement for the SVG.
+
