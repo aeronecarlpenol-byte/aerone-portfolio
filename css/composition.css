@@ -47,6 +47,7 @@
 .portfolio-home .hero-description > p:not(.hero-curiosity) { max-width: 42ch; margin: 0; line-height: 1.7; text-wrap: pretty; }
 .portfolio-home .hero-controls { display: grid; gap: var(--hero-space); }
 .portfolio-home .hero-copy .hero-actions { margin: 0; gap: 12px; justify-content: flex-start; }
+.portfolio-home #hero .hero-actions__break { flex-basis: 100%; height: 0; }
 .portfolio-home .hero-metadata {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr);
@@ -69,6 +70,7 @@
 .portfolio-home .hero-statement { margin: 0; font-size: clamp(1.35rem, 2vw, 1.8rem); line-height: 1.3; text-align: left; }
 .portfolio-home .hero-statement br { display: initial; }
 @media (max-width: 900px) {
+  .portfolio-home #hero .hero-actions__break { display: none; }
   .portfolio-home .hero-showcase { grid-template-columns: minmax(0, 1fr); gap: 2rem; }
   .portfolio-home .hero-copy { align-content: start; }
   .portfolio-home .hero-visual { width: min(100%, 520px); justify-self: start; }
@@ -159,3 +161,4 @@
 .portfolio-home .hero-quote .hero-statement { max-width: none; margin-inline: auto; font-size: clamp(1.75rem, 3.1vw, 3.25rem); line-height: 1.16; letter-spacing: -.04em; text-align: center; text-wrap: balance; color: var(--text-primary); }
 .portfolio-home #main-content { padding-top: var(--nav-height); }
 .portfolio-home .hero-top { align-items: baseline; }
+
