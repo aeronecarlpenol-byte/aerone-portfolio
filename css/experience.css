@@ -145,12 +145,26 @@
 #experience .experience-highlights li::before {
   content: ''; grid-column: 1; grid-row: 1 / span 2; width: 44px; height: 44px;
   border: 1px solid rgb(var(--signal-rgb) / .42); border-radius: 50%;
-  background: #fff url('../assets/brand/electric-mark.jpg') center / cover no-repeat;
+  background: var(--badge-surface, #f5faff) var(--badge-art) center / var(--badge-size, 72%) no-repeat;
   transition: box-shadow 180ms ease, transform 180ms ease;
 }
+#experience .experience-highlights li[data-icon="code"] { --badge-art: url('../assets/brand/html5.svg'); }
+#experience .experience-highlights li[data-icon="axiom"] { --badge-art: url('../assets/projects/axiom-studia/logo.png'); --badge-surface: #0d1117; --badge-size: 150%; }
+#experience .experience-highlights li[data-icon="deployment"] { --badge-art: url('../assets/brand/github.svg'); --badge-surface: #17324f; }
+#experience .experience-highlights li[data-icon="engineering"] { --badge-art: url('../assets/brand/electric-mark.jpg'); --badge-size: cover; }
+#experience .experience-highlights li[data-icon="ai"] { --badge-art: url('../assets/brand/codex.svg'); }
+#experience .experience-highlights li[data-icon="university"] { --badge-art: url('../assets/education/tup-logo.png'); --badge-size: 88%; }
+#experience .experience-highlights li[data-icon="python"] { --badge-art: url('../assets/brand/python.svg'); }
+#experience .experience-highlights li[data-icon="autocad"] { --badge-art: url('../assets/brand/autocad.svg'); }
+#experience .experience-highlights li[data-icon="exploration"] { --badge-art: url('../assets/brand/electric-mark.jpg'); --badge-size: cover; }
+#experience .experience-highlights li[data-icon="journalism"] { --badge-art: url('../assets/experience/journalism.svg'); }
+#experience .experience-highlights li[data-icon="award"] { --badge-art: url('../assets/experience/award.svg'); }
+#experience .experience-highlights li[data-icon="leadership"] { --badge-art: url('../assets/experience/leadership.svg'); }
+#experience .experience-highlights li[data-icon="communication"] { --badge-art: url('../assets/experience/communication.svg'); }
+#experience .experience-highlights li[data-icon="peace"] { --badge-art: url('../assets/experience/peace.svg'); }
 @media (hover: hover) and (pointer: fine) {
   #experience .experience-highlights li:hover::before {
-    box-shadow: 0 0 0 2px rgb(88 166 255 / .4), 0 0 18px rgb(88 166 255 / .8), 0 0 32px rgb(88 166 255 / .4);
+    box-shadow: 0 0 0 2px rgb(var(--signal-rgb) / .4), 0 0 18px rgb(var(--signal-rgb) / .7), 0 0 32px rgb(var(--signal-rgb) / .3);
     transform: translateY(-2px) scale(1.06);
   }
 }
