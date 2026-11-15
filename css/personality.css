@@ -26,7 +26,7 @@
 .skills-constellation { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); align-content: center; align-items: start; gap: 24px 16px; position: relative; min-height: 0; margin: 0; padding: 22px 0 2px; list-style: none; }
 .skills-constellation .tech-logo:nth-child(even) { margin-top: 0; }
 .skills-constellation.is-awaiting .tech-logo { opacity: 0; visibility: hidden; }
-.skill-family.is-arriving { animation: skill-border-arrive 450ms cubic-bezier(.16,1,.3,1) both; }
+.skill-family.is-arriving { animation: skill-border-arrive 450ms cubic-bezier(.16,1,.3,1) backwards; }
 #skills .section__header.is-arriving { animation: skill-heading-arrive 500ms ease both; }
 @keyframes skill-border-arrive { from { border-color: transparent; } to { border-color: var(--skill-border); } }
 @keyframes skill-heading-arrive { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
@@ -55,3 +55,4 @@
 @media (max-width: 360px) { #skills .skills-constellation { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 #skills .skills-constellation:has(> .tech-logo:nth-child(2):last-child) { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+

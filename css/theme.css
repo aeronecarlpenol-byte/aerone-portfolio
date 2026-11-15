@@ -58,3 +58,50 @@
 [data-theme="light"] .hero-portrait__image::after { background: linear-gradient(0deg, var(--bg-main), transparent 28%); }
 [data-theme="light"] .hero-action--primary { color: #fff; }
 [data-theme="light"] .hero-action img[src$="github.svg"] { filter: invert(1); }
+
+/* Give the main content cards a consistent, readable surface in light mode. */
+[data-theme="light"] :is(.about__info-card, .skill-family, .learning-panel) {
+  background: linear-gradient(155deg, #fff 0%, #f5faff 100%);
+  box-shadow: 0 1px 0 #fff inset, 0 8px 24px rgb(30 75 123 / .09);
+}
+[data-theme="light"] .about__info-card { border-color: #91b1d0; }
+[data-theme="light"] .skill-family {
+  border-color: var(--skill-border);
+  box-shadow: 0 1px 0 #fff inset, 0 10px 26px rgb(30 75 123 / .11);
+}
+[data-theme="light"] .skill-family h3 {
+  background: linear-gradient(100deg, #dcecff, #eff7ff);
+  color: var(--text-primary);
+}
+[data-theme="light"] #experience .experience-highlights li {
+  background: linear-gradient(140deg, rgb(var(--signal-rgb) / .13), #fff 62%);
+  box-shadow: 0 1px 0 #fff inset, 0 8px 22px rgb(30 75 123 / .09);
+}
+[data-theme="light"] .work-pile,
+[data-theme="light"] .work-card:nth-child(2) .work-pile {
+  box-shadow: 0 1px 0 #fff inset, 0 16px 34px rgb(30 75 123 / .16);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  :is(.skill-family, #experience .experience-highlights li) {
+    transition: border-color 220ms ease, box-shadow 220ms ease, background-color 220ms ease;
+  }
+  .skill-family:hover, .skill-family:focus-within {
+    border-color: var(--blue-highlight);
+    box-shadow: 0 0 0 1px rgb(88 166 255 / .16), 0 16px 34px rgb(5 17 36 / .2);
+  }
+  #experience .experience-highlights li:hover {
+    border-color: rgb(var(--signal-rgb) / .8);
+    box-shadow: 0 0 0 1px rgb(var(--signal-rgb) / .12), 0 12px 28px rgb(5 17 36 / .18);
+  }
+  [data-theme="light"] .skill-family:hover,
+  [data-theme="light"] .skill-family:focus-within {
+    border-color: #397aca;
+    box-shadow: 0 0 0 1px rgb(41 110 190 / .16), 0 16px 34px rgb(30 75 123 / .16);
+  }
+  [data-theme="light"] #experience .experience-highlights li:hover {
+    border-color: color-mix(in srgb, var(--signal-ink) 75%, white);
+    box-shadow: 0 0 0 1px rgb(var(--signal-rgb) / .16), 0 14px 30px rgb(30 75 123 / .14);
+  }
+}
+
