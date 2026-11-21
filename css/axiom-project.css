@@ -1,0 +1,15 @@
+.axiom-preview { margin: 0 0 var(--space-3); }
+.axiom-preview img { display: block; width: 100%; height: auto; border: 1px solid var(--border); border-radius: var(--radius-xl); }
+.axiom-preview figcaption { margin-top: var(--space-3); color: var(--text-muted); font-size: .875rem; }
+.axiom-screens { margin-bottom: var(--space-12); }
+.axiom-screens > h2 { font-size: var(--text-2xl); margin-bottom: var(--space-3); }
+.axiom-screens > p { color: var(--text-secondary); margin-bottom: var(--space-6); }
+.axiom-screens__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--space-6); }
+.axiom-screens figure { margin: 0; overflow: hidden; border: 1px solid var(--border); border-radius: var(--radius-lg); background: var(--bg-card); }
+.axiom-screens a { display: block; }
+.axiom-screens a:focus-visible { outline: 3px solid var(--blue-highlight); outline-offset: -3px; }
+.axiom-screens img { display: block; width: 100%; height: auto; }
+.axiom-screens figcaption { padding: var(--space-5); }
+.axiom-screens figcaption strong { display: block; margin-bottom: var(--space-2); }
+.axiom-screens figcaption span { display: block; color: var(--text-secondary); line-height: 1.6; }
+@media (max-width: 768px) { .axiom-screens__grid { grid-template-columns: 1fr; } }

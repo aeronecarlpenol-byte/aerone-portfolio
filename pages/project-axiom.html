@@ -4,7 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Axiom Studia — Project Detail | Aerone Carl P. Peñol</title>
-  <meta name="description" content="Axiom Studia — a personal web-based academic productivity platform by Aerone Carl P. Peñol." />
+  <meta name="description" content="Axiom Studia — a study Workspace with PDF and video viewing, focus sessions, tasks, grade goals, resources, and cloud sync by Aerone Carl P. Peñol." />
   <link rel="icon" type="image/jpeg" href="../assets/brand/aerone-logo.jpg" />
   <!-- Google Fonts — Space Grotesk + Plus Jakarta Sans + JetBrains Mono -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -17,6 +17,7 @@
   <link rel="stylesheet" href="../css/sections.css" />
   <link rel="stylesheet" href="../css/motion.css" />
 <link rel="stylesheet" href="/css/navigation.css" />
+  <link rel="stylesheet" href="../css/axiom-project.css" />
 </head>
 <body>
 
@@ -70,12 +71,12 @@
       </a>
     </div>
 
-    <!-- Live project preview -->
-    <div class="project-detail__hero project-detail__hero--live">
-      <iframe src="https://axiomstudia.vercel.app/" title="Live Axiom Studia website" loading="lazy" referrerpolicy="strict-origin-when-cross-origin"></iframe>
-    </div>
+    <figure class="axiom-preview">
+      <img src="../assets/projects/axiom-studia/dashboard.jpg" width="1496" height="710" alt="Axiom Studia dashboard with daily study summary, priorities, and upcoming deadlines" fetchpriority="high" />
+      <figcaption>Current dashboard · Captured November 21, 2026</figcaption>
+    </figure>
     <div class="project-detail__live-action">
-      <a href="https://axiomstudia.vercel.app/" class="card__icon-link" target="_blank" rel="noopener noreferrer">Open Axiom Studia in a new tab <span aria-hidden="true">↗</span></a>
+      <a href="https://axiomstudia.vercel.app/" class="card__icon-link" target="_blank" rel="noopener noreferrer">Open Axiom Studia</a>
     </div>
 
     <!-- Meta -->
@@ -92,8 +93,19 @@
       <span>Axiom Studia</span>
     </h1>
     <p style="font-size:var(--text-lg);color:var(--text-muted);margin-bottom:var(--space-10);">
-      Academic Productivity Platform
+      Academic Productivity &amp; Study Workspace
     </p>
+
+    <section class="axiom-screens" aria-labelledby="axiom-screens-title">
+      <h2 id="axiom-screens-title">Inside the current app</h2>
+      <p>Four screens from the live app, captured November 21, 2026. Open an image to view it at full size.</p>
+      <div class="axiom-screens__grid">
+        <figure><a href="../assets/projects/axiom-studia/dashboard.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Dashboard screenshot at full size"><img src="../assets/projects/axiom-studia/dashboard.jpg" width="1496" height="710" alt="Axiom Studia dashboard with daily study summary, priorities, and upcoming deadlines" loading="lazy" decoding="async" /></a><figcaption><strong>Dashboard</strong><span>Daily priorities, upcoming deadlines, and study time in one overview.</span></figcaption></figure>
+        <figure><a href="../assets/projects/axiom-studia/workspace.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Subject Workspace screenshot at full size"><img src="../assets/projects/axiom-studia/workspace.jpg" width="1496" height="710" alt="Axiom Studia Workspace showing a differential equations PDF and adjustable focus timer" loading="lazy" decoding="async" /></a><figcaption><strong>Subject Workspace</strong><span>Read a PDF beside the focus timer, with subject tasks and resources close by.</span></figcaption></figure>
+        <figure><a href="../assets/projects/axiom-studia/resources.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Resource Library screenshot at full size"><img src="../assets/projects/axiom-studia/resources.jpg" width="1496" height="710" alt="Axiom Studia resource library with search, subject filters, videos, links, and PDFs" loading="lazy" decoding="async" /></a><figcaption><strong>Resource Library</strong><span>Search study materials and open subject resources in the Study Viewer.</span></figcaption></figure>
+        <figure><a href="../assets/projects/axiom-studia/calendar.jpg" target="_blank" rel="noopener noreferrer" aria-label="View Calendar and Tasks screenshot at full size"><img src="../assets/projects/axiom-studia/calendar.jpg" width="1496" height="710" alt="Axiom Studia monthly calendar with scheduled tasks, events, and an unscheduled tasks panel" loading="lazy" decoding="async" /></a><figcaption><strong>Calendar &amp; Tasks</strong><span>Plan study tasks and events by date, with subject and priority filters.</span></figcaption></figure>
+      </div>
+    </section>
 
     <!-- Body: main content + sidebar -->
     <div class="project-detail__body">
@@ -104,7 +116,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
             Overview
           </h2>
-          <p>A personal study workspace I am building around my engineering coursework. It brings subjects, tasks, grades, study resources, and focus sessions into one place, with a calendar and analytics to help me review my study habits.</p>
+          <p>A personal web app I am building around my engineering coursework. Its subject Workspace puts study materials beside a focus timer, tasks, and resources, so I can read and study without constantly switching tools. Grades, a calendar, and analytics help me plan and review the rest of my academic work.</p>
         </div>
 
         <div class="project-section">
@@ -112,7 +124,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="m12 16 .01 0"/></svg>
             Problem Statement
           </h2>
-          <p>Keeping subjects, notes, assignments, and schedules across different tools made studying harder to organize.</p>
+          <p>My study materials, deadlines, grades, and focus sessions were spread across different tools. I wanted a place where I could open a subject, find its materials, choose a task, and start studying with less setup.</p>
         </div>
 
         <div class="project-section">
@@ -121,10 +133,10 @@
             Objectives
           </h2>
           <ul>
-            <li>Keep subjects and study resources together.</li>
-            <li>Make daily study tasks easy to manage.</li>
-            <li>Practice interface design in a working tool.</li>
-            <li>Build and refine with AI-assisted coding.</li>
+            <li>Bring PDFs, videos, links, tasks, and a focus timer into each subject Workspace.</li>
+            <li>Connect daily priorities and calendar scheduling with longer-term grade goals.</li>
+            <li>Keep study records recoverable locally while syncing workspace data to the cloud.</li>
+            <li>Learn by building, testing, and refining a tool I use for my own coursework.</li>
           </ul>
         </div>
 
@@ -134,9 +146,9 @@
             My Contribution
           </h2>
           <ul>
-            <li>Designed and refined the interface layouts and navigation structure.</li>
-            <li>Improved usability through repeated testing and refinement.</li>
-            <li>Used AI-assisted tools for coding, troubleshooting, and design refinement.</li>
+            <li>Designed the study workflows, subject Workspace, interface layouts, and navigation.</li>
+            <li>Refined PDF and video viewing, focus controls, grade planning, resource organization, and calendar scheduling.</li>
+            <li>Guided AI-assisted implementation, reviewed changes, and tested calculations, timer behavior, local storage, and cloud sync.</li>
           </ul>
         </div>
 
@@ -145,7 +157,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="18" height="18" x="3" y="3" rx="2"/><path d="M9 9h6"/><path d="M9 15h6"/></svg>
             Development Process
           </h2>
-          <p>I started with hand-drawn wireframes, then built and refined the interface with AI-assisted development. The app uses HTML, custom CSS, and JavaScript modules, with Supabase for workspace sync. I guide the implementation, review changes, and keep refining the workflows through testing and everyday use.</p>
+          <p>I started with hand-drawn wireframes and developed the app with HTML, custom CSS, and JavaScript modules. PDF.js handles PDF viewing; IndexedDB keeps PDF files on the device. Supabase Auth and PostgreSQL support workspace sync, with browser storage retained for recovery. I use AI-assisted tools to work through implementation ideas, then review changes and check the results against my study workflow.</p>
         </div>
 
         <div class="project-section">
@@ -155,13 +167,14 @@
           </h2>
           <p>In active development. The current implementation includes:</p>
           <ul>
-            <li>Subjects and topics, daily tasks, deadlines, and calendar planning.</li>
+            <li>A subject Workspace with PDF page navigation, thumbnails, zoom, fullscreen viewing, and embedded video resources.</li>
+            <li>Subject tasks, daily priorities, due dates, and calendar scheduling with filters.</li>
             <li>Grade tracking, weighted averages, configurable grading settings, and a subject grade goal planner.</li>
             <li>A searchable resource library for links, videos, and PDFs, organized by subject.</li>
-            <li>Focus sessions with a fullscreen timer, session history, and study analytics.</li>
+            <li>An adjustable focus timer with fullscreen and floating modes, session history, and study analytics.</li>
             <li>Supabase workspace sync with browser recovery storage; PDF files remain stored locally in IndexedDB.</li>
           </ul>
-          <p>Recent work has refined navigation transitions and active icons, simplified the grades summary and calendar layout, and improved the fullscreen focus timer.</p>
+          <p>Recent refinements include animated navigation and active icons, a cleaner grades summary and calendar layout, and a more focused fullscreen timer. The app remains in development as I keep checking usability and reliability.</p>
           <p>Progress reviewed on <time datetime="2026-11-21">November 21, 2026</time>. I am continuing to test and refine the experience.</p>
         </div>
 
@@ -171,9 +184,9 @@
             Lessons Learned
           </h2>
           <ul>
-            <li>Test designs instead of relying on early assumptions.</li>
-            <li>Give AI tools clear direction and review their output.</li>
-            <li>Build for everyday needs to learn practical skills.</li>
+            <li>Studying with the app reveals layout and navigation problems that wireframes miss.</li>
+            <li>AI-assisted code still needs clear requirements, review, and checks for calculations and saved data.</li>
+            <li>Cloud sync and local recovery need separate handling; a synced resource record does not move its PDF file between devices.</li>
           </ul>
         </div>
 
@@ -191,6 +204,7 @@
             <span class="tag">Supabase</span>
             <span class="tag">PostgreSQL</span>
             <span class="tag">IndexedDB</span>
+            <span class="tag">PDF.js</span>
           </div>
         </div>
 
@@ -205,7 +219,8 @@
         </div>
 
         <div class="project-sidebar__card">
-          <h4>Live Demo</h4>
+          <h4>Live App &amp; Source</h4>
+          <p><a href="https://github.com/aeronecarlpenol-byte/axiomstudia" class="card__icon-link" target="_blank" rel="noopener noreferrer">View source on GitHub</a></p>
           <a href="https://axiomstudia.vercel.app/" class="card__icon-link" target="_blank" rel="noopener noreferrer">Visit Axiom Studia <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 17 17 7"/><path d="M8 7h9v9"/></svg></a>
         </div>
 
