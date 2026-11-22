@@ -193,3 +193,17 @@
   #experience .experience-year-group > .learning-timeline__entry + .learning-timeline__entry { margin-top: 10px; }
 }
 
+
+/* Reference spacing: a compact year rail beside a generous reading column. */
+@media (min-width: 1101px) {
+  #experience .field-experience { grid-template-columns: minmax(0, .5fr) minmax(0, 1.5fr); --experience-gap: 96px; }
+  #experience .field-timeline { gap: 96px; }
+  #experience .field-experience::before { left: calc((100% - var(--experience-gap)) * .5 / 2 + var(--experience-gap) / 2); }
+}
+#experience .experience-year-group { gap: 32px; }
+#experience .experience-highlights { gap: 14px; }
+#experience .experience-highlights li { padding: 18px 20px; gap: 6px 14px; }
+@media (max-width: 759px) {
+  #experience .experience-year-group { gap: 24px; }
+  #experience .experience-highlights li { padding: 16px; }
+}

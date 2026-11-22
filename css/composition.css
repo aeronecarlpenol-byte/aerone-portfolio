@@ -1,10 +1,10 @@
 /* Shared page geometry. Section files own their inner grids; this file owns
    the canvas, reading scale and rhythm between those compositions. */
 .portfolio-home {
-  --container-max: 1560px;
-  --content-pad: clamp(56px, 4.5vw, 80px);
+  --container-max: calc(1120px + var(--content-pad) * 2);
+  --content-pad: clamp(40px, 4.3vw, 64px);
   --layout-gap: clamp(2rem, 4vw, 4rem);
-  --section-gap: clamp(3.5rem, 5.5vw, 5.5rem);
+  --section-gap: 96px;
   --heading-size: clamp(2rem, 3.8vw, 3.5rem);
 }
 
@@ -100,13 +100,13 @@
   border-block: 0;
 }
 .portfolio-home #main-content > section.section {
-  padding-block: calc(var(--section-gap) / 2);
+  padding-block: var(--section-gap);
 }
 /* Projects and the long timeline need more entrance space than short notes. */
 .portfolio-home #main-content > #exploring,
 .portfolio-home #main-content > #experience,
 .portfolio-home #main-content > #skills {
-  padding-top: calc(var(--section-gap) * .75);
+  padding-top: var(--section-gap);
 }
 .portfolio-home #main-content .section__header,
 .portfolio-home .work-header {
