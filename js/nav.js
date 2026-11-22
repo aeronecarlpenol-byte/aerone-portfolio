@@ -43,10 +43,19 @@
   function indicators() {
     tracks.forEach(track => {
       const active = track.querySelector('a.active'), indicator = track.querySelector('.nav-indicator');
+      const previous = indicator.activeLink;
+      indicator.activeLink = active;
       indicator.hidden = !active;
       if (!active) return;
       indicator.style.width = active.offsetWidth+'px'; indicator.style.height = active.offsetHeight+'px';
       indicator.style.transform = `translate(${active.offsetLeft}px, ${active.offsetTop}px)`;
+      // Match the reference's elastic active pill without replaying on every scroll frame.
+      if (previous && previous !== active && indicator.animate && !window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) {
+        indicator.getAnimations?.().forEach(animation => animation.cancel());
+        indicator.animate([{ scale: '1 1' }, { scale: '1.12 .78' }, { scale: '1 1' }], {
+          duration: 500, easing: 'cubic-bezier(.77,0,.175,1)'
+        });
+      }
     });
   }
   function setActive(id) {

@@ -3,13 +3,14 @@ const {test}=require('node:test');
 const assert=require('node:assert/strict');
 const vm=require('node:vm');
 const fs=require('node:fs');
-function setup(researchPage=false){
+function setup(researchPage=false, reduced=false){
   const frames=[], handlers={};
   function node(href){const classes=new Set();return {attrs:href?{href}:{},events:{},style:{},offsetWidth:70,offsetHeight:44,offsetLeft:0,offsetTop:0,
     classList:{toggle(k,on){if(on)classes.add(k);else classes.delete(k);},contains:k=>classes.has(k),remove:k=>classes.delete(k)},
     setAttribute(k,v){this.attrs[k]=v;},getAttribute(k){return this.attrs[k]??null;},removeAttribute(k){delete this.attrs[k];},
+    animations:[],animate(keyframes,options){this.animations.push({keyframes,options});},getAnimations(){return [];},
     addEventListener(k,fn){this.events[k]=fn;},focus(){this.focused=true;}};}
-  const win={scrollY:0,innerHeight:800,innerWidth:1440,addEventListener(k,fn){handlers[k]=fn;}};
+  const win={matchMedia:()=>({matches:reduced}),scrollY:0,innerHeight:800,innerWidth:1440,addEventListener(k,fn){handlers[k]=fn;}};
   const ids=['hero','about','exploring','research','experience','skills','contact'];
   const sections=Object.fromEntries(ids.map((id,i)=>[id,{id,offsetTop:i*1000+96,getBoundingClientRect:()=>({top:i*1000+96-win.scrollY}),setAttribute(){},focus(){this.focused=true;}}]));
   const links=ids.map((id,i)=>{const href=id==='research'?'/research':(researchPage?'/':'')+'#'+id;const link=node(href);link.offsetLeft=i*70;if(researchPage&&id==='research'){link.classList.toggle('active',true);link.setAttribute('aria-current','page');}return link;});
@@ -43,4 +44,17 @@ test('Research route retains its page indicator and existing homepage links',()=
   const app=setup(true);assert.equal(app.active().attrs.href,'/research');
   assert.equal(app.active().attrs['aria-current'],'page');
   assert.equal(app.links[0].attrs.href,'/#hero');
+});
+
+test('active pill stretches once per section change and stays still within a section',()=>{
+  const app=setup();assert.equal(app.indicator.animations.length,0);
+  app.scroll(2100);assert.equal(app.indicator.animations.length,1);
+  assert.equal(app.indicator.animations[0].options.duration,500);
+  assert.equal(app.indicator.animations[0].keyframes[1].scale,'1.12 .78');
+  app.scroll(2200);assert.equal(app.indicator.animations.length,1);
+});
+test('reduced motion keeps navigation updates without elastic animation',()=>{
+  const app=setup(false,true);app.scroll(2100);
+  assert.equal(app.active().attrs.href,'#exploring');
+  assert.equal(app.indicator.animations.length,0);
 });

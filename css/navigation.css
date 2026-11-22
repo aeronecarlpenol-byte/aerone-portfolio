@@ -8,8 +8,12 @@
 .nav__link { min-height: 44px; padding: 11px 10px; font-size: .78rem; border-radius: 999px; }
 .nav__link::after, .nav__drawer-link::after { display: none; }
 .nav__link.active { background: transparent; color: var(--text-primary); }
-.nav__link:hover { background: rgb(88 166 255 / .06); }
-.nav-indicator { position: absolute; left: 0; top: 0; border: 1px solid rgb(118 169 220 / .42); border-radius: 999px; background: rgb(88 166 255 / .12); box-shadow: inset 0 0 12px rgb(88 166 255 / .04); pointer-events: none; z-index: -1; transition: transform 320ms cubic-bezier(.22,.75,.2,1), width 320ms, height 320ms; }
+.nav__link { transition: color 200ms ease, background-color 200ms ease; }
+@media (hover: hover) {
+  .nav__link:not(.active):hover { color: var(--text-primary); background: rgb(88 166 255 / .08); }
+}
+.nav__link:focus-visible { color: var(--text-primary); background: rgb(88 166 255 / .08); outline: 2px solid var(--blue-highlight); outline-offset: 2px; }
+.nav-indicator { position: absolute; left: 0; top: 0; border: 1px solid rgb(118 169 220 / .42); border-radius: 999px; background: rgb(88 166 255 / .12); box-shadow: inset 0 0 12px rgb(88 166 255 / .04); pointer-events: none; z-index: -1; transform-origin: center; transition: transform 500ms cubic-bezier(.77,0,.175,1), width 500ms cubic-bezier(.77,0,.175,1), height 500ms cubic-bezier(.77,0,.175,1); }
 .nav-indicator[hidden] { display: none; }
 .nav__cta { display: none; }
 .nav__toggle { width: 44px; height: 44px; border: 1px solid var(--border); border-radius: 50%; }
@@ -77,7 +81,7 @@
   .university-brand { flex-direction: column; align-items: flex-start; gap: 16px; }
   .university-brand img { width: 64px; height: 64px; }
 }
-@media (prefers-reduced-motion: reduce) { .nav-indicator, .nav__drawer.open { transition: none; animation: none; } }
+@media (prefers-reduced-motion: reduce) { .nav-indicator, .nav__link, .nav__drawer.open { transition: none; animation: none; } }
 /* Fit all existing controls inside the smallest phone navigation capsule. */
 @media (max-width: 380px) {
   .nav__inner.container { gap: 6px; }
