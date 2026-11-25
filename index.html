@@ -37,6 +37,7 @@
 <link rel="stylesheet" href="css/experience.css" />
 <link rel="stylesheet" href="css/contact.css" />
 <link rel="stylesheet" href="css/theme.css" />
+<link rel="stylesheet" href="css/education.css" />
 </head>
 <body class="portfolio-home">
 <a class="skip-link" href="#main-content">Skip to content</a>
@@ -450,21 +451,21 @@
         </div>
 
         <span class="education-status">Second-year undergraduate</span>
-        <h2>BS Electronics Engineering</h2>
-        <p class="education-major">Bachelor of Science in Electronics Engineering · Expected Graduation: 2029</p>
+        <span class="education-degree-label">Bachelor of Science</span>
+        <h2>Electronics Engineering</h2>
+        <p class="education-major">Expected graduation <strong>2029</strong></p>
 
         <div class="coursework">
           <h3>Relevant Coursework</h3>
-          <div class="coursework-inline">
-            Computer Programming 1 · Computer Programming 2 · Computer-Aided Design · Differential Calculus · Integral Calculus · Differential Equations · DC Circuits
-          </div>
+          <ul class="coursework-tags" aria-label="Relevant coursework"><li>Computer Programming 1</li><li>Computer Programming 2</li><li>Computer-Aided Design</li><li>Differential Calculus</li><li>Integral Calculus</li><li>Differential Equations</li><li>DC Circuits</li></ul>
         </div>
       </div>
 
       <!-- RIGHT: Honors + Previous Education -->
       <div class="education-side">
+        <section class="education-panel" aria-labelledby="education-recognition">
         <span class="meta-label">ACADEMIC HONORS &amp; AWARDS</span>
-        <h3>Recognition</h3>
+        <h3 id="education-recognition">Recognition</h3>
 
         <div class="edu-item-numbered">
           <span class="edu-item-num">01</span>
@@ -482,9 +483,10 @@
           </div>
         </div>
 
-        <div style="margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--border-subtle);">
+        </section>
+        <section class="education-panel" aria-labelledby="education-secondary">
           <span class="meta-label">PREVIOUS EDUCATION</span>
-          <h3>Secondary Education</h3>
+          <h3 id="education-secondary">Secondary Education</h3>
 
           <div class="edu-item-numbered">
             <span class="edu-item-num">03</span>
@@ -493,7 +495,7 @@
               <p>Senior High School Graduate · 2024</p>
             </div>
           </div>
-        </div>
+        </section>
       </div>
 
     </div>
