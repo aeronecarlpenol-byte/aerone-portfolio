@@ -42,10 +42,9 @@
   border: 1px solid rgb(91 177 255 / .5); border-radius: 22px;
   background: radial-gradient(circle at 88% 22%,rgb(63 122 206 / .15),transparent 39%),linear-gradient(145deg,#162b46,#08101c 62%);
   box-shadow: inset 0 1px rgb(190 226 255 / .15),inset 0 0 0 5px rgb(53 111 171 / .055),0 22px 60px rgb(0 0 0 / .22),0 0 38px rgb(28 118 245 / .1);
-  transition: transform .5s cubic-bezier(.2,.75,.2,1),border-color .5s,box-shadow .5s;
+  transition: border-color 200ms ease,box-shadow 200ms ease;
 }
 #experience :is(.education-main,.education-panel)::before { content:''; position:absolute; inset:9px; border:1px solid rgb(95 175 246 / .13); border-radius:14px; pointer-events:none; z-index:-1; }
-#experience :is(.education-main,.education-panel)::after { content:''; position:absolute; inset:-100% 50% -100% -160%; background:linear-gradient(105deg,transparent 42%,rgb(220 242 255 / .08) 50%,transparent 58%); transform:translateX(-40%); transition:transform .85s ease; pointer-events:none; }
 .education-circuit__traces { position:absolute; inset:0; width:100%; height:100%; color:#5badff; stroke:currentColor; stroke-width:1.2; fill:none; opacity:.5; z-index:-1; pointer-events:none; }
 .education-circuit__traces circle { fill:#77c5ff; stroke:none; filter:drop-shadow(0 0 5px #58a6ff); animation:contact-node 4.8s ease-in-out infinite alternate; }
 .education-circuit__pulse { stroke:#9ad9ff; stroke-width:1.8; stroke-dasharray:20 450; animation:contact-pulse 8s linear infinite; }
@@ -56,15 +55,12 @@
 #experience .education-status::before { box-shadow:0 0 10px #58a6ff; }
 #experience .coursework-tags li { background:#102136; border-color:rgb(94 165 232 / .24); box-shadow:inset 0 1px 0 rgb(180 223 255 / .04); }
 #experience .edu-item-num { background:#10263e; border-color:rgb(94 165 232 / .4); color:#8dc8ff; box-shadow:inset 0 0 12px rgb(88 166 255 / .08); }
-@media (hover:hover) and (pointer:fine) {
- #experience :is(.education-main,.education-panel):hover { transform:perspective(1200px) rotateX(1deg) rotateY(-1deg) translateY(-3px); border-color:#75c4ff; box-shadow:inset 0 1px rgb(190 226 255 / .25),0 25px 62px rgb(0 0 0 / .26),0 0 45px rgb(28 118 245 / .18); }
- #experience :is(.education-main,.education-panel):hover::after { transform:translateX(100%); }
-}
+
 [data-theme="light"] #experience :is(.education-main,.education-panel) { background:radial-gradient(circle at 88% 22%,rgb(63 122 206 / .14),transparent 39%),linear-gradient(145deg,#eaf4ff,#dbeafb); border-color:#5e94c9; box-shadow:inset 0 1px #fff,inset 0 0 0 5px rgb(53 111 171 / .04),0 16px 38px rgb(31 68 112 / .12); }
 [data-theme="light"] #experience :is(.education-main,.education-panel)::before { border-color:rgb(40 110 180 / .22); }
 [data-theme="light"] #experience .coursework-tags li,[data-theme="light"] #experience .edu-item-num { background:#e5effa; color:#234c72; border-color:#a4bfd9; }
 @media (prefers-reduced-motion:reduce) {
  .education-circuit__pulse,.education-circuit__traces circle { animation:none; }
- #experience :is(.education-main,.education-panel),#experience :is(.education-main,.education-panel)::after { transition:none; }
+ #experience :is(.education-main,.education-panel) { transition:none; }
  #experience :is(.education-main,.education-panel):hover { transform:none; }
 }
