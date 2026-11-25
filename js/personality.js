@@ -1,4 +1,4 @@
-/* Skills-only distribution from the existing scroll energy core. */
+/* Skills icons are tossed from the animated cat companion's paw. */
 (function () {
   'use strict';
   const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -32,7 +32,7 @@
     names: 600, nameStep: 8, nameFade: 350 };
   const gather = timing.border + (records.length - 1) * timing.release + timing.flight + timing.hold;
   const animations = new Set();
-  let started = false, finished = false, frame = 0, epoch = null, observer;
+  let started = false, finished = false, frame = 0, epoch = null, observer, threw = false;
   function play(element, frames, duration, elapsed, fill) {
     if (!element || typeof element.animate !== 'function') return null;
     const animation = element.animate(frames, { duration: duration, easing: 'linear', fill: fill || 'both' });
@@ -68,9 +68,34 @@
     if (observer) observer.disconnect();
     window.removeEventListener('scroll', schedule);
   }
+  function throwIcons(elapsed) {
+    threw = true;
+    const windup = 200;
+    const duration = windup + (records.length - 1) * timing.release + 220;
+    const pose = document.querySelector('.orb-companion__throw');
+    const paw = document.querySelector('.orb-companion__paw');
+    const start = elapsed - (timing.border - windup);
+    play(pose, [
+      { transform: 'rotate(0deg) scale(1)', offset: 0 },
+      { transform: 'rotate(-14deg) scale(1.06,.9)', offset: .16 },
+      { transform: 'rotate(11deg) scale(.96,1.04)', offset: .25 },
+      { transform: 'rotate(4deg) scale(1)', offset: .55 },
+      { transform: 'rotate(7deg) scale(1)', offset: .78 },
+      { transform: 'rotate(0deg) scale(1)', offset: 1 }
+    ], duration, start, 'none');
+    play(paw, [
+      { transform: 'rotate(0deg)', offset: 0 },
+      { transform: 'rotate(65deg)', offset: .16 },
+      { transform: 'rotate(-65deg)', offset: .23 },
+      { transform: 'rotate(-50deg)', offset: .45 },
+      { transform: 'rotate(-68deg)', offset: .65 },
+      { transform: 'rotate(-45deg)', offset: .82 },
+      { transform: 'rotate(0deg)', offset: 1 }
+    ], duration, start, 'none');
+  }
   function release(record, index, elapsed) {
     record.released = true;
-    const marker = document.querySelector('.field-path__position');
+    const marker = document.querySelector('.orb-companion__launch');
     if (!marker) { finish(); return; }
     // Read at the actual release frame, after delays and any intervening scroll.
     const origin = marker.getBoundingClientRect();
@@ -122,7 +147,7 @@
     if (!started) {
       if (bounds.bottom < 0) { finish(); return; }
       if (bounds.top > window.innerHeight * .62) return;
-      const marker = document.querySelector('.field-path__position');
+      const marker = document.querySelector('.orb-companion__launch');
       if (reduced.matches || !marker || !records.every(function (r) { return typeof r.logo.animate === 'function'; })) { finish(); return; }
       started = true; epoch = now;
       stages.forEach(function (stage) { stage.classList.remove('is-awaiting'); stage.classList.add('is-in-view');
@@ -131,6 +156,7 @@
       if (observer) observer.disconnect();
     }
     const elapsed = now - epoch;
+    if (!threw && elapsed >= timing.border - 200) throwIcons(elapsed);
     records.forEach(function (r, i) {
       if (finished) return;
       const releaseAt = timing.border + i * timing.release;

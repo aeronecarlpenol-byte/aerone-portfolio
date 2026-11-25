@@ -94,7 +94,8 @@
   // Sunglasses cat: articulated vector artwork, sized to the existing clear route lane.
   const companion = element('g', { class: 'orb-companion', 'aria-hidden': 'true', visibility: 'hidden' });
   const catTurn = corePart(companion, 'g', { class: 'orb-companion__turn' });
-  const catFloat = corePart(catTurn, 'g', { class: 'orb-companion__float' });
+  const catThrow = corePart(catTurn, 'g', { class: 'orb-companion__throw' });
+  const catFloat = corePart(catThrow, 'g', { class: 'orb-companion__float' });
   corePart(catFloat, 'ellipse', { class: 'orb-companion__halo', cx: '0', cy: '10', rx: '30', ry: '24' });
   const catTail = corePart(catFloat, 'g', { class: 'orb-companion__tail' });
   corePart(catTail, 'path', { class: 'orb-companion__fur', d: 'M10 19C28 24 37 12 32-2L29-10 23-13C29-1 24 7 15 7L10 19Z' });
@@ -110,6 +111,9 @@
   corePart(glasses, 'path', { class: 'orb-companion__reflection', d: 'M-16-8-9-12M6-6l7-4', fill: 'none', stroke: '#a9e6ff', 'stroke-width': '2.5', 'stroke-linecap': 'round' });
   corePart(catBody, 'path', { d: 'M-2 5Q2 3 5 6L4 13Q1 17-1 12Z', fill: '#283b50', stroke: '#10131a', 'stroke-width': '1.3' });
   corePart(catBody, 'path', { class: 'orb-companion__spark', d: 'M-26-16h7m-3.5-3.5v7M25 17h6m-3-3v6' });
+  const catPaw = corePart(catFloat, 'g', { class: 'orb-companion__paw' });
+  corePart(catPaw, 'path', { class: 'orb-companion__fur', d: 'M13 10Q20 15 23 9L27 2Q29-2 25-3Q21-3 20 2L15 1Z' });
+  corePart(catPaw, 'circle', { class: 'orb-companion__launch', cx: '25', cy: '-2', r: '1', fill: 'transparent', stroke: 'none' });
   let catDistance = null, catLastOrb = null, catDirection = 1, catTurnAnimation = null;
   function cancelCatTurn() {
     if (catTurnAnimation) { catTurnAnimation.cancel(); catTurnAnimation = null; }

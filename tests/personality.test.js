@@ -13,6 +13,7 @@ function setup({reducedMotion=false,supported=true,markerPresent=true}={}) {
   }
   const section=element({top:600,bottom:2400}),workbench=element({left:100,top:900,bottom:2200,width:1000,height:1300});
   const marker=element({left:20,top:500,width:24,height:24});
+  const pose=element(),paw=element();
   const logos=[],badges=[],names=[],images=[];
   const stages=[3,2,2,4,3,2].map((count,g)=>{
     const stage=element();stage.parentElement=element();const group=[];
@@ -26,7 +27,7 @@ function setup({reducedMotion=false,supported=true,markerPresent=true}={}) {
   });
   const reduced={matches:reducedMotion,addEventListener(k,fn){this.change=fn;}};
   const document=element();document.hidden=false;
-  document.querySelector=s=>({'#skills':section,'#skills .skills-workbench':workbench,'.field-path__position':markerPresent?marker:null})[s];
+  document.querySelector=s=>({'#skills':section,'#skills .skills-workbench':workbench,'.orb-companion__launch':markerPresent?marker:null,'.orb-companion__throw':pose,'.orb-companion__paw':paw})[s];
   document.querySelectorAll=s=>s.includes('skills-constellation')?stages:[];
   const window=element();window.innerHeight=800;window.innerWidth=1280;window.matchMedia=()=>reduced;
   class Observer{observe(){}disconnect(){this.disconnected=true;}}
@@ -35,7 +36,7 @@ function setup({reducedMotion=false,supported=true,markerPresent=true}={}) {
     requestAnimationFrame(fn){frames.set(++next,fn);return next;},cancelAnimationFrame(id){frames.delete(id);}});
   function step(time){now=time;const pending=[...frames.values()];frames.clear();pending.forEach(fn=>fn(now));}
   function arrive(){workbench.rect={...workbench.rect,top:300,bottom:1600};if(window.handlers.scroll)window.handlers.scroll();step(0);}
-  return {logos,badges,names,images,stages,marker,workbench,reduced,window,document,frames,step,arrive};
+  return {pose,paw,logos,badges,names,images,stages,marker,workbench,reduced,window,document,frames,step,arrive};
 }
 test('skills choreography waits 550ms and releases all 16 logos globally at 32ms intervals',()=>{
   const app=setup();app.arrive();app.step(549);assert.equal(app.logos[0].animations.length,0);
@@ -44,7 +45,7 @@ test('skills choreography waits 550ms and releases all 16 logos globally at 32ms
   app.step(581);assert.equal(app.logos[1].animations.length,0);app.step(582);assert.equal(app.logos[1].animations.length,1);
   app.step(1030);assert.ok(app.logos.every(l=>l.animations.length===1));assert.ok(app.images.every(i=>i.loading==='eager'));
 });
-test('every delayed release samples the current emblem position rather than a stale origin',()=>{
+test('every delayed release samples the current cat paw rather than the orb or a stale origin',()=>{
   const app=setup();app.arrive();app.marker.rect.left=120;app.step(550);
   assert.match(app.logos[0].animations[0].keyframes[0].transform,/translate\(13px,93px\)/);
   app.marker.rect.left=220;app.marker.rect.top=600;app.step(582);
@@ -94,4 +95,15 @@ test('jumping past Skills before its trigger reveals every logo without a stalle
   assert.ok(app.stages.every(s=>!s.classes.has('is-awaiting')));
   assert.ok(app.logos.every(l=>l.values.opacity===undefined));
   assert.equal(app.frames.size,0);
+});
+
+test('cat winds up before the first icon and throws with an animated paw',()=>{
+  const app=setup();app.arrive();app.step(349);assert.equal(app.pose.animations.length,0);
+  app.step(350);assert.equal(app.pose.animations.length,1);assert.equal(app.paw.animations.length,1);
+  assert.equal(app.logos[0].animations.length,0);
+  assert.ok(app.paw.animations[0].keyframes.some(k=>k.transform==='rotate(-65deg)'));
+  app.step(550);assert.equal(app.logos[0].animations.length,1);
+  app.window.handlers.resize();
+  assert.equal(app.paw.animations[0].cancelled,true);
+  assert.equal(app.pose.animations[0].cancelled,true);
 });

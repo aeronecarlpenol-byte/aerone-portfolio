@@ -231,3 +231,6 @@ body .footer { background: transparent; }
 @keyframes companion-spark { 0%,100% { opacity: .15; } 50% { opacity: .7; } }
 .field-path[data-companion-paused="true"] .orb-companion * { animation-play-state: paused; }
 @media (prefers-reduced-motion: reduce) { .orb-companion { display: none; } .orb-companion * { animation: none; } }
+
+.orb-companion__throw { transform-origin: 0px 14px; }
+.orb-companion__paw { transform-origin: 14px 8px; }
