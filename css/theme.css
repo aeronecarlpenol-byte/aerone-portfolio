@@ -102,3 +102,22 @@
   }
 }
 
+
+/* Solid, consistent Experience surfaces in both themes. */
+[data-theme="light"] #experience { --experience-card: #f5f9ff; --experience-card-border: #a8bfd6; }
+[data-theme="light"] #experience .experience-highlights li { background: var(--experience-card); border-color: var(--experience-card-border); box-shadow: 0 1px 0 #fff inset; }
+[data-theme="light"] #experience .experience-meta .learning-timeline__label { background: #e8f1fb; border-color: #a8bfd6; }
+#experience .experience-highlights li { transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease; }
+@media (hover: hover) and (pointer: fine) {
+  #experience .experience-highlights li:hover {
+    transform: translateY(-3px); border-color: #537da4;
+    box-shadow: 0 0 0 1px rgb(88 166 255 / .06), 0 10px 24px rgb(0 12 28 / .18);
+  }
+  #experience .experience-highlights li:hover::before { transform: none; box-shadow: none; }
+  [data-theme="light"] #experience .experience-highlights li:hover { border-color: #608bb3; box-shadow: 0 8px 20px rgb(30 75 123 / .1); }
+}
+#experience .experience-highlights li:focus-within { outline: 2px solid var(--blue-highlight); outline-offset: 3px; }
+@media (prefers-reduced-motion: reduce) {
+  #experience .experience-highlights li, #experience .experience-highlights li::before { transition: none; }
+  #experience .experience-highlights li:hover { transform: none; }
+}

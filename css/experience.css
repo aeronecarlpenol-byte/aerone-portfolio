@@ -201,3 +201,54 @@
   #experience .experience-year-group { gap: 24px; }
   #experience .experience-highlights li { padding: 16px; }
 }
+
+/* Experience reading hierarchy; the existing timeline retains its clear gutter. */
+#experience { --experience-card: #13263b; --experience-card-border: #304a63; }
+#experience .experience-year-group { gap: 20px; }
+#experience .experience-year-heading { font-size: 1.05rem; line-height: 1.4; letter-spacing: .08em; }
+#experience .experience-meta { margin-bottom: 16px; }
+#experience .experience-meta .learning-timeline__label {
+  padding: 5px 10px; border-color: rgb(88 166 255 / .24); background: #142a40;
+  font-size: .75rem; line-height: 1.5; letter-spacing: .02em; box-shadow: none;
+}
+#experience .learning-timeline__body { gap: 16px; }
+#experience .field-timeline .learning-timeline__body h3 {
+  max-width: 25ch; font-size: clamp(1.65rem, 2.5vw, 2.25rem); line-height: 1.18;
+  letter-spacing: -.025em; text-wrap: balance;
+}
+#experience .field-timeline .learning-timeline__entry .learning-timeline__body > p.learning-timeline__summary {
+  max-width: 60ch; font-size: 1.0625rem; line-height: 1.75; margin: 0;
+}
+#experience .experience-highlights { align-items: stretch; gap: 16px; margin-top: 8px; }
+#experience .experience-highlights li {
+  padding: 22px; grid-template-columns: 44px minmax(0, 1fr); grid-template-rows: auto 1fr;
+  gap: 8px 16px; height: 100%; background: var(--experience-card);
+  border: 1px solid var(--experience-card-border); border-radius: 18px;
+  box-shadow: 0 1px 0 rgb(255 255 255 / .025) inset;
+}
+#experience .experience-highlights li::before {
+  width: 44px; height: 44px; border-color: rgb(88 166 255 / .2);
+  box-shadow: none; transition: none;
+}
+#experience .experience-highlights h4 { font-size: 1.0625rem; line-height: 1.35; letter-spacing: -.01em; }
+#experience .experience-highlights p { max-width: 42ch; font-size: .9375rem; line-height: 1.7; text-wrap: pretty; }
+@media (min-width: 760px) {
+  #experience .field-timeline { gap: clamp(72px, 7vw, 104px); }
+  #experience .field-active { border-top: 1px solid var(--border); padding-top: 24px; }
+  #experience .field-annotation { font-size: .875rem; }
+}
+@media (min-width: 760px) and (max-width: 1100px) {
+  #experience .field-year { font-size: clamp(3.5rem, 7vw, 5rem); }
+}
+@media (max-width: 759px) {
+  #experience .field-year { font-size: 1.45rem; line-height: 1.1; margin: 0; }
+  #experience .field-sticky { border-radius: 16px; margin-bottom: 32px; }
+  #experience .field-timeline { gap: 64px; }
+  #experience .experience-highlights li { padding: 20px; gap: 8px 14px; }
+  #experience .experience-year-group { gap: 18px; }
+}
+@media (max-width: 380px) {
+  #experience .experience-highlights li { grid-template-columns: 36px minmax(0, 1fr); padding: 16px; gap: 8px 12px; }
+  #experience .experience-highlights li::before { width: 36px; height: 36px; }
+  #experience .experience-highlights h4 { font-size: 1rem; }
+}
