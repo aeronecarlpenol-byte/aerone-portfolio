@@ -49,10 +49,8 @@
 .education-circuit__traces { position:absolute; inset:0; width:100%; height:100%; color:#5badff; stroke:currentColor; stroke-width:1.2; fill:none; opacity:.5; z-index:-1; pointer-events:none; }
 .education-circuit__traces circle { fill:#77c5ff; stroke:none; filter:drop-shadow(0 0 5px #58a6ff); animation:contact-node 4.8s ease-in-out infinite alternate; }
 .education-circuit__pulse { stroke:#9ad9ff; stroke-width:1.8; stroke-dasharray:20 450; animation:contact-pulse 8s linear infinite; }
-#experience .education-degree { display:flex; align-items:center; gap:16px; margin:8px 0 18px; }
-#experience .education-degree h2 { flex:1; min-width:0; margin:0; }
-.education-circuit__chip { flex:0 0 72px; width:72px; height:72px; fill:none; stroke:#65b8ff; stroke-width:1.4; filter:drop-shadow(0 0 9px rgb(71 159 255 / .42)); animation:contact-chip 5s ease-in-out infinite alternate; }
-.education-circuit__chip circle { fill:#b1e5ff; stroke:none; }
+#experience .education-degree { display:block; margin:8px 0 14px; }
+#experience .education-degree h2 { width:100%; max-width:none; margin:0; }
 #experience .university-brand { border-bottom-color:rgb(118 172 233 / .2); }
 #experience .education-status { box-shadow:inset 0 1px 0 rgb(174 221 255 / .1),0 0 14px rgb(31 111 235 / .1); }
 #experience .education-status::before { box-shadow:0 0 10px #58a6ff; }
@@ -65,9 +63,8 @@
 [data-theme="light"] #experience :is(.education-main,.education-panel) { background:radial-gradient(circle at 88% 22%,rgb(63 122 206 / .14),transparent 39%),linear-gradient(145deg,#eaf4ff,#dbeafb); border-color:#5e94c9; box-shadow:inset 0 1px #fff,inset 0 0 0 5px rgb(53 111 171 / .04),0 16px 38px rgb(31 68 112 / .12); }
 [data-theme="light"] #experience :is(.education-main,.education-panel)::before { border-color:rgb(40 110 180 / .22); }
 [data-theme="light"] #experience .coursework-tags li,[data-theme="light"] #experience .edu-item-num { background:#e5effa; color:#234c72; border-color:#a4bfd9; }
-@media (max-width:600px) { .education-circuit__chip { flex-basis:44px; width:44px; height:44px; } }
 @media (prefers-reduced-motion:reduce) {
- .education-circuit__chip,.education-circuit__pulse,.education-circuit__traces circle { animation:none; }
+ .education-circuit__pulse,.education-circuit__traces circle { animation:none; }
  #experience :is(.education-main,.education-panel),#experience :is(.education-main,.education-panel)::after { transition:none; }
  #experience :is(.education-main,.education-panel):hover { transform:none; }
 }
