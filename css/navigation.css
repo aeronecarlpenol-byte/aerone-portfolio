@@ -92,7 +92,7 @@
 }
 /* Integrated portfolio controls share the existing capsule and active indicator. */
 .portfolio-home .nav__inner.container { gap: 14px; }
-.portfolio-home .nav__brand { font-size: .9rem; }
+.portfolio-home .nav__brand { font-size: 1.05rem; }
 .portfolio-home .nav__link { padding-inline: 12px; font-size: .875rem; }
 .nav-actions { display: flex; align-items: center; gap: 8px; }
 .nav-action { display: inline-flex; align-items: center; justify-content: center; min-width: 44px; min-height: 44px; padding: 10px 13px; border: 1px solid var(--border); border-radius: 16px; background: transparent; color: var(--text-primary); font: 600 .875rem/1.2 var(--font-sans); transition: background-color var(--transition-fast), border-color var(--transition-fast), transform var(--transition-fast); }
@@ -107,9 +107,9 @@
   .nav-actions > a { display: none; }
 }
 @media (max-width:600px) {
-  .portfolio-home .nav__brand span { max-width: 115px; font-size: .75rem; }
+  .portfolio-home .nav__brand span { max-width: 115px; font-size: .95rem; }
 }
 @media (max-width:380px) {
-  .portfolio-home .nav__brand span { max-width: 96px; font-size: .7rem; }
+  .portfolio-home .nav__brand span { max-width: 96px; font-size: .9rem; }
   .portfolio-home .nav__brand { gap: 6px; }
 }
