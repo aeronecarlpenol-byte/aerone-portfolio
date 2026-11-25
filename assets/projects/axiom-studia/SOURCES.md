@@ -1,7 +1,7 @@
 # Axiom Studia portfolio assets
 
-The dashboard.jpg, workspace.jpg, resources.jpg, and calendar.jpg images were captured from https://axiomstudia.vercel.app/ on November 21, 2026 using the desktop browser. Browser chrome and the browser sidebar were cropped out; the app interface was not modified. These are intentional public portfolio assets requested by the project owner, not temporary verification captures.
+The six *-2026-11-25.png screenshots were supplied by the project owner on November 25, 2026 for public portfolio use: Dashboard, Subject Workspace, Calendar & Tasks, Resource Library, Study Analytics, and Profile & Settings. They are copied without visual alterations and preserve their original dimensions. These are intentional portfolio assets, not temporary verification screenshots.
 
-Content was reviewed against Axiom Studia source at commit 9640115fc5cf440795c305a0e0283588ab93b09d and the live dashboard, Workspace, resource library, and calendar. Feature descriptions reflect implementation; they do not certify production reliability. PDF binaries are device-local in IndexedDB; workspace record sync uses Supabase.
+Descriptions of the redesigned interface, resource choices, folder and rename controls, calendar, analytics, and profile settings are grounded in these supplied screenshots. Existing implementation details about Supabase, IndexedDB, PDF.js, and grade planning are retained from the earlier source review; this refresh does not reverify the live backend. Displayed study totals are a point-in-time example, not permanent project metrics.
 
-The existing logo.png is retained. dashboard.png is an older capture and is no longer used by the portfolio.
+The original logo.png is retained. Earlier dashboard.png and November 21 JPG captures are no longer referenced by the portfolio galleries.
