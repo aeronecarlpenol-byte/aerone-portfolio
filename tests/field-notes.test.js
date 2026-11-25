@@ -346,3 +346,24 @@ test('failed timeline exits cannot leave the route running through Education', (
   }
 });
 
+
+test('cat companion follows behind the orb and changes sides on reverse travel', () => {
+  const app = setup();
+  const cat = app.svg.children.find(n => n.attrs.class === 'orb-companion');
+  const point = () => Number(/translate\([^ ]+ ([^)]+)\)/.exec(cat.attrs.transform)[1]);
+  app.scroll(800);
+  assert.equal(cat.attrs.visibility, 'visible');
+  assert.ok(point() < Number(app.svg.dataset.progress) * 2000);
+  app.scroll(600);
+  assert.ok(point() > Number(app.svg.dataset.progress) * 2000);
+  for (let i = 0; i < 120; i++) { app.tick(16); app.flush(); }
+  assert.equal(app.frames.size, 0);
+});
+test('cat companion fits the mobile lane and is hidden for reduced motion', () => {
+  const mobile = setup(false, 390); mobile.scroll(600);
+  const cat = mobile.svg.children.find(n => n.attrs.class === 'orb-companion');
+  assert.match(cat.attrs.transform, /scale\(0.44\)/);
+  const still = setup(true); still.scroll(600);
+  assert.equal(still.svg.children.find(n => n.attrs.class === 'orb-companion').attrs.visibility, 'hidden');
+  assert.equal(still.svg.dataset.companionPaused, 'true');
+});

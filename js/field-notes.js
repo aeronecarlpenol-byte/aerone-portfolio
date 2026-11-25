@@ -90,6 +90,43 @@
   ['M-16-2l4 1 2-4 2 2', 'M6-10l2-3 3 2 1-4', 'M8 8l4 1-1 4 4 1'].forEach(function (d, i) {
     corePart(signal, 'path', { class: 'energy-core__arc energy-core__arc--' + i, d: d });
   });
+  // Sunglasses cat: articulated vector artwork, sized to the existing clear route lane.
+  const companion = element('g', { class: 'orb-companion', 'aria-hidden': 'true', visibility: 'hidden' });
+  const catFloat = corePart(companion, 'g', { class: 'orb-companion__float' });
+  corePart(catFloat, 'ellipse', { class: 'orb-companion__halo', cx: '0', cy: '10', rx: '30', ry: '24' });
+  const catTail = corePart(catFloat, 'g', { class: 'orb-companion__tail' });
+  corePart(catTail, 'path', { class: 'orb-companion__fur', d: 'M10 19C28 24 37 12 32-2L29-10 23-13C29-1 24 7 15 7L10 19Z' });
+  corePart(catTail, 'path', { class: 'orb-companion__detail', d: 'M17 16C28 15 31 7 28 0' });
+  const catBody = corePart(catFloat, 'g', { class: 'orb-companion__body' });
+  corePart(catBody, 'path', { class: 'orb-companion__fur', d: 'M-22 21Q-25 19-22 11L-25 7-21 5-25 1-20-2-22-6-17-10-15-29Q-13-32-10-27L-2-17Q4-19 10-16L22-26Q24-27 23-21L23-7 27-3 23 0 27 4 23 7Q25 15 23 22Q17 25 9 22L-9 22Q-18 25-22 21Z' });
+  corePart(catBody, 'path', { class: 'orb-companion__ear', d: 'M-13-24-7-17-14-16ZM19-21 18-13 12-15Z' });
+  corePart(catBody, 'path', { class: 'orb-companion__detail', d: 'M-21 17Q-18 12-20 9M-16 21Q-6 19 4 21M18 9l3-2' });
+  const glasses = corePart(catBody, 'g', { class: 'orb-companion__glasses' });
+  corePart(glasses, 'path', { d: 'M-20-7-15-5M-2-5 5-4M19-3 23-5', fill: 'none', stroke: '#10131a', 'stroke-width': '2.5' });
+  corePart(glasses, 'circle', { cx: '-10', cy: '-5', r: '8.3', fill: '#101820', stroke: '#080c12', 'stroke-width': '2' });
+  corePart(glasses, 'circle', { cx: '12', cy: '-3', r: '8.3', fill: '#101820', stroke: '#080c12', 'stroke-width': '2' });
+  corePart(glasses, 'path', { class: 'orb-companion__reflection', d: 'M-16-8-9-12M6-6l7-4', fill: 'none', stroke: '#a9e6ff', 'stroke-width': '2.5', 'stroke-linecap': 'round' });
+  corePart(catBody, 'path', { d: 'M-2 5Q2 3 5 6L4 13Q1 17-1 12Z', fill: '#283b50', stroke: '#10131a', 'stroke-width': '1.3' });
+  corePart(catBody, 'path', { class: 'orb-companion__spark', d: 'M-26-16h7m-3.5-3.5v7M25 17h6m-3-3v6' });
+  let catDistance = null, catLastOrb = null, catDirection = 1;
+  function followOrb(distance, dt) {
+    const mobile = window.innerWidth <= 900;
+    const gap = mobile ? 58 : 76;
+    const movement = catLastOrb === null ? 0 : distance - catLastOrb;
+    if (Math.abs(movement) > .1) catDirection = Math.sign(movement);
+    catLastOrb = distance;
+    const target = Math.max(0, Math.min(length, distance - catDirection * gap));
+    const jump = catDistance === null || Math.abs(target - catDistance) > window.innerHeight;
+    catDistance = jump || reduced.matches ? target : catDistance + (target - catDistance) * (1 - Math.exp(-dt / 80));
+    const point = draw.getPointAtLength(catDistance);
+    const next = draw.getPointAtLength(Math.min(length, catDistance + 8));
+    const lean = Math.max(-10, Math.min(10, (next.x - point.x) * .8 * catDirection));
+    const visible = !reduced.matches && Math.abs(distance - catDistance) > (mobile ? 32 : 44);
+    companion.setAttribute('visibility', visible ? 'visible' : 'hidden');
+    companion.setAttribute('transform', 'translate(' + point.x + ' ' + point.y + ') rotate(' + lean + ') scale(' + (mobile ? .44 : .72) + ')');
+    svg.dataset.companionPaused = String(document.hidden || reduced.matches);
+    return !reduced.matches && Math.abs(target - catDistance) > .1;
+  }
   let energyFrame = 0, energy = 0, velocityTarget = 0, energyTick = 0;
   let coreDistance = null, coreScroll = null, coreTime = 0, lastCoreMovement = 0;
   function coreIdle() {
@@ -430,7 +467,7 @@
     end = bounds.top + window.scrollY + finish.y;
     svg.dataset.route = mobile ? 'mobile' : 'desktop';
     mainOrigin = bounds.top + window.scrollY;
-    renderedDistance = null; rollDistance = null;
+    renderedDistance = null; rollDistance = null; catDistance = null; catLastOrb = null;
     signal.setAttribute('x', -radius); signal.setAttribute('y', -radius);
     signal.setAttribute('width', radius * 2); signal.setAttribute('height', radius * 2);
     dirty = false;
@@ -475,7 +512,7 @@
     renderTime = now;
     if (renderedDistance === null || reduced.matches) renderedDistance = targetDistance;
     else renderedDistance += (targetDistance - renderedDistance) * (1 - Math.exp(-dt / 45));
-    const pending = !reduced.matches && Math.abs(targetDistance - renderedDistance) > .02;
+    let pending = !reduced.matches && Math.abs(targetDistance - renderedDistance) > .02;
     if (!pending) renderedDistance = targetDistance;
     svg.dataset.targetProgress = progress.toFixed(4);
     svg.dataset.progress = (length ? renderedDistance / length : 0).toFixed(4);
@@ -490,6 +527,7 @@
     const tilt = reduced.matches || progress === 0 || progress === 1 ? 0 : Math.max(-9, Math.min(9, (ahead.x - p.x) * 1.2));
     emitTrail(renderedDistance);
     energizeCore(renderedDistance);
+    pending = followOrb(renderedDistance, dt) || pending;
     position.setAttribute('transform', `translate(${resting.x} ${resting.y})`);
     tiltGroup.setAttribute('transform', `rotate(${tilt})`);
     if (rollDistance !== null) rollAngle += (renderedDistance - rollDistance) / 250 * 360;
@@ -521,7 +559,7 @@
       return el && !el.closest('.field-path, .field-active, .field-year');
     })) resize();
   }).observe(main, { childList: true, subtree: true, characterData: true });
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { svg.dataset.companionPaused = 'true'; clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');

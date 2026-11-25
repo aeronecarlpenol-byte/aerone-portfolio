@@ -214,3 +214,20 @@ body .footer { background: transparent; }
   .energy-core__wave { display: none; }
   .energy-core__arc { opacity: .25; }
 }
+
+/* A small vector companion follows the reactor without receiving pointer input. */
+.orb-companion { pointer-events: none; filter: drop-shadow(0 2px 3px rgb(0 0 0 / .25)); }
+.orb-companion__fur { fill: #f4faff; stroke: #101820; stroke-width: 1.8; stroke-linejoin: round; }
+.orb-companion__ear { fill: #c6e6f8; opacity: .6; }
+.orb-companion__detail { fill: none; stroke: #314c65; stroke-width: 1.2; stroke-linecap: round; }
+.orb-companion__halo { fill: #64bfff; opacity: .12; filter: blur(5px); }
+.orb-companion__float { animation: companion-float 2.8s ease-in-out infinite; }
+.orb-companion__tail { transform-origin: 13px 16px; animation: companion-tail 2.1s ease-in-out infinite; }
+.orb-companion__reflection { animation: companion-glint 5s ease-in-out infinite; }
+.orb-companion__spark { fill: none; stroke: #9bddff; stroke-width: 1.2; stroke-linecap: round; animation: companion-spark 3s ease-in-out infinite; }
+@keyframes companion-float { 0%,100% { transform: translateY(1px); } 50% { transform: translateY(-2px); } }
+@keyframes companion-tail { 0%,100% { transform: rotate(-5deg); } 50% { transform: rotate(8deg); } }
+@keyframes companion-glint { 0%,76%,100% { opacity: .25; } 84% { opacity: .9; } }
+@keyframes companion-spark { 0%,100% { opacity: .15; } 50% { opacity: .7; } }
+.field-path[data-companion-paused="true"] .orb-companion * { animation-play-state: paused; }
+@media (prefers-reduced-motion: reduce) { .orb-companion { display: none; } .orb-companion * { animation: none; } }
