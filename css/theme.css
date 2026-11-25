@@ -36,9 +36,6 @@
 [data-theme="light"] .work-story__close, [data-theme="light"] .work-gallery__arrows button { background: #fff; border-color: var(--border); color: var(--text-primary); }
 [data-theme="light"] .work-story__copy h3, [data-theme="light"] .work-gallery__count { color: #174d7e; }
 [data-theme="light"] #experience .learning-timeline__entry { --signal-ink: #1a4b7a; --signal-surface: #edf5fe; }
-[data-theme="light"] #experience .learning-timeline__entry[data-kind="learning"] { --signal-ink: #573180; --signal-surface: #f3edfc; }
-[data-theme="light"] #experience .learning-timeline__entry[data-kind="publication"] { --signal-ink: #0d5963; --signal-surface: #eaf8fa; }
-[data-theme="light"] #experience .learning-timeline__entry[data-kind="leadership"] { --signal-ink: #174f87; --signal-surface: #edf5fe; }
 [data-theme="light"] #experience .experience-meta .learning-timeline__label { background: var(--signal-surface); border-color: color-mix(in srgb, var(--signal-ink) 55%, white); }
 [data-theme="light"] #experience .field-annotation { color: #1c5789; }
 [data-theme="light"] #experience .experience-highlights li { background: linear-gradient(135deg, rgb(var(--signal-rgb) / .09), #fff 70%); border-color: color-mix(in srgb, var(--signal-ink) 48%, white); box-shadow: var(--shadow-sm); }

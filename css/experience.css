@@ -75,9 +75,6 @@
 }
 /* Signal colors identify milestones like illuminated circuit channels. */
 #experience .learning-timeline__entry { --signal-rgb: 75 183 255; --signal-ink: #9cdaff; --signal-surface: #102844; }
-#experience .learning-timeline__entry:nth-child(4n + 2) { --signal-rgb: 166 123 255; --signal-ink: #d6baff; --signal-surface: #241943; }
-#experience .learning-timeline__entry:nth-child(4n + 3) { --signal-rgb: 51 218 235; --signal-ink: #93f2fa; --signal-surface: #0c303d; }
-#experience .learning-timeline__entry:nth-child(4n + 4) { --signal-rgb: 64 218 178; --signal-ink: #9af2d8; --signal-surface: #10342f; }
 /* Layered date frames retain their offset circuit outlines. */
 #experience .experience-meta .learning-timeline__year {
   position: relative;
@@ -184,9 +181,6 @@
 #experience .experience-year-group { display: grid; gap: 24px; min-width: 0; list-style: none; }
 #experience .experience-year-group > .learning-timeline__entry + .learning-timeline__entry { margin-top: 18px; }
 #experience .experience-year-heading { margin: 0; color: var(--blue-highlight); font: 600 1rem/1.3 var(--font-mono); letter-spacing: .06em; }
-#experience .learning-timeline__entry[data-kind="learning"] { --signal-rgb: 166 123 255; --signal-ink: #d6baff; --signal-surface: #241943; }
-#experience .learning-timeline__entry[data-kind="publication"] { --signal-rgb: 51 218 235; --signal-ink: #93f2fa; --signal-surface: #0c303d; }
-#experience .learning-timeline__entry[data-kind="leadership"] { --signal-rgb: 75 183 255; --signal-ink: #9cdaff; --signal-surface: #102844; }
 #experience .experience-highlights li { align-items: start; }
 @media (max-width: 759px) {
   #experience .experience-year-group { gap: 16px; }
