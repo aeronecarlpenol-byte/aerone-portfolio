@@ -74,6 +74,7 @@ function setup(reduced = false, width = 1280, clientWidth = width, integratedTim
   }
   main.querySelector = s => landmarks[s];
   const document = {
+    documentElement: { scrollHeight: 4000 },
     hidden: false, addEventListener(k, fn) { documentHandlers[k] = fn; },
     getElementById: id => ({ experience, contact, 'main-content': main, skills: { getBoundingClientRect: rect(1800) } })[id],
     createElementNS: node, querySelectorAll: () => [], querySelector: () => spark
@@ -366,4 +367,25 @@ test('cat companion fits the mobile lane and is hidden for reduced motion', () =
   const still = setup(true); still.scroll(600);
   assert.equal(still.svg.children.find(n => n.attrs.class === 'orb-companion').attrs.visibility, 'hidden');
   assert.equal(still.svg.dataset.companionPaused, 'true');
+});
+
+test('orb reaches the terminal when the viewport reading line cannot reach it at page bottom', () => {
+  for (const width of [390, 1280]) {
+    const app = setup(false, width);
+    app.document.documentElement.scrollHeight = 3450;
+    // Match the mocked path geometry to the measured contact terminal.
+    const draw = app.svg.children.find(n => n.attrs.class === 'field-path__draw');
+    draw.getPointAtLength = n => ({ x: 20, y: n * 3332.5 / 2000 });
+    app.resize();
+    app.scroll(2500);
+    const approaching = Number(app.svg.dataset.targetProgress);
+    assert.ok(approaching < 1);
+    app.scroll(2650);
+    assert.equal(Number(app.svg.dataset.progress), 1);
+    assert.equal(app.svg.children.find(n => n.attrs.class === 'field-path__draw').style.strokeDashoffset, '0');
+    const pos=app.svg.children.find(n => n.attrs.class === 'field-path__position');
+    assert.equal(pos.attrs.transform, 'translate(20 3332.5)');
+    app.scroll(2500);
+    assert.ok(Number(app.svg.dataset.progress) < 1, 'leaving bottom reverses smoothly');
+  }
 });

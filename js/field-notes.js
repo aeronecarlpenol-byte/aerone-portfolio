@@ -19,6 +19,7 @@
   const org = experience.querySelector('.field-active__org');
   const role = experience.querySelector('.field-active__role');
   let current = -1, frame = 0, dirty = true, length = 0, start = 0, end = 1;
+  let maxScroll = Infinity, arrivalStart = Infinity;
   const ns = 'http://www.w3.org/2000/svg';
   const svg = document.createElementNS(ns, 'svg');
   svg.setAttribute('class', 'field-path');
@@ -467,6 +468,11 @@
     end = bounds.top + window.scrollY + finish.y;
     svg.dataset.route = mobile ? 'mobile' : 'desktop';
     mainOrigin = bounds.top + window.scrollY;
+    maxScroll = Math.max(0, (document.documentElement?.scrollHeight || main.offsetHeight) - window.innerHeight);
+    // The terminal can sit below the viewport's normal 65% reading line.
+    // Reserve a final approach so it remains reachable at the actual page bottom.
+    arrivalStart = Math.min(Math.max(0, mainOrigin + contactBox.y - window.innerHeight * .65),
+      Math.max(0, maxScroll - window.innerHeight * .4));
     renderedDistance = null; rollDistance = null; catDistance = null; catLastOrb = null;
     signal.setAttribute('x', -radius); signal.setAttribute('y', -radius);
     signal.setAttribute('width', radius * 2); signal.setAttribute('height', radius * 2);
@@ -499,14 +505,20 @@
   function update() {
     frame = 0;
     if (dirty) { clearTrail(); resetCore(); measure(); }
-    const targetY = window.scrollY + window.innerHeight * .65 - mainOrigin;
+    let focusY = window.scrollY + window.innerHeight * .65;
+    const unreachable = Math.max(0, end - (maxScroll + window.innerHeight * .65));
+    if (unreachable && window.scrollY > arrivalStart) {
+      const approach = Math.min(1, (window.scrollY - arrivalStart) / Math.max(1, maxScroll - arrivalStart));
+      focusY += unreachable * approach;
+    }
+    const targetY = focusY - mainOrigin;
     let low = 0, high = samples.length - 1;
     while (low < high) { const mid = (low + high) >> 1; if (samples[mid].y < targetY) low = mid + 1; else high = mid; }
     const a = samples[Math.max(0, low - 1)], b = samples[low];
     const blend = b.y > a.y ? Math.max(0, Math.min(1, (targetY - a.y) / (b.y - a.y))) : 0;
     let progress = length ? (a.distance + (b.distance - a.distance) * blend) / length : 0;
     if (window.scrollY + window.innerHeight * .65 <= start) progress = 0;
-    if (window.scrollY + window.innerHeight * .65 >= end) progress = 1;
+    if (focusY >= end || window.scrollY >= maxScroll - 1) progress = 1;
     const targetDistance = length * progress, now = Date.now();
     const dt = Math.min(64, Math.max(1, now - (renderTime || now - 16)));
     renderTime = now;
