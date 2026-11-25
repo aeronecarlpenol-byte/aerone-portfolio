@@ -389,3 +389,17 @@ test('orb reaches the terminal when the viewport reading line cannot reach it at
     assert.ok(Number(app.svg.dataset.progress) < 1, 'leaving bottom reverses smoothly');
   }
 });
+
+test('cat plays one turn per direction change, cancels interrupted turns, and respects reduced motion', () => {
+  const app = setup();
+  const cat=app.svg.children.find(n=>n.attrs.class==='orb-companion');
+  const turn=cat.children[0];
+  app.scroll(800);assert.equal(turn.animations,undefined);
+  app.scroll(600);assert.equal(turn.animations,1);assert.equal(turn.animationOptions.duration,480);
+  const first=turn.animation;
+  app.scroll(500);assert.equal(turn.animations,1);
+  app.scroll(700);assert.equal(first.cancelled,true);assert.equal(turn.animations,2);
+  const second=turn.animation;
+  app.media.matches=true;app.media.change();app.flush();assert.equal(second.cancelled,true);
+  app.scroll(400);assert.equal(turn.animations,2);
+});

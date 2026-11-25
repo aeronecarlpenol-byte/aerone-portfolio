@@ -93,7 +93,8 @@
   });
   // Sunglasses cat: articulated vector artwork, sized to the existing clear route lane.
   const companion = element('g', { class: 'orb-companion', 'aria-hidden': 'true', visibility: 'hidden' });
-  const catFloat = corePart(companion, 'g', { class: 'orb-companion__float' });
+  const catTurn = corePart(companion, 'g', { class: 'orb-companion__turn' });
+  const catFloat = corePart(catTurn, 'g', { class: 'orb-companion__float' });
   corePart(catFloat, 'ellipse', { class: 'orb-companion__halo', cx: '0', cy: '10', rx: '30', ry: '24' });
   const catTail = corePart(catFloat, 'g', { class: 'orb-companion__tail' });
   corePart(catTail, 'path', { class: 'orb-companion__fur', d: 'M10 19C28 24 37 12 32-2L29-10 23-13C29-1 24 7 15 7L10 19Z' });
@@ -109,12 +110,31 @@
   corePart(glasses, 'path', { class: 'orb-companion__reflection', d: 'M-16-8-9-12M6-6l7-4', fill: 'none', stroke: '#a9e6ff', 'stroke-width': '2.5', 'stroke-linecap': 'round' });
   corePart(catBody, 'path', { d: 'M-2 5Q2 3 5 6L4 13Q1 17-1 12Z', fill: '#283b50', stroke: '#10131a', 'stroke-width': '1.3' });
   corePart(catBody, 'path', { class: 'orb-companion__spark', d: 'M-26-16h7m-3.5-3.5v7M25 17h6m-3-3v6' });
-  let catDistance = null, catLastOrb = null, catDirection = 1;
+  let catDistance = null, catLastOrb = null, catDirection = 1, catTurnAnimation = null;
+  function cancelCatTurn() {
+    if (catTurnAnimation) { catTurnAnimation.cancel(); catTurnAnimation = null; }
+  }
+  function turnCat(direction) {
+    cancelCatTurn();
+    if (reduced.matches || document.hidden || typeof catTurn.animate !== 'function') return;
+    catTurnAnimation = catTurn.animate([
+      { transform: 'translateY(0px) rotate(0deg) scale(1)' },
+      { transform: 'translateY(2px) rotate(' + (-direction * 12) + 'deg) scale(1.05,.9)', offset: .2 },
+      { transform: 'translateY(-5px) rotate(' + (direction * 8) + 'deg) scale(.96,1.05)', offset: .55 },
+      { transform: 'translateY(0px) rotate(0deg) scale(1)' }
+    ], { duration: 480, easing: 'cubic-bezier(.22,.75,.25,1)' });
+    const animation = catTurnAnimation;
+    animation.onfinish = function () { if (catTurnAnimation === animation) catTurnAnimation = null; };
+  }
   function followOrb(distance, dt) {
     const mobile = window.innerWidth <= 900;
     const gap = mobile ? 58 : 76;
     const movement = catLastOrb === null ? 0 : distance - catLastOrb;
-    if (Math.abs(movement) > .1) catDirection = Math.sign(movement);
+    if (Math.abs(movement) > .1) {
+      const direction = Math.sign(movement);
+      if (direction !== catDirection) turnCat(direction);
+      catDirection = direction;
+    }
     catLastOrb = distance;
     const target = Math.max(0, Math.min(length, distance - catDirection * gap));
     const jump = catDistance === null || Math.abs(target - catDistance) > window.innerHeight;
@@ -473,7 +493,7 @@
     // Reserve a final approach so it remains reachable at the actual page bottom.
     arrivalStart = Math.min(Math.max(0, mainOrigin + contactBox.y - window.innerHeight * .65),
       Math.max(0, maxScroll - window.innerHeight * .4));
-    renderedDistance = null; rollDistance = null; catDistance = null; catLastOrb = null;
+    renderedDistance = null; rollDistance = null; catDistance = null; catLastOrb = null; cancelCatTurn();
     signal.setAttribute('x', -radius); signal.setAttribute('y', -radius);
     signal.setAttribute('width', radius * 2); signal.setAttribute('height', radius * 2);
     dirty = false;
@@ -552,7 +572,7 @@
   function resize() { dirty = true; schedule(); }
   window.addEventListener('scroll', schedule, { passive: true });
   window.addEventListener('resize', resize, { passive: true });
-  reduced.addEventListener('change', function () { if (reduced.matches) cancelYearMotion(); resetCore(); resize(); });
+  reduced.addEventListener('change', function () { if (reduced.matches) { cancelYearMotion(); cancelCatTurn(); } resetCore(); resize(); });
   if ('ResizeObserver' in window) {
     const observer = new ResizeObserver(resize);
     observer.observe(main);
@@ -571,7 +591,7 @@
       return el && !el.closest('.field-path, .field-active, .field-year');
     })) resize();
   }).observe(main, { childList: true, subtree: true, characterData: true });
-  document.addEventListener('visibilitychange', function () { if (document.hidden) { svg.dataset.companionPaused = 'true'; clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
+  document.addEventListener('visibilitychange', function () { if (document.hidden) { svg.dataset.companionPaused = 'true'; cancelCatTurn(); clearTrail(); cancelYearMotion(); resetCore(); if (frame) cancelAnimationFrame(frame); frame = 0; renderedDistance = rollDistance = null; renderTime = 0; gliding = false; } else { coreIdle(); schedule(); } });
   if (document.fonts) document.fonts.ready.then(resize);
   document.querySelectorAll('.field-section .learning-panel').forEach((panel, i) => panel.style.setProperty('--field-delay', `${(i % 3) * 85}ms`));
   const spark = document.querySelector('.field-spark');
