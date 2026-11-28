@@ -147,6 +147,7 @@
 }
 #experience .experience-highlights li[data-icon="code"] { --badge-art: url('../assets/brand/html5.svg'); }
 #experience .experience-highlights li[data-icon="axiom"] { --badge-art: url('../assets/projects/axiom-studia/logo.png'); --badge-surface: #0d1117; --badge-size: 150%; }
+#experience .experience-highlights li[data-icon="aerofile"] { --badge-art: url('../assets/projects/aerofile-logo.png'); --badge-surface: #080809; --badge-size: 80%; }
 #experience .experience-highlights li[data-icon="deployment"] { --badge-art: url('../assets/brand/github.svg'); --badge-surface: #17324f; }
 #experience .experience-highlights li[data-icon="engineering"] { --badge-art: url('../assets/brand/electric-mark.jpg'); --badge-size: cover; }
 #experience .experience-highlights li[data-icon="ai"] { --badge-art: url('../assets/brand/codex.svg'); }
@@ -186,7 +187,6 @@
   #experience .experience-year-group { gap: 16px; }
   #experience .experience-year-group > .learning-timeline__entry + .learning-timeline__entry { margin-top: 10px; }
 }
-
 
 /* Reference spacing: a compact year rail beside a generous reading column. */
 @media (min-width: 1101px) {
