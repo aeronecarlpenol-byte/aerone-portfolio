@@ -49,3 +49,8 @@ retain their documented standard marks; ChatGPT and Antigravity retain official
 assets. The supplied AutoCAD image is a visual reference, not a site background
 or a raster replacement for the SVG.
 
+
+## AEROFILE Stack Additions
+
+- `nextjs.svg`, `typescript.svg`, `tailwindcss.svg`, `fastapi.svg`, `kotlin.svg`: Simple Icons marks from
+  https://github.com/simple-icons/simple-icons/tree/develop/icons with official brand fills (`#F6F3EF`, `#3178C6`, `#06B6D4`, `#009688`, `#7F52FF`).
